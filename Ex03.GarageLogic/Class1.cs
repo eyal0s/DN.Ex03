@@ -4,13 +4,22 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class SomeClass
+    // father object for all other types of veihcles
+    class Vehicle
     {
+        //members
+
+        public Vehicle()
+        {
+            
+        }
+
+        
 
         static void Main(string[] args)
         {
             Console.WriteLine("blablabla");
-            Console.WriteLine("itay ius gay");
+            Console.WriteLine("itay is gay");
             //testing
             
         }
