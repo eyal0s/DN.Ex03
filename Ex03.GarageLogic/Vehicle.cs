@@ -11,6 +11,20 @@ namespace Ex03.GarageLogic
         private string m_LicenseNumber;
         private float m_PercentageOfEnergyLeft;
         private List<Wheel> m_Wheels;
+        private Fuel m_FuelSrc;
+
+        public Vehicle (string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, string i_WheelManufacturer)
+        {
+            m_Manufacturer = i_Manufacturer;
+            m_LicenseNumber = i_LicenseNumber;
+            for (int i = 0; i < i_NumberOfWeels; i++)
+            {
+                m_Wheels.Add(new Wheel(i_WheelManufacturer, i_MaxAirPressure));
+            }
+
+            //TODO: init the fuel source
+            m_FuelSrc = new Fuel();
+        }
 
         protected class Wheel
         {
@@ -23,7 +37,7 @@ namespace Ex03.GarageLogic
             {
                 m_MaxAirPressure = i_MaxAirPressure;
                 m_Manufacturer = i_Manufacturer;
-                m_CurrentAirPressure = 0;
+                m_CurrentAirPressure = i_MaxAirPressure;
             }
 
             public float MaxAirPressure
@@ -64,5 +78,36 @@ namespace Ex03.GarageLogic
             }
 
         }
+
+        /*Fuel source logic. Has a class Fuel and battery and petrol as its subclasses*/
+
+        protected class Fuel
+        {
+           
+        }
+
+        public class Battery : Fuel
+        {
+            private float m_HoursLeft;
+            private float m_MaxHours;
+            
+            public void Recharge(float i_Hours)
+            {
+                if (i_Hours + m_HoursLeft > m_MaxHours)
+                {
+                    throw new ValueOutOfRangeException(0, m_MaxHours);
+                }
+            }
+
+
+        }
+
+        public class Petrol : Fuel
+        {
+
+        }
+
+
+
     }
 }

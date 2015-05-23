@@ -34,6 +34,7 @@
   <ItemGroup>
     <Compile Include="Car.cs" />
     <Compile Include="Motorcycle.cs" />
+    <Compile Include="Truck.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="Vehicle.cs" />
