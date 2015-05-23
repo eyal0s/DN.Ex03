@@ -10,7 +10,7 @@ namespace Ex03.GarageManagementConsoleUI
 
         public static void Main(string[] args)
         {
-            
+            Console.WriteLine(  "eyal aljasdafds");
         }
     }
 }
