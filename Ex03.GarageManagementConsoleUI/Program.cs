@@ -11,6 +11,7 @@ namespace Ex03.GarageManagementConsoleUI
         public static void Main(string[] args)
         {
             Console.WriteLine(  "eyal aljasdafds");
+            Console.WriteLine(  "itay aljasdafds gay");
         }
     }
 }
