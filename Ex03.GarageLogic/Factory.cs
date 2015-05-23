@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-// put the init logic here. now "new" outside this class
-
-
 namespace Ex03.GarageLogic
 {
+
+    // put the init logic here. now "new" outside this class
+    // put the list of supported vehicles here also
+
     class Factory
     {
-       
     }
 }
