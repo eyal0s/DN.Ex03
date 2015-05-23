@@ -139,6 +139,8 @@ namespace Ex03.GarageLogic
 
 		public class Petrol : EnergyOfOperation
 		{
+
+            // should be enum
 			const List<string> k_FuelTypes = new List<string>(){ "Octan98", "Octan96", "Octan95", "Soler"};
 			private string m_TypeOfFuel;
 
