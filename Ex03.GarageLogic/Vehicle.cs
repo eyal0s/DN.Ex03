@@ -5,10 +5,10 @@ using System.Text;
 namespace Ex03.GarageLogic
 {
     // father object for all other types of veihcles
-    class Vehicle
+    protected class Vehicle
     {
         //members
-
+        
         public Vehicle()
         {
             
