@@ -7,8 +7,8 @@ namespace Ex03.GarageLogic
     // father object for all other types of veihcles
     protected class Vehicle
     {
-        private string m_Manufacturer;
-        private string m_LicenseNumber;
+        private readonly string r_Manufacturer;
+        private readonly string r_LicenseNumber;
         private float m_PercentageOfEnergyLeft;
         private List<Wheel> m_Wheels;
 
