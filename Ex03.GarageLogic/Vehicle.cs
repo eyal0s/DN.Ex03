@@ -5,23 +5,13 @@ using System.Text;
 namespace Ex03.GarageLogic
 {
     // father object for all other types of veihcles
-    protected class Vehicle
+    protected abstract class Vehicle
     {
-        //members
-        
-        public Vehicle()
-        {
-            
-        }
+        private string m_Manufacturer;
+        private string m_LicenseNumber;
+        private float m_PercentageOfEnergyLeft;
+        private List<Wheel> m_Wheels;
 
         
-
-        static void Main(string[] args)
-        {
-            Console.WriteLine("blablabla");
-            Console.WriteLine("itay is gay");
-            //testing
-            
-        }
     }
 }
