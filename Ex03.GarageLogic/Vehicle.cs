@@ -81,28 +81,56 @@ namespace Ex03.GarageLogic
 
         /*Fuel source logic. Has a class Fuel and battery and petrol as its subclasses*/
 
-        protected class Fuel
+        protected class FuelSource
         {
-           
+            private float m_EnergytLeft;
+            private readonly float r_MaxHours;
+                        
+            public FuelSource(float i_MaxHours)
+            {
+                r_MaxHours = i_MaxHours;
+                m_EnergytLeft = i_MaxHours;
+            }
         }
 
-        public class Battery : Fuel
+        public class Battery : FuelSource
         {
-            private float m_HoursLeft;
-            private float m_MaxHours;
             
-            public void Recharge(float i_Hours)
+
+            public Battery(float i_MaxHours) : base(i_MaxHours)
             {
-                if (i_Hours + m_HoursLeft > m_MaxHours)
+            }
+
+            public float HoursLeft
+            {
+                get
                 {
-                    throw new ValueOutOfRangeException(0, m_MaxHours);
+                    return m_HoursLeft;
+                } 
+            }
+
+            public float MaxValue
+            {
+                get
+                {
+                    return r_MaxHours;
                 }
             }
 
-
+            public void Recharge(float i_Hours)
+            {
+                if (i_Hours + m_HoursLeft > r_MaxHours)
+                {
+                    throw new ValueOutOfRangeException(0, r_MaxHours);
+                }
+                else
+                {
+                    m_HoursLeft += i_Hours;
+                }
+            }
         }
 
-        public class Petrol : Fuel
+        public class Petrol : FuelSource
         {
 
         }
