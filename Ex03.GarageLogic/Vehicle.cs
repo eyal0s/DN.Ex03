@@ -11,7 +11,7 @@ namespace Ex03.GarageLogic
 		private readonly string r_LicenseNumber;
 		private float m_PercentageOfEnergyLeft;
 		private List<Wheel> m_Wheels;
-		private Fuel m_FuelSrc;
+        private EnergyOfOperation m_FuelSrc;
 
 		public Vehicle (string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, string i_WheelManufacturer)
 		{
@@ -24,7 +24,7 @@ namespace Ex03.GarageLogic
 			}
 
 			//TODO: init the fuel source
-			m_FuelSrc = new Fuel();
+            
 
 		}
 
