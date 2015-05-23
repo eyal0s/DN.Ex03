@@ -15,8 +15,9 @@ namespace Ex03.GarageLogic
 
         public Vehicle (string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, string i_WheelManufacturer)
         {
-            m_Manufacturer = i_Manufacturer;
-            m_LicenseNumber = i_LicenseNumber;
+            r_Manufacturer = i_Manufacturer;
+            r_LicenseNumber = i_LicenseNumber;
+
             for (int i = 0; i < i_NumberOfWeels; i++)
             {
                 m_Wheels.Add(new Wheel(i_WheelManufacturer, i_MaxAirPressure));
@@ -24,6 +25,14 @@ namespace Ex03.GarageLogic
 
             //TODO: init the fuel source
             m_FuelSrc = new Fuel();
+
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+@"License number: {0}, Model: {1}, Owner: {2}, Current status {3}, Wheels Manufacturer: {4}, Current Wheels air pressure: {5}, Energy status: {6}, Type of energy: {7} "),
+            r_LicenseNumber, r_Manufacturer, ); // need to complete for each vehicle
         }
 
         protected class Wheel
@@ -83,31 +92,93 @@ namespace Ex03.GarageLogic
 
         protected class Fuel
         {
-           
-        }
-
-        public class Battery : Fuel
-        {
+            private readonly string r_TypeEnergyOperatingCar;
             private float m_HoursLeft;
             private float m_MaxHours;
-            
+
+            public Fuel(string i_TypeOfFuel, float i_CurrentAvailabeHours, float i_MaximumHoursAvailabe)
+            {
+                
+                r_TypeEnergyOperatingCar = i_TypeOfFuel;
+                m_HoursLeft = i_CurrentAvailabeHours;
+                m_MaxHours = i_MaximumHoursAvailabe;
+            }
+
             public void Recharge(float i_Hours)
             {
                 if (i_Hours + m_HoursLeft > m_MaxHours)
                 {
                     throw new ValueOutOfRangeException(0, m_MaxHours);
                 }
+                else
+                {
+                    m_HoursLeft += i_Hours;
+                }
+
             }
 
+            public float TimeLeft
+            {
+                get
+                {
+                    return m_HoursLeft;
+                }
+            }
 
+            public float MaxHour
+            {
+                get
+                {
+                    return m_MaxHours;
+                }
+            }
+
+            public string TypeOfEnergy 
+            {
+                get 
+                {
+                    return r_TypeEnergyOperatingCar;
+                }
+            }
+           
         }
+
+        //all the battery needs to do is already in Fuel Class...
+        //public class Battery : Fuel
+        //{
+        //    public Battery(string i_TypeEnergyOperatingCar, float i_CurrentAvailabeHours, float i_MaximumHoursAvailabe) : base(i_TypeEnergyOperatingCar, i_CurrentAvailabeHours, i_MaximumHoursAvailabe)         
+
+
+        //}
 
         public class Petrol : Fuel
         {
+            const List<string> k_FuelTypes = new List<string>(){ "Octan98", "Octan96", "Octan95", "Soler"};
+            private string m_TypeOfFuel;
 
+            public Petrol (string i_TypeEnergyOperatingCar, float i_CurrentAvailabeHours, float i_MaximumHoursAvailabe , string i_TypeOfFuel) : base(i_TypeEnergyOperatingCar, i_CurrentAvailabeHours, i_MaximumHoursAvailabe)
+	        {
+                if (k_FuelTypes.Contains(i_TypeOfFuel))
+	            {
+                    m_TypeOfFuel = i_TypeOfFuel;	 
+	            }
+                else
+	            {
+                    throw new Exception(); // throws exception for illegal input of fuel type
+	            }
+	        }
+
+            public string TypeOfFuel
+            {
+                get
+                {
+                    return m_TypeOfFuel;
+                }
+            }
         }
 
 
 
     }
 }
+
