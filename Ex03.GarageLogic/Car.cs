@@ -22,6 +22,7 @@ namespace Ex03.GarageLogic
             Vehicle toCompare = obj as Vehicle;  
             if (toCompare != null)
             {
+                
                 result = (toCompare.GetHashCode() == this.GetHashCode());
             }
             return result;
