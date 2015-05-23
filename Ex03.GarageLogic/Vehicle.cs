@@ -7,7 +7,7 @@ namespace Ex03.GarageLogic
 	// father object for all other types of veihcles
 	protected class Vehicle
 	{
-		private readonly string r_Manufacturer;
+		protected readonly string r_Manufacturer;
 		private readonly string r_LicenseNumber;
 		private float m_PercentageOfEnergyLeft;
 		private List<Wheel> m_Wheels;
@@ -21,6 +21,7 @@ namespace Ex03.GarageLogic
 			for (int i = 0; i < i_NumberOfWeels; i++)
 			{
 				m_Wheels.Add(new Wheel(i_WheelManufacturer, i_MaxAirPressure));
+                
 			}
 
 			//TODO: init the fuel source
