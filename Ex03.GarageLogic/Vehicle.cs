@@ -21,6 +21,7 @@ namespace Ex03.GarageLogic
 			for (int i = 0; i < i_NumberOfWeels; i++)
 			{
 				m_Wheels.Add(new Wheel(i_WheelManufacturer, i_MaxAirPressure));
+                
 			}
 
 			//TODO: init the fuel source
@@ -145,6 +146,8 @@ namespace Ex03.GarageLogic
 
 		public class Petrol : EnergyOfOperation
 		{
+
+            // should be enum
 			const List<string> k_FuelTypes = new List<string>(){ "Octan98", "Octan96", "Octan95", "Soler"};
 			private string m_TypeOfFuel;
 
