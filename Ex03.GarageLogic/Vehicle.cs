@@ -29,18 +29,24 @@ namespace Ex03.GarageLogic
 
 		}
 
-        public override int GetHashCode()
+        public override bool Equals(object obj)
         {
+            bool isEqual = false;
+            Vehicle toCompare = obj as Vehicle;
+            if (toCompare != null)
+            {
+                isEqual = (toCompare.r_LicenseNumber == this.r_LicenseNumber);
+            }
 
-            return r_LicenseNumber.GetHashCode();
+            return base.Equals(obj);
         }
 
-//        public override string ToString()
-//        {
-//            return string.Format(
-//@"License number: {0}, Model: {1}, Owner: {2}, Current status {3}, Wheels Manufacturer: {4}, Current Wheels air pressure: {5}, Energy status: {6}, Type of energy: {7} "),
-//            r_LicenseNumber, r_Manufacturer, ); // need to complete for each vehicle
-//        }
+        public override string ToString()
+        {            
+            return string.Format(
+@"License number: {0}, Model: {1}, Owner: {2}, Wheels Manufacturer: {3}, Current Wheels air pressure: {4}, Energy status: {5}, Type of energy: {6} "),
+            r_LicenseNumber, r_Manufacturer, m_PercentageOfEnergyLeft, m_Wheels , m_FuelSrc. ); // need to complete for each vehicle
+        }
 
 		protected class Wheel
 		{
@@ -99,9 +105,9 @@ namespace Ex03.GarageLogic
 
 		protected class EnergyOfOperation
 		{
-			private readonly string r_TypeEnergyOperatingCar;
-			private float m_HoursLeft;
-			private float m_MaxHours;
+			protected readonly string r_TypeEnergyOperatingCar;
+			protected float m_HoursLeft;
+			protected float m_MaxHours;
 		   
 			public EnergyOfOperation(string i_TypeOfFuel, float i_CurrentAvailabeHours, float i_MaximumHoursAvailabe)
 			{
@@ -145,21 +151,19 @@ namespace Ex03.GarageLogic
 		}
 
 		public class Petrol : EnergyOfOperation
-		{
-
-            // should be enum
-			const List<string> k_FuelTypes = new List<string>(){ "Octan98", "Octan96", "Octan95", "Soler"};
+		{  
+    
 			private string m_TypeOfFuel;
 
 			public Petrol (string i_TypeEnergyOperatingCar, float i_CurrentAvailabeHours, float i_MaximumHoursAvailabe , string i_TypeOfFuel) : base(i_TypeEnergyOperatingCar, i_CurrentAvailabeHours, i_MaximumHoursAvailabe)
 			{
-				if (k_FuelTypes.Contains(i_TypeOfFuel))
+				if (true) //TODO:  check is a valid Enum
 				{
 					m_TypeOfFuel = i_TypeOfFuel;	 
 				}
 				else
 				{
-					throw new Exception(); // throws exception for illegal input of fuel type
+					throw new ValueOutOfRangeException();
 				}
 			}
 
@@ -170,6 +174,15 @@ namespace Ex03.GarageLogic
 					return m_TypeOfFuel;
 				}
 			}
+
+            public enum eFuelType
+            { 
+                Octan98,
+                Octan96,
+                Octan95,
+                Soler
+            
+            }
 		}
 	}
 }
