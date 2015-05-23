@@ -28,12 +28,18 @@ namespace Ex03.GarageLogic
 
 		}
 
-		public override string ToString()
-		{
-			return string.Format(
-@"License number: {0}, Model: {1}, Owner: {2}, Current status {3}, Wheels Manufacturer: {4}, Current Wheels air pressure: {5}, Energy status: {6}, Type of energy: {7} "),
-			r_LicenseNumber, r_Manufacturer, ); // need to complete for each vehicle
-		}
+        public override int GetHashCode()
+        {
+
+            return r_LicenseNumber.GetHashCode();
+        }
+
+//        public override string ToString()
+//        {
+//            return string.Format(
+//@"License number: {0}, Model: {1}, Owner: {2}, Current status {3}, Wheels Manufacturer: {4}, Current Wheels air pressure: {5}, Energy status: {6}, Type of energy: {7} "),
+//            r_LicenseNumber, r_Manufacturer, ); // need to complete for each vehicle
+//        }
 
 		protected class Wheel
 		{

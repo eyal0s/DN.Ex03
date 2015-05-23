@@ -16,6 +16,17 @@ namespace Ex03.GarageLogic
             m_AmountOfDoors = i_NumOfDoors;
         }
 
+        public override bool Equals(object obj)
+        {
+            bool result = false;
+            Vehicle toCompare = obj as Vehicle;  
+            if (toCompare != null)
+            {
+                result = (toCompare.GetHashCode() == this.GetHashCode());
+            }
+            return result;
+        }
+
         public override string ToString()
         {
             return string.Format("{0}, Number of doors: {1}, Color of car: {2}", base.ToString, m_AmountOfDoors, m_ColorOfCar);
