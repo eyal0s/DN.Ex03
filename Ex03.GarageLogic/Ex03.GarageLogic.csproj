@@ -32,8 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Car.cs" />
+    <Compile Include="Motorcycle.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
-    <Compile Include="Wheel.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="Vehicle.cs" />
   </ItemGroup>
