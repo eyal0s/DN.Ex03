@@ -21,7 +21,6 @@ namespace Ex03.GarageLogic
 			for (int i = 0; i < i_NumberOfWeels; i++)
 			{
 				m_Wheels.Add(new Wheel(i_WheelManufacturer, i_MaxAirPressure));
-                
 			}
 
 			//TODO: init the fuel source
