@@ -21,7 +21,14 @@ namespace Ex03.GarageLogic
         {
             m_EngineVolume = i_EngineVolume;
             m_LicenseType = i_LicenseType;
-            Petrol m_FuelSrc = new Petrol(k_FuelType, i_CurrentAvailableHours, k_MaxTankLiter);
+            if (i_IsElectric)
+            {
+                Battery m_FuelSrc = new Battery(i_CurrentAvailableHours, k_MaxBatteryTime);
+            }
+            else
+            {
+                Petrol m_FuelSrc = new Petrol(k_FuelType, i_CurrentAvailableHours, k_MaxTankLiter);
+            }
 
         }
 

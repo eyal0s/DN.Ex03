@@ -86,15 +86,15 @@ namespace Ex03.GarageLogic
 				}
 			}
 
-			public void InflateTire(float volume)
+			public void InflateTire(float i_Volume)
 			{
-				if ((volume + m_CurrentAirPressure) > m_MaxAirPressure)
+				if ((i_Volume + m_CurrentAirPressure) > m_MaxAirPressure)
 				{
 					throw new Exception();
 				}
 				else
 				{
-					m_CurrentAirPressure += volume;
+					m_CurrentAirPressure += i_Volume;
 				}
 			}
 
