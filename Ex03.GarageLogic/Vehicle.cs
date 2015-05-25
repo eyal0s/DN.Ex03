@@ -134,7 +134,7 @@ namespace Ex03.GarageLogic
 
 			public virtual void Refuel(eFuelType i_TypeOfFuel  ,float i_Quantity)
 			{
-                if (i_TypeOfFuel.Equals(r_TypeOfFuel))
+                if (!i_TypeOfFuel.Equals(r_TypeOfFuel))
                 {
                     throw new ValueOutOfRangeException(string.Format("{0} is not a known fuel type. Please choose a valid type.", i_TypeOfFuel.ToString()));
                 }
