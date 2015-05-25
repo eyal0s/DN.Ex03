@@ -13,11 +13,11 @@ namespace Ex03.GarageLogic
 		protected List<Wheel> m_Wheels;
         protected FuelSource m_FuelSrc;
 
-		public Vehicle (string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, string i_WheelManufacturer)
+		public Vehicle (string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, string i_WheelManufacturer, FuelSource i_FuelOfVehicle)
 		{
 			r_Manufacturer = i_Manufacturer;
 			r_LicenseNumber = i_LicenseNumber;
-            //m_StatusOfVehicle = eVehicleStatus.InProgress;
+            m_FuelSrc = i_FuelOfVehicle;
 
 			for (int i = 0; i < i_NumberOfWeels; i++)
 			{
@@ -40,6 +40,7 @@ namespace Ex03.GarageLogic
 			return isEqual;
         }
 
+        // public Vehicle (string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, string i_WheelManufacturer)
 //        public override string ToString()
 //        {            
 //            return string.Format(
