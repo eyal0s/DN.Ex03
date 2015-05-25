@@ -16,21 +16,13 @@ namespace Ex03.GarageLogic
         private const float k_MaxTankLiter = 8f;
         private const Petrol.eFuelType k_FuelType = Petrol.eFuelType.Octan98;
 
-        public Motorcycle(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, eVehicleFuelSource i_FuelSource, float i_CurrentAvailableHours, eLicenseType i_LicenseType, int i_EngineVolume) :
+        public Motorcycle(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, bool i_IsElectric, float i_CurrentAvailableHours, eLicenseType i_LicenseType, int i_EngineVolume) :
             base(i_Manufacturer, i_LicenseNumber, k_NumberOfWheels, k_MaxAirPressureMotorcycle, i_WheelManufacturer)
         {
             m_EngineVolume = i_EngineVolume;
             m_LicenseType = i_LicenseType;
+            Petrol m_FuelSrc = new Petrol(k_FuelType, i_CurrentAvailableHours, k_MaxTankLiter);
 
-            // sets the fuel source according to car 
-            if (i_FuelSource.Equals(eVehicleFuelSource.Electric))
-            {
-                Battery m_FuelSrc = new Battery(i_FuelSource, i_CurrentAvailableHours, k_MaxTankLiter);
-            }
-            else
-            {
-                Petrol m_FuelSrc = new Petrol(i_FuelSource, i_CurrentAvailableHours, k_MaxTankLiter, k_FuelType);
-            }
         }
 
         public override string ToString()

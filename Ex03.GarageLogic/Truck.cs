@@ -11,13 +11,14 @@ namespace Ex03.GarageLogic
         private bool m_isCarryingHazardousMaterial;
         private float m_CurrentCarryingWeight;
         private const float k_MaxLiterOfTank = 170;
+        private const Petrol.eFuelType k_FuelType = Petrol.eFuelType.Soler;
 
          public Truck(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailabeHours,  bool i_isDangerous, float i_CurrentCarryingWeight) :
             base(i_Manufacturer, i_LicenseNumber, k_NumberOfWheels, k_MaxAirPressureTruck, i_WheelManufacturer)
         {
             m_CurrentCarryingWeight = i_CurrentCarryingWeight;
             m_isCarryingHazardousMaterial = i_isDangerous;
-            Petrol m_FuelSrc = new Petrol(eVehicleFuelSource.Petrol, i_CurrentAvailabeHours, k_MaxLiterOfTank, Petrol.eFuelType.Soler);
+            Petrol m_FuelSrc = new Petrol(k_FuelType, i_CurrentAvailabeHours, k_MaxLiterOfTank);
         }
 
     }
