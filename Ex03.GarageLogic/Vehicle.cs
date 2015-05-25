@@ -5,7 +5,7 @@ using System.Text;
 namespace Ex03.GarageLogic
 {
 	// father object for all other types of veihcles
-	protected class Vehicle
+	class Vehicle
 	{
 		protected readonly string r_Manufacturer;
 		protected readonly string r_LicenseNumber;
@@ -186,7 +186,7 @@ namespace Ex03.GarageLogic
                 }
             }
 
-            public override void Refuel(float i_Quantity, eFuelType i_FuelType)
+            public void Refuel(float i_Quantity, eFuelType i_FuelType)
             {
                 if (i_FuelType != m_TypeOfFuel)
                 {
