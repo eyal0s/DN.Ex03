@@ -11,41 +11,44 @@ namespace Ex03.GarageLogic
 		protected readonly string r_LicenseNumber;
 		protected float m_PercentageOfEnergyLeft;
 		protected List<Wheel> m_Wheels;
-        protected FuelSource m_FuelSrc;
+		protected EnergyOfOperation m_FuelSrc;
+        protected eVehicleStatus m_StatusOfVehicle;
 
 		public Vehicle (string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, string i_WheelManufacturer)
 		{
 			r_Manufacturer = i_Manufacturer;
 			r_LicenseNumber = i_LicenseNumber;
+            m_StatusOfVehicle = eVehicleStatus.InProgress;
 
 			for (int i = 0; i < i_NumberOfWeels; i++)
 			{
 				m_Wheels.Add(new Wheel(i_WheelManufacturer, i_MaxAirPressure));
+				
 			}
 
 			//TODO: init the fuel source
-            
+			
 
 		}
 
-        public override bool Equals(object obj)
-        {
-            bool isEqual = false;
-            Vehicle toCompare = obj as Vehicle;
-            if (toCompare != null)
-            {
-                isEqual = (toCompare.r_LicenseNumber == this.r_LicenseNumber);
-            }
+		public override bool Equals(object obj)
+		{
+			bool isEqual = false;
+			Vehicle toCompare = obj as Vehicle;
+			if (toCompare != null)
+			{
+				isEqual = (toCompare.r_LicenseNumber.Equals(this.r_LicenseNumber));
+			}
 
-            return base.Equals(obj);
-        }
+			return isEqual;
+		}
 
-        public override string ToString()
-        {            
-            return string.Format(
-@"License number: {0}, Model: {1}, Owner: {2}, Wheels Manufacturer: {3}, Current Wheels air pressure: {4}, Energy status: {5}, Type of energy: {6} "),
-            r_LicenseNumber, r_Manufacturer, m_PercentageOfEnergyLeft, m_Wheels , m_FuelSrc. ); // need to complete for each vehicle
-        }
+//        public override string ToString()
+//        {            
+//            return string.Format(
+//@"License number: {0}, Model: {1}, Owner: {2}, Wheels Manufacturer: {3}, Current Wheels air pressure: {4}, Energy status: {5}, Type of energy: {6} "),
+//            r_LicenseNumber, r_Manufacturer, m_PercentageOfEnergyLeft, m_Wheels , m_FuelSrc. ); // need to complete for each vehicle
+//        }
 
 		protected class Wheel
 		{
@@ -102,114 +105,138 @@ namespace Ex03.GarageLogic
 
 		/*Fuel source logic. Has a class Fuel and battery and petrol as its subclasses*/
 
-		protected class FuelSource
+		protected class EnergyOfOperation
 		{
-			//protected readonly string r_TypeEnergyOperatingCar;
-			protected float m_EnergyLeft;
-			protected float m_MaxCapacity;
+			protected readonly eVehicleFuelSource r_TypeEnergyOperatingCar;
+			protected float m_HoursLeft;
+			protected float m_MaxHours;
 		   
-			public FuelSource(float i_EnergyLeft, float i_MaxCapacity)
+			public EnergyOfOperation(eVehicleFuelSource i_TypeOfFuel, float i_CurrentAvailabeHours, float i_MaximumHoursAvailabe)
 			{
-                //TODO: why do we need this shit?
-				//r_TypeEnergyOperatingCar = i_TypeOfFuel;
-				m_EnergyLeft = i_EnergyLeft;
-				m_MaxCapacity = i_MaxCapacity;
-		    }
-
-            //init energy left to 100%
-            public FuelSource(float i_MaxCapacity)
-            {
-                m_EnergyLeft = i_MaxCapacity;
-                m_MaxCapacity = i_MaxCapacity;
-            }
-		    
-
-			public virtual void Refuel(float i_Quantity)
-			{
-                if(m_EnergyLeft + i_Quantity > m_MaxCapacity)
-                {
-                    throw new ValueOutOfRangeException(0, m_MaxCapacity); /// exception for too much fuel
-                }
-                else
-				{
-					m_EnergyLeft += i_Quantity;
-			    
-
-			    }
+				
+				r_TypeEnergyOperatingCar = i_TypeOfFuel;
+				m_HoursLeft = i_CurrentAvailabeHours;
+				m_MaxHours = i_MaximumHoursAvailabe;
 			}
+			
 
-			public float EnergyLeft
+			public void Recharge(float i_Hours)
 			{
-				get
+				if(m_HoursLeft + i_Hours > m_MaxHours)
 				{
-					return m_EnergyLeft;
-				}
-
-            }
-
-            public float MaxCapacity
-            {
-                get
-                {
-                    return m_MaxCapacity;
-                }
-            }
-		}
-
-        public class Battery : FuelSource
-        {
-            public Battery (float i_CurrentAvailableHours, float i_MaxHours)
-                : base(i_CurrentAvailableHours, i_MaxHours)
-            {
-
-            }
-
-
-        }
-
-		public class Petrol : FuelSource
-		{  
-    
-			private eFuelType m_FuelType;
-
-			public Petrol (string i_TypeEnergyOperatingCar, float i_CurrentAvailabeHours, float i_MaximumHoursAvailabe , eFuelType i_TypeOfFuel) : base(i_CurrentAvailabeHours, i_MaximumHoursAvailabe)
-			{
-				if (true) //TODO:  check is a valid Enum
-				{
-					m_FuelType = i_TypeOfFuel;	 
+					throw new Exception(); /// exception for to much fuel
 				}
 				else
 				{
-					throw new ValueOutOfRangeException();
+					m_HoursLeft += i_Hours;
+				
+
 				}
 			}
 
-			public eFuelType FuelType
+			public float HoursLeft
 			{
 				get
 				{
-					return m_FuelType;
+					return m_HoursLeft;
+				}
+
+			}
+
+			public float TimeLeft
+			{
+				get
+				{
+					return m_HoursLeft;
+				}
+			}
+		}
+
+        protected class Battery : EnergyOfOperation
+        {
+            protected readonly string r_TypeEnergyOperatingCar;
+            protected float m_HoursLeft;
+            protected float m_MaxHours;
+
+            public Battery(eVehicleFuelSource i_TypeOfFuel, float i_CurrentAvailabeHours, float i_MaximumHoursAvailabe) : base(i_TypeOfFuel, i_CurrentAvailabeHours, i_MaximumHoursAvailabe)
+            {              
+            }
+
+
+            public void Recharge(float i_Hours)
+            {
+                if (m_HoursLeft + i_Hours > m_MaxHours)
+                {
+                    throw new Exception(); /// exception for to much fuel
+                }
+                else
+                {
+                    m_HoursLeft += i_Hours;
+
+
+                }
+            }
+
+            public float HoursLeft
+            {
+                get
+                {
+                    return m_HoursLeft;
+                }
+
+            }
+
+            public float TimeLeft
+            {
+                get
+                {
+                    return m_HoursLeft;
+                }
+            }
+        }
+
+		public class Petrol : EnergyOfOperation
+		{  
+	
+			private eFuelType m_TypeOfFuel;
+
+            public Petrol(eVehicleFuelSource i_TypeOfFuel, float i_CurrentAvailabeHours, float i_MaximumHoursAvailabe, eFuelType i_FuelType)
+                : base(i_TypeOfFuel, i_CurrentAvailabeHours, i_MaximumHoursAvailabe)
+			{
+                m_TypeOfFuel = i_FuelType;
+			}
+
+			public eFuelType TypeOfFuel
+			{
+				get
+				{
+					return m_TypeOfFuel;
 				}
 			}
 
-            public override void Refuel(float i_Quantity, eFuelType i_FuelType)`
-            {
-                if (i_FuelType != m_FuelType)
-                {
-                    throw new ValueOutOfRangeException(string.Format("{0} is not a known fuel type. Please choose a valid type.", i_FuelType.ToString()));
-                }
-                base.Refuel(i_Quantity);
-            }
-
-            public enum eFuelType
-            { 
-                Octan98,
-                Octan96,
-                Octan95,
-                Soler
-            
-            }
+			public enum eFuelType
+			{ 
+				Octan98,
+				Octan96,
+				Octan95,
+				Soler			
+			}   
 		}
+
+
+
+        public enum eVehicleStatus
+        {
+            InProgress,
+            Done,
+            Paid
+        }
+
+        public enum eVehicleFuelSource
+        {
+            Electric,
+            Petrol
+        }
 	}
 }
 
