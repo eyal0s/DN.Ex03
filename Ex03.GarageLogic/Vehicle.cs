@@ -22,9 +22,16 @@ namespace Ex03.GarageLogic
 			for (int i = 0; i < i_NumberOfWeels; i++)
 			{
 				m_Wheels.Add(new Wheel(i_WheelManufacturer, i_MaxAirPressure));
-			}
-                        
+			}                        
 		}
+
+        public List<Wheel> Wheels 
+        {
+            get
+            {
+                return m_Wheels;
+            }
+        }
 
         
 
@@ -156,7 +163,7 @@ namespace Ex03.GarageLogic
             }
                 }
 
-        protected class Battery : FuelSource
+        public class Battery : FuelSource
         {
             public Battery (float i_CurrentAvailableHours, float i_MaxHours)
                 : base(i_CurrentAvailableHours, i_MaxHours)
@@ -167,7 +174,7 @@ namespace Ex03.GarageLogic
 
 		}
 
-        protected class Petrol : FuelSource
+        public class Petrol : FuelSource
         {
 
             private eFuelType m_TypeOfFuel;

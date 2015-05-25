@@ -16,21 +16,11 @@ namespace Ex03.GarageLogic
 		private const float k_MaxTankLiter = 35f;
         private const Petrol.eFuelType k_FuelType = Petrol.eFuelType.Octan96;
 
-		public Car(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, bool i_IsElectric, float i_CurrentAvailableHours, string i_ColorOfCar, int i_NumOfDoors) :
-			base(i_Manufacturer, i_LicenseNumber, k_NumberOfWheels, k_MaxAirPressureCar, i_WheelManufacturer , new FuelSource(i_CurrentAvailableHours, (i_IsElectric ? k_MaxBatteryTime : k_MaxTankLiter)))
+		public Car(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, string i_ColorOfCar, int i_NumOfDoors, FuelSource i_FuelSource) :
+			base(i_Manufacturer, i_LicenseNumber, k_NumberOfWheels, k_MaxAirPressureCar, i_WheelManufacturer , i_FuelSource)
 		{         
 			m_ColorOfCar = i_ColorOfCar;
-			m_AmountOfDoors = i_NumOfDoors;
-            m_FuelSrc = i_IsElectric ? new FuelSource(i_CurrentAvailableHours, k_MaxBatteryTime) : new Petrol(k_FuelType, i_CurrentAvailableHours, k_MaxTankLiter);
-            if (i_IsElectric)
-            {
-                Battery m_FuelSrc = new Battery(i_CurrentAvailableHours, k_MaxTankLiter);  
-            }
-            else
-            {
-                Petrol m_FuelSrc = new Petrol(k_FuelType, i_CurrentAvailableHours, k_MaxTankLiter);
-            }
-		
+			m_AmountOfDoors = i_NumOfDoors;		
 		}
 
 
