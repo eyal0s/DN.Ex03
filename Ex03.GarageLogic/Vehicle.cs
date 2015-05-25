@@ -47,13 +47,12 @@ namespace Ex03.GarageLogic
 			return isEqual;
         }
 
-        // public Vehicle (string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, string i_WheelManufacturer)
-//        public override string ToString()
-//        {            
-//            return string.Format(
-//@"License number: {0}, Model: {1}, Owner: {2}, Wheels Manufacturer: {3}, Current Wheels air pressure: {4}, Energy status: {5}, Type of energy: {6} "),
-//            r_LicenseNumber, r_Manufacturer, m_PercentageOfEnergyLeft, m_Wheels , m_FuelSrc. ); // need to complete for each vehicle
-//        }
+        public override string ToString()
+        {            
+            return string.Format(
+@"Manufacturer: {0} License number: {1}, Number of wheels: {2}, Current Wheels air pressure: {3}, Wheels Manufacturer: {4}, {5}",
+            r_Manufacturer, r_LicenseNumber, m_PercentageOfEnergyLeft, m_Wheels , m_FuelSrc.ToString()); 
+        }
 
 		public class Wheel
 		{
@@ -110,17 +109,18 @@ namespace Ex03.GarageLogic
 
 		/*Fuel source logic. Has a class Fuel and battery and petrol as its subclasses*/
 
-		protected class FuelSource
+		public class FuelSource
 		{
 
 			protected float m_EnergyLeft;
 			protected float m_MaxCapacity;
+            protected readonly eFuelType r_TypeOfFuel;
 		   
-			public FuelSource(float i_EnergyLeft, float i_MaxCapacity)
-			{
-              
+			public FuelSource(eFuelType i_TypeOfFuel, float i_EnergyLeft, float i_MaxCapacity)
+			{             
 				m_EnergyLeft = i_EnergyLeft;
 				m_MaxCapacity = i_MaxCapacity;
+                r_TypeOfFuel = i_TypeOfFuel;
 		    }
 				
             //init energy left to 100%
@@ -131,8 +131,13 @@ namespace Ex03.GarageLogic
 		    }
 		    
 
-			public virtual void Refuel(float i_Quantity)
+			public virtual void Refuel(eFuelType i_TypeOfFuel  ,float i_Quantity)
 			{
+                if (i_TypeOfFuel.Equals(r_TypeOfFuel))
+                {
+                    throw new ValueOutOfRangeException(string.Format("{0} is not a known fuel type. Please choose a valid type.", i_TypeOfFuel.ToString()));
+                }
+
                 if(m_EnergyLeft + i_Quantity > m_MaxCapacity)
                 {
                     throw new ValueOutOfRangeException(0, m_MaxCapacity); /// exception for too much fuel
@@ -140,8 +145,6 @@ namespace Ex03.GarageLogic
                 else
 				{
 					m_EnergyLeft += i_Quantity;
-			    
-
 			    }
 			}
 
@@ -161,59 +164,23 @@ namespace Ex03.GarageLogic
                     return m_MaxCapacity;
                 }
             }
-                }
 
-        public class Battery : FuelSource
-        {
-            public Battery (float i_CurrentAvailableHours, float i_MaxHours)
-                : base(i_CurrentAvailableHours, i_MaxHours)
+            public override string ToString()
             {
+                return string.Format("The Vehicle is running on {0}, Maximum Battery Time: {1}, Current battery status: {2}", r_TypeOfFuel, m_MaxCapacity, m_EnergyLeft);
 
             }
+        }
+    
 
-
-		}
-
-        public class Petrol : FuelSource
-        {
-
-            private eFuelType m_TypeOfFuel;
-
-            public Petrol(eFuelType i_TypeOfFuel, float i_CurrentAvailabeHours, float i_MaximumHoursAvailabe) :
-                base(i_CurrentAvailabeHours, i_MaximumHoursAvailabe)
-            {
-                m_TypeOfFuel = i_TypeOfFuel;
-            }
-
-
-            public eFuelType TypeOfFuel
-            {
-                get
-                {
-                    return m_TypeOfFuel;
-                }
-            }
-
-            public void Refuel(float i_Quantity, eFuelType i_FuelType)
-            {
-                if (i_FuelType != m_TypeOfFuel)
-                {
-                    throw new ValueOutOfRangeException(string.Format("{0} is not a known fuel type. Please choose a valid type.", i_FuelType.ToString()));
-                }
-
-                base.Refuel(i_Quantity);
-            }
-
-            public enum eFuelType
+        public enum eFuelType
             {
                 Octan98,
                 Octan96,
                 Octan95,
-                Soler
+                Soler,
+                Electricity
             }
-
-           
-        }
 
         public enum eVehicleStatus
         {
