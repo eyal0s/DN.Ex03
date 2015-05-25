@@ -34,7 +34,11 @@ namespace Ex03.GarageLogic
 		private const int k_TruckNumberOfWheels = 16;
 		private const Vehicle.eFuelType k_TruckFuelType = Vehicle.eFuelType.Soler;
 
+		public static Motorcycle CreateMoto() 
+		{
 		
+		
+		}
 
 		public static Car CreateCar(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, Car.eColor i_CarColor, int i_NumOfDoors, bool i_IsElectric){
 			Car carCreatedForGarage;
@@ -54,6 +58,41 @@ namespace Ex03.GarageLogic
 
 			return new Truck(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAvailableHours, i_IsCarryingDangerousMaterial, i_CurrentCarryingWeight);
 		
+		}
+
+		public Vehicle createVehicle(eSupportedVehicleType i_TypeOfVehicle, string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, Car.eColor i_CarColor, int i_NumOfDoors, bool i_IsElectric, bool i_IsCarryingDangerousMaterial, float i_CurrentCarryingWeight) 
+		{
+			Vehicle vehicleCreated;
+			switch (i_TypeOfVehicle)
+			{
+				case eSupportedVehicleType.MotorCycle:
+					break;
+				case eSupportedVehicleType.ElectricCycle:
+					break;
+				case eSupportedVehicleType.PetrolCar:
+					break;
+				case eSupportedVehicleType.ElectricCar:
+					break;
+				case eSupportedVehicleType.Truck:
+					new Truck(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAvailableHours, i_IsCarryingDangerousMaterial, i_CurrentCarryingWeight);
+					break;
+
+				default:
+					vehicleCreated = new Vehicle(i_Manufacturer, i_LicenseNumber, 0, 0, i_WheelManufacturer, null);
+					break;
+			}
+
+			return vehicleCreated;
+		
+		}
+
+		public enum eSupportedVehicleType 
+		{
+			MotorCycle,
+			ElectricCycle,
+			PetrolCar,
+			ElectricCar,
+			Truck
 		}
 	}
 }
