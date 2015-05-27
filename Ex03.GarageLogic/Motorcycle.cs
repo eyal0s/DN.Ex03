@@ -14,7 +14,7 @@ namespace Ex03.GarageLogic
         public Motorcycle(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, FuelSource i_TypeOfFuel, eLicenseType i_LicenseType, int i_EngineVolume) :
             base(i_Manufacturer, i_LicenseNumber, k_NumberOfWheels, k_MaxAirPressureMotorcycle, i_WheelManufacturer, i_TypeOfFuel)
         {
-            FuelT
+            
             m_EngineVolume = i_EngineVolume;
             m_LicenseType = i_LicenseType;
 

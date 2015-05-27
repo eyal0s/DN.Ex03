@@ -132,20 +132,20 @@ namespace Ex03.GarageLogic
 		    }
 		    
 
-			public virtual void Refuel(eFuelType i_TypeOfFuel  ,float i_Quantity)
+			public virtual void Refuel(eFuelType i_TypeOfFuel  ,float i_AmountToAdd)
 			{
                 if (!i_TypeOfFuel.Equals(r_TypeOfFuel))
                 {
                     throw new ValueOutOfRangeException(string.Format("{0} is not a known fuel type. Please choose a valid type.", i_TypeOfFuel.ToString()));
                 }
 
-                if(m_EnergyLeft + i_Quantity > m_MaxCapacity)
+                if(m_EnergyLeft + i_AmountToAdd > m_MaxCapacity)
                 {
                     throw new ValueOutOfRangeException(0, m_MaxCapacity); /// exception for too much fuel
                 }
                 else
 				{
-					m_EnergyLeft += i_Quantity;
+					m_EnergyLeft += i_AmountToAdd;
 			    }
 			}
 
@@ -183,12 +183,7 @@ namespace Ex03.GarageLogic
                 Electricity
             }
 
-        public enum eVehicleStatus
-        {
-            InProgress,
-            Done,
-            Paid
-        }
+       
 	}
 }
 

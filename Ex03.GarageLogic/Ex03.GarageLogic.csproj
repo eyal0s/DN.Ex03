@@ -35,6 +35,7 @@
     <Compile Include="Car.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="Motorcycle.cs" />
+    <Compile Include="Testing.cs" />
     <Compile Include="Truck.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
     <Compile Include="Garage.cs" />
