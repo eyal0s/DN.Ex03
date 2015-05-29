@@ -27,7 +27,8 @@ namespace Ex03.GarageManagementConsoleUI
   7. Display vehicle info
   8. --QUIT--");
 
-                char input = Console.ReadKey().KeyChar;
+                int input = getAndAssertInputRangeFromUser('1', '8');
+
                 eGarageAction selection = (eGarageAction) Convert.ToInt32(input);
 
                 switch (selection)
