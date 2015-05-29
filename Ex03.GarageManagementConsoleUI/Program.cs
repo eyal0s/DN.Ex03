@@ -22,9 +22,6 @@ namespace Ex03.GarageManagementConsoleUI
 
                 switch (selection)
                 {
-                    case eGarageAction.Quit:
-                        exitGarage();
-                        break;
                     case eGarageAction.InsertVeihcle:
                         insertVeihcle();
                         break;
@@ -46,6 +43,9 @@ namespace Ex03.GarageManagementConsoleUI
                         break;
                     case eGarageAction.DisplayVehicleInfo:
                         displayVeihcleInfo();
+                        break;
+                    case eGarageAction.Quit:
+                        exitGarage();
                         break;
                     default:
                         Console.WriteLine(input + " is an invalid option. Options are between 1-7");
@@ -86,19 +86,19 @@ namespace Ex03.GarageManagementConsoleUI
 
         private static void exitGarage()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Bye bye!");
         }
 
         public enum eGarageAction
         {
-            Quit,
-            InsertVeihcle,
-            DisplayLicenseList,
-            ChangeVehicleState,
-            InflateWheels,
-            Refuel,
-            Recharge,
-            DisplayVehicleInfo
+            InsertVeihcle = 1,
+            DisplayLicenseList = 2,
+            ChangeVehicleState = 3,
+            InflateWheels = 4,
+            Refuel = 5,
+            Recharge = 6,
+            DisplayVehicleInfo = 7,
+            Quit = 8
         }
     }
 }
