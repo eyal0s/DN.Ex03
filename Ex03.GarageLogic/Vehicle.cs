@@ -233,11 +233,11 @@ Current amount of liters: {2}"
 
         public enum eFuelType
             {
-                Octan98,
-                Octan96,
-                Octan95,
-                Soler,
-                Electricity
+                Octan98 = 1,
+                Octan96 = 2,
+                Octan95 = 3,
+                Soler = 4,
+                Electricity = 5
             }
 
        

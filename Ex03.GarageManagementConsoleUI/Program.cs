@@ -193,7 +193,7 @@ namespace Ex03.GarageManagementConsoleUI
                 return;
             }
 
-            Console.WriteLine("How many gas you wish to refuel?");
+            Console.WriteLine("How much gas you wish to refuel?");
             string amount = Console.ReadLine();
             float parsedAmount;
             try
@@ -208,10 +208,11 @@ namespace Ex03.GarageManagementConsoleUI
             }
 
             Console.WriteLine(@"
-Select a type of fuel:
-(1) Put a new Vehicle in the garage
-(2) Display a license plate list of vehicles that are in the garage
-(3) Change a vehicle state");
+Select a type of fuel to refuel with:
+(1) Octan 98
+(2) Octan 96
+(3) Octan 95
+(4) Soler");
 
 
             int input = getNumericValueFromUser(3);
