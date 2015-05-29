@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Ex03.GarageManagementConsoleUI;
+using System.Text.RegularExpressions;
 
 namespace Ex03.GarageManagementConsoleUI
 {
@@ -77,7 +78,9 @@ namespace Ex03.GarageManagementConsoleUI
 
         private static void changeVehicleState()
         {
-            
+            Console.Clear();
+            Console.WriteLine();
+            //GarageLogic.Garage.
         }
 
         private static void displayVeihcleInfo()
@@ -118,9 +121,9 @@ namespace Ex03.GarageManagementConsoleUI
             
         }
 
-        private static bool isValidLicenseNumber() 
+        private static bool isValidLicenseNumber(string i_PossibleLicense) 
         {
-            return false;
+            return Regex.IsMatch(i_PossibleLicense, @"^[0-9a-zA-Z]+$");
         }
 
         public enum eGarageAction
