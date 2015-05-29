@@ -312,9 +312,9 @@ Select a type of fuel to refuel with:
             Console.WriteLine("---------------------");
             Console.WriteLine(@"         
 Our garage supports several vehicles please choose:
-(1) MotorCycle
-(2) Car
-(3) Truck");
+    (1) MotorCycle
+    (2) Car
+    (3) Truck");
 
             selectionOfUser = getNumericValueFromUser(3);
             if (selectionOfUser == 1 || selectionOfUser == 2)
@@ -597,16 +597,20 @@ Our garage supports several vehicles please choose:
             {
                 input = Console.ReadKey().KeyChar;
 
-                if (input > '1' + i_options || input < '1')
+                if (input > '0' + i_options || input < '1')
                 {
                     Console.WriteLine(string.Format("Invalid option was entered. Please input a number in the range of 1-{0}", i_options));
                     continue;
                 }
+                else
+                {
+                    selection = input - '0';
+                    break;
+                }
 
-                selection = input - '0';
- 
-                return selection;
             }
+
+                return selection;
             
         }
 
