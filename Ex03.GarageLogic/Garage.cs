@@ -11,24 +11,60 @@ namespace Ex03.GarageLogic
 		private static Dictionary<string, VehicleTicket> s_ListOfVehicleInGarage = new Dictionary<string,VehicleTicket>();
 
 
-		public static bool InsertNewVehicleToGarage(string i_Owner, string i_OwnerCellNumber, Vehicle i_VehicleToInsertGarage)
-		{
-			bool vehicleWasInsertedToGarage = false;
+        private static bool tryToInsertVehicle(string i_Owner, string i_OwnerCellNumber, Vehicle i_VehicleToInsert)
+        {
+            bool vehicleWasInsertedToGarage = false;
 
-			if (s_ListOfVehicleInGarage.ContainsKey(i_VehicleToInsertGarage.LicenseNumer))
+			if (s_ListOfVehicleInGarage.ContainsKey(i_VehicleToInsert.LicenseNumer))
 			{
-				s_ListOfVehicleInGarage[i_VehicleToInsertGarage.LicenseNumer].Status = eVehicleStatus.InRepair;
+				s_ListOfVehicleInGarage[i_VehicleToInsert.LicenseNumer].Status = eVehicleStatus.InRepair;
 
 			}
 			else
 			{
-				VehicleTicket newTicket = new VehicleTicket(i_Owner, i_OwnerCellNumber, i_VehicleToInsertGarage);
-				s_ListOfVehicleInGarage.Add(i_VehicleToInsertGarage.LicenseNumer, newTicket);
+				VehicleTicket newTicket = new VehicleTicket(i_Owner, i_OwnerCellNumber, i_VehicleToInsert);
+				s_ListOfVehicleInGarage.Add(i_VehicleToInsert.LicenseNumer, newTicket);
 				vehicleWasInsertedToGarage = true;
 			}
 
 			return vehicleWasInsertedToGarage;
+
+        }
+
+        // cycle
+		public static bool InsertNewVehicleToGarage(string i_Owner, string i_OwnerCellNumber, string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, bool i_isElectric, int i_licenseType, int i_EngineVolume)
+		{      
+            Factory.eSupportedVehicleType TypeOfVehicle = i_isElectric ? Factory.eSupportedVehicleType.ElectricCycle : Factory.eSupportedVehicleType.MotorCycle;
+            Motorcycle.eLicenseType CycleLicenstType = (Motorcycle.eLicenseType) i_licenseType;
+            Vehicle newVehicleForGarage = Factory.CreateMoto(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAvailableHours, TypeOfVehicle, CycleLicenstType, i_EngineVolume);
+			
+            return tryToInsertVehicle(i_Owner, i_OwnerCellNumber, newVehicleForGarage);
 		}
+        
+        // car
+        public static bool InsertNewVehicleToGarage(string i_Owner, string i_OwnerCellNumber, string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, bool i_isElectric, string i_ColorOfCar, int i_AmountOfDoors)
+        {
+            Factory.eSupportedVehicleType TypeOfVehicle = i_isElectric ? Factory.eSupportedVehicleType.ElectricCar : Factory.eSupportedVehicleType.PetrolCar;        
+            Car.eColor carColor = (Car.eColor) Enum.Parse(typeof(Car.eColor), i_ColorOfCar);
+            Vehicle newVehicleForGarage = Factory.CreateCar(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAvailableHours, TypeOfVehicle, carColor, i_AmountOfDoors);
+			
+            return tryToInsertVehicle(i_Owner, i_OwnerCellNumber, newVehicleForGarage);
+        }
+        
+        // truck
+        public static bool InsertNewVehicleToGarage(string i_Owner, string i_OwnerCellNumber, string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, bool i_IsCarryingDangerousMaterials, float i_CurrentCarryingWeight)
+        {
+            Factory.eSupportedVehicleType typeOfVehicle = Factory.eSupportedVehicleType.Truck;
+            Vehicle newVehicleForGarage = Factory.CreateTruck(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAvailableHours, typeOfVehicle, i_IsCarryingDangerousMaterials, i_CurrentCarryingWeight);
+			
+            return tryToInsertVehicle(i_Owner, i_OwnerCellNumber, newVehicleForGarage);
+        }
+
+        // general vehicle
+        public static bool InsertNewVehicleToGarage(string i_Owner, string i_OwnerCellNumber, string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours)
+        {
+            throw new NotImplementedException();
+        }
 
 		public static string DisplayAllLicenseNumber(params eVehicleStatus[] i_Filter) 
 		{
@@ -167,21 +203,7 @@ namespace Ex03.GarageLogic
 
 		}
 
-        public static string getCurrentlySupportedVehicle()
-        {
-            foreach (var item in collection)
-            {
-                    
-            }
-            
-            
-        }
-
-        public static getVehicleSupported()
-        {
-            Type sourceToAllVehicle = typeof(Vehicle);
-            Type[] allSupportedVehicle = sourceToAllVehicle.Assembly.GetTypes();
-        }
+     
 		public enum eVehicleStatus
 		{
 			InRepair = 1,
