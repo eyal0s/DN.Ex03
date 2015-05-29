@@ -10,6 +10,49 @@ namespace Ex03.GarageManagementConsoleUI
     class Program
     {
         private const bool v_CheckIfExists = true;
+
+        private const string k_MainMenuMessage = @"Hello and welcome to our garage!
+
+Please select an option to proceed:
+    (1) Put a new Vehicle in the garage
+    (2) See which vehicles are currently in
+    (3) Change a vehicle state
+    (4) Inflate tires
+    (5) Refuel a gas vehicle
+    (6) Recharge an electric vehicle
+    (7) Display vehicle info
+    (8) QUIT";
+
+        private const string k_DisplayLicenseMessage = @"Display Garage Licenses List:
+---------------------
+
+Do you wish to filter the results?
+ 
+    (1) Yes, Show just In Repair vehicles
+    (2) Yes, Show just Done vehicles
+    (3) Yes, Show just Paid vehicles
+    (4) No, Show me everything";
+
+        private const string k_InsertVehicleOpenningMessage = @"Enter a new vehicle:
+---------------------
+                    
+Our garage supports several vehicles please choose:
+    (1) MotorCycle
+    (2) Car
+    (3) Truck";
+
+        private const string k_InsertVehicleFuelMessage = @"What is the vehicle fuel type?
+    (1) Petrol
+    (2) Electric";
+
+        private const string k_MotorCycleLicenseTypeMessage = @"What is the license type: 
+    (1) A
+    (2) A2
+    (3) AB
+    (4) B1";
+
+
+
         private const string k_GoingBackToMainMenu = "Going back to main menu...";
 
         public static void Main(string[] args)
@@ -19,19 +62,9 @@ namespace Ex03.GarageManagementConsoleUI
             while (isRunning)
             {
                 Console.Clear();
-                Console.WriteLine("Hello and welcome to our garage! \nPlease select an option to proceed:");
-                Console.WriteLine(@"
-(1) Put a new Vehicle in the garage
-(2) See which vehicles are currently in
-(3) Change a vehicle state
-(4) Inflate tires
-(5) Refuel a gas vehicle
-(6) Recharge an electric vehicle
-(7) Display vehicle info
-(8) QUIT");
-
+                Console.WriteLine(k_MainMenuMessage);
                 int input = getNumericValueFromUser(8);
-                eGarageAction selection = (eGarageAction) Convert.ToInt32(input);
+                eGarageAction selection = (eGarageAction) input;
                 switch (selection)
                 {
                     case eGarageAction.InsertVehicle:
@@ -61,7 +94,7 @@ namespace Ex03.GarageManagementConsoleUI
                         isRunning = false;
                         break;
                     default:
-                        Console.WriteLine(input + " is an invalid option. Options are between 1-8");
+                        Console.WriteLine(string.Format("{0} is an invalid option. Options are between 1-8", input));
                         break;
                 } 
             }
@@ -115,17 +148,16 @@ namespace Ex03.GarageManagementConsoleUI
         private static void printOperationSuccessMsg()
         {
             Console.Clear();
-            Console.WriteLine("Operation Terminated successfuly!");
-            System.Threading.Thread.Sleep(3000);
+            Console.WriteLine("Operation was successful!");
+            inputAnyKeytoReturnToMain();
         }
 
         private static void displayVeihcleInfo()
-        {
-            // itex
-            
+        {            
             Console.Clear();
-            Console.WriteLine("Display Vehicle Info:");
-            Console.WriteLine("---------------------");
+            Console.WriteLine(
+@"Display Vehicle Info:
+---------------------");
 
             string licenseNumber = getLicenceNumberFromUser();
             if (!licenseExist(licenseNumber))
@@ -248,15 +280,8 @@ Select a type of fuel to refuel with:
         private static void displayLicenseList()
         {
             Console.Clear();
-            Console.WriteLine("Display Garage Licenses List:");
-            Console.WriteLine("---------------------");
+            Console.WriteLine(k_DisplayLicenseMessage);
 
-            Console.WriteLine("Do you wish to filter the results?");
-            Console.WriteLine(string.Format(@"
-(1) Yes, Show just In Repair vehicles
-(2) Yes, Show just Done vehicles
-(3) Yes, Show just Paid vehicles
-(4) No, Show me everything"));
             int selection = getNumericValueFromUser(4);
             string licenseNumberList = string.Empty;
             if (selection == 4)
@@ -293,7 +318,7 @@ Select a type of fuel to refuel with:
             System.Threading.Thread.Sleep(4000);
         }
 
-        //string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, string i_WheelManufacturer, FuelSource i_FuelOfVehicle
+        
         private static void insertVehicle()
         {
             string ownerName;
@@ -303,24 +328,16 @@ Select a type of fuel to refuel with:
             string wheelManufacturer;
             float currentAvailableEnergyInVehicle;
             bool isElectric = false;
-            int selectionOfUser;
+            int selectionOfUserForVehicleType;
             
             Console.Clear();
-            Console.WriteLine("Enter a new vehicle:");
-            Console.WriteLine("---------------------");
-            Console.WriteLine(@"         
-Our garage supports several vehicles please choose:
-    (1) MotorCycle
-    (2) Car
-    (3) Truck");
+            Console.WriteLine(k_InsertVehicleOpenningMessage);
 
-            selectionOfUser = getNumericValueFromUser(3);
-            if (selectionOfUser == 1 || selectionOfUser == 2)
+            selectionOfUserForVehicleType = getNumericValueFromUser(3);
+            if (selectionOfUserForVehicleType == 1 || selectionOfUserForVehicleType == 2)
             {
-                Console.WriteLine(
-@"What is the vehicle fuel type?(1-2)
-    (1) Petrol
-    (2) Electric");
+                Console.Clear();
+                Console.WriteLine(k_InsertVehicleFuelMessage);
 
                 isElectric = (getNumericValueFromUser(2) == 2) ? true : false;
             }
@@ -328,7 +345,8 @@ Our garage supports several vehicles please choose:
             initVehicleVarible(out ownerName, out ownerCell, out manufacturer, out licenseNumber, out wheelManufacturer, out currentAvailableEnergyInVehicle, isElectric);
 
             bool isVehicleAdded = false;
-            switch (selectionOfUser)
+
+            switch (selectionOfUserForVehicleType)
             {
                 // cycle
                 case 1:
@@ -369,6 +387,7 @@ Our garage supports several vehicles please choose:
 
         private static bool isTruckCargoDangerous()
         {
+            Console.Clear();
             Console.WriteLine(
 @"Is the truck carrying dangerous materials?
     (1) Yes
@@ -382,6 +401,7 @@ Our garage supports several vehicles please choose:
 
         private static float getCurrentCargoWeight()
         {
+            Console.Clear();
             string inputFromUser;
             float currentCargoWeight;
             Console.WriteLine("How much does the cargo weight?");
@@ -398,6 +418,7 @@ Our garage supports several vehicles please choose:
 
         private static int getAmountOfDoorsFromUser()
         {
+            Console.Clear();
             string inputFromUser;
             int amountOfDoorsInCar;
 
@@ -416,6 +437,7 @@ Our garage supports several vehicles please choose:
 
         private static string getColorOfCarFromUser()
         {
+            Console.Clear();
             string[] colors = new string[4] { "White", "Black", "Green", "Red" };
             Console.WriteLine(string.Format(
 @"Please enter one of the following colors
@@ -442,6 +464,7 @@ Our garage supports several vehicles please choose:
 
         private static string getManufacturers(out string io_wheelManufacturer)
         {
+            Console.Clear();
             string manufacturer;
             Console.WriteLine("Who is the vehicle's manufacturer?");
             manufacturer = Console.ReadLine();
@@ -451,7 +474,7 @@ Our garage supports several vehicles please choose:
                 manufacturer = Console.ReadLine();
             }
 
-
+            Console.Clear();
             Console.WriteLine("Who is the wheel manufacturer?");
             io_wheelManufacturer = Console.ReadLine();
             while (io_wheelManufacturer.Length == 0)
@@ -466,6 +489,7 @@ Our garage supports several vehicles please choose:
 
         private static string getCellNumberFromUser()
         {
+            Console.Clear();
             string inputCellNumberFromUser;
             int ownerCellNumber;
             Console.WriteLine("Please enter cell number of the owner:");
@@ -482,6 +506,7 @@ Our garage supports several vehicles please choose:
 
         private static string getOwnerNameFromUser()
         {
+            Console.Clear();
             string ownerName;
             Console.WriteLine("Please enter name of owner");
             ownerName = Console.ReadLine();
@@ -527,6 +552,7 @@ Our garage supports several vehicles please choose:
 
         private static float getAmountOfEnergyLeftFromUser(bool i_IsElectricVehicle)
         {
+            Console.Clear();
             float amountOfEnergyLeft;
             string inputFromUser;
             if (i_IsElectricVehicle)
@@ -550,6 +576,7 @@ Our garage supports several vehicles please choose:
 
         private static int getVolumeOfEngine()
         {
+            Console.Clear();
             int engineVolume;
             string inputFromUser;
 
@@ -568,12 +595,9 @@ Our garage supports several vehicles please choose:
 
         private static int getMotorCycleLicenseType()
         {
-            Console.WriteLine(
-@"What is the license type: 
-    (1) A
-    (2) A2
-    (3) AB
-    (4) B1");
+            Console.Clear();
+            Console.WriteLine(k_MotorCycleLicenseTypeMessage);
+
             int userChoiceOfLicense = getNumericValueFromUser(4);
 
             return userChoiceOfLicense;
@@ -612,6 +636,7 @@ Our garage supports several vehicles please choose:
 
         private static string getLicenceNumberFromUser()
         {
+            Console.Clear();
             string input;
             Console.WriteLine("Please enter a veihcle license plate number:");
             while (true)
@@ -628,7 +653,8 @@ Our garage supports several vehicles please choose:
             }
             
             return input;
-        }
+        } 
+
 
         public enum eGarageAction
         {
