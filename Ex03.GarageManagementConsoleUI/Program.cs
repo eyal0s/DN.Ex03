@@ -147,7 +147,7 @@ namespace Ex03.GarageManagementConsoleUI
                 return;
             }
             
-            Console.WriteLine("How mant minutes you wish to recharge?");
+            Console.WriteLine("How many hours you wish to recharge?");
             string amount = Console.ReadLine();
             float parsedAmount;
             try
@@ -156,27 +156,69 @@ namespace Ex03.GarageManagementConsoleUI
             }
             catch (Exception)
             {
-                Console.WriteLine("invalid amount of hours was entered");
+                Console.WriteLine("invalid term was entered");
                 printGoingBackToMainMenuMsg();
                 return;
             }
 
             try
             {
-
+                Ex03.GarageLogic.Garage.RefuelBattery(licenseNumber, parsedAmount);
+                printOperationSuccessMsg();
             }
-            catch (Ex03.GarageLog)
+            catch (Exception)
             {
-                
-                throw;
+                Console.WriteLine("Invalid amount was entered");
+                return;
             }
-            Ex03.GarageLogic.Garage.RefuelBattery(licenseNumber, parsedAmount);
+            
           }
 
         private static void refuel()
         {
-            // eyal
-            throw new NotImplementedException();
+            Console.Clear();
+            Console.WriteLine("Refuel:");
+
+            string licenseNumber = getLicenceNumberFromUser();
+            if (!licenseExist(licenseNumber))
+            {
+                printGoingBackToMainMenuMsg();
+                return;
+            }
+
+            Console.WriteLine("How many gas you wish to refuel?");
+            string amount = Console.ReadLine();
+            float parsedAmount;
+            try
+            {
+                parsedAmount = float.Parse(amount);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("invalid term was entered");
+                printGoingBackToMainMenuMsg();
+                return;
+            }
+
+            Console.WriteLine(@"
+Select a type of fuel:
+(1) Put a new Vehicle in the garage
+(2) Display a license plate list of vehicles that are in the garage
+(3) Change a vehicle state");
+
+
+            int input = getNumericValueFromUser(3);
+            GarageLogic.Vehicle.eFuelType fuelTypeSelection = (GarageLogic.Vehicle.eFuelType) input;
+            try
+            {
+                Ex03.GarageLogic.Garage.RefuelPetrol(licenseNumber, (GarageLogic.Vehicle.eFuelType) fuelTypeSelection, parsedAmount);
+                printOperationSuccessMsg();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Invalid amount was entered");
+                return;
+            }
         }
 
         private static void inflateWheels()
