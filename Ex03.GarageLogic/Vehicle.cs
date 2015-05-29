@@ -5,7 +5,7 @@ using System.Text;
 namespace Ex03.GarageLogic
 {
 	// father object for all other types of veihcles
-	class Vehicle
+	public class Vehicle
 	{
 		protected readonly string r_Manufacturer;
 		protected readonly string r_LicenseNumber;

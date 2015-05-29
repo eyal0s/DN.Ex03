@@ -16,25 +16,23 @@ namespace Ex03.GarageManagementConsoleUI
             while (isRunning)
             {
                 Console.Clear();
-                Console.WriteLine("Hello and welcome to our garage. Please select the number of the action you wish to perform:");
-                Console.WriteLine(
-@"1. Put a new Vehicle in the garage
-  2. Display a license plate list of vehicles that are in the garage
-  3. Change a vehicle state
-  4. Inflate tires
-  5. Refuel a gas vehicle
-  6. Recharge an electric vehicle
-  7. Display vehicle info
-  8. --QUIT--");
+                Console.WriteLine("Hello and welcome to our garage! \nPlease select an option to proceed:");
+                Console.WriteLine(@"
+(1) Put a new Vehicle in the garage
+(2) Display a license plate list of vehicles that are in the garage
+(3) Change a vehicle state
+(4) Inflate tires
+(5) Refuel a gas vehicle
+(6) Recharge an electric vehicle
+(7) Display vehicle info
+(8) QUIT");
 
-                int input = getAndAssertInputRangeFromUser('1', '8');
-
+                int input = getNumericValueFromUser(8);
                 eGarageAction selection = (eGarageAction) Convert.ToInt32(input);
-
                 switch (selection)
                 {
                     case eGarageAction.InsertVehicle:
-                        insertVeihcle();
+                        insertVehicle();
                         break;
                     case eGarageAction.DisplayLicenseList:
                         // create filter here
@@ -84,15 +82,21 @@ namespace Ex03.GarageManagementConsoleUI
             // Display the possible states to switch the vehicle to 
             Console.Clear();
             Console.WriteLine(string.Format("Please select a new state for vehicle number {0}",licenseNumber));
-            Console.WriteLine(string.Format(
-@"1. In Repair
-  2. Done
-  3. Paid"));
+            Console.WriteLine(string.Format(@"
+(1) In Repair
+(2) Done
+(3) Paid"));
             
-            int selection = getAndAssertInputRangeFromUser('1','3');
+            int selection = getNumericValueFromUser(3);
              GarageLogic.Garage.ChangeStatusOfVehicle(licenseNumber, (GarageLogic.Garage.eVehicleStatus) selection);
 
-             Console.WriteLine(string.Format("Vehicle with license"));
+             printSuccessMsg();
+        }
+
+        private static void printSuccessMsg()
+        {
+            Console.Clear();
+            Console.WriteLine("Operation Terminated successfuly!");
         }
 
         private static void displayVeihcleInfo()
@@ -102,19 +106,15 @@ namespace Ex03.GarageManagementConsoleUI
             Console.Clear();
             Console.WriteLine("Display Vehicle");
             Console.WriteLine("Please enter the vehicle's license number:");
-            string licenseNumber = Console.ReadLine();
-            if (isValidLicenseNumber(licenseNumber))
-            {
+            string licenseNumber = getLicenceNumberFromUser();
                 try
                 {
-                    Console.WriteLine(GarageLogic.Garage.DisplayFullSpecOfVehicle(licenseNumber));
-        }
+                    Console.WriteLine(GarageLogic.Garage.DisplayFullSpecOfVehicle(licenseNumber)); 
+                }
                 catch (ArgumentException)
                 {
                     Console.WriteLine("The vehicle you wish to view is not in the garage");
                 }
-            }
-
         }
 
         private static void recharge()
@@ -142,7 +142,7 @@ namespace Ex03.GarageManagementConsoleUI
         }
 
         //string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, string i_WheelManufacturer, FuelSource i_FuelOfVehicle
-        private static void insertVeihcle()
+        private static void insertVehicle()
         {
             string manufacturer;
             string licenseNumber;
@@ -160,22 +160,24 @@ namespace Ex03.GarageManagementConsoleUI
             
         }
 
-        private static int getAndAssertInputRangeFromUser(char i_MinVal, char i_MaxVal)
+        private static int getNumericValueFromUser(int i_options)
         {
             int selection;
             char input;
             while (true)
             {
                 input = Console.ReadKey().KeyChar;
-                if (input > i_MaxVal || input < i_MinVal)
+                Console.WriteLine(input);
+                if (input > '1' + i_options || input < '1')
                 {
-                    Console.WriteLine("Invalid option was entered. Please input a number in the range of 1-3.");
+                    Console.WriteLine(string.Format("Invalid option was entered. Please input a number in the range of 1-{0}", i_options));
                     continue;
                 }
-                selection = Convert.ToInt32(input);
-                break;
+                selection = input - 48;
+                Console.WriteLine(selection);
+                return selection;
             }
-            return selection;
+            
         }
 
         private static string getLicenceNumberFromUser()

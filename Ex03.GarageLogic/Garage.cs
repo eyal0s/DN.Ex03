@@ -10,7 +10,6 @@ namespace Ex03.GarageLogic
 	{
 		private static Dictionary<string, VehicleTicket> s_ListOfVehicleInGarage = new Dictionary<string,VehicleTicket>();
 
-
 		public static bool InsertNewVehicleToGarage(string i_Owner, string i_OwnerCellNumber, Vehicle i_VehicleToInsertGarage)
 		{
 			bool vehicleWasInsertedToGarage = false;
@@ -169,15 +168,12 @@ namespace Ex03.GarageLogic
 
         public static string getCurrentlySupportedVehicle()
         {
-            foreach (var item in collection)
-            {
-                    
-            }
-            
+
+            return null;
             
         }
 
-        public static getVehicleSupported()
+        public static void getVehicleSupported()
         {
             Type sourceToAllVehicle = typeof(Vehicle);
             Type[] allSupportedVehicle = sourceToAllVehicle.Assembly.GetTypes();
