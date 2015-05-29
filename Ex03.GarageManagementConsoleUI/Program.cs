@@ -70,7 +70,6 @@ namespace Ex03.GarageManagementConsoleUI
         private static void changeVehicleState()
         {
 
-
             Console.Clear();
             Console.WriteLine("Change vehicle state:");
             Console.WriteLine("---------------------");
@@ -286,7 +285,7 @@ Select a type of fuel:
         private static void inputAnythingToReturnToMain()
         {
             Console.WriteLine("Enter any key to return to main menu");
-            Console.ReadLine();
+            Console.ReadKey();
         }
 
         private static void printGoingBackToMainMenuMsg()
@@ -306,25 +305,23 @@ Select a type of fuel:
             float currentAvailableEnergyInVehicle;
             bool isElectric = false;
             int selectionOfUser;
-            
-
 
             Console.Clear();
-            Console.WriteLine(
-        @"New Vehicle Window          
-
-Our garage supports several vehicles please choose (1-3)
-    1. MotorCycle
-    2. Car
-    3. Truck");
+            Console.WriteLine("Enter a new vehicle:");
+            Console.WriteLine("---------------------");
+            Console.WriteLine(@"         
+Our garage supports several vehicles please choose:
+(1) MotorCycle
+(2) Car
+(3) Truck");
 
             selectionOfUser = getAndAssertInputRangeFromUser(1, 3);
             if (selectionOfUser == 1 || selectionOfUser == 2)
             {
-                Console.WriteLine(
-@"What is the vehicle fuel type?(1-2)
-    1. Petrol
-    2. Electric");
+                Console.WriteLine(@"
+Choose a vehicle fuel type:
+(1) Petrol
+(2) Electric");
 
                 isElectric = (getAndAssertInputRangeFromUser(1, 2) == 2) ? true : false;
             }
@@ -598,7 +595,6 @@ Our garage supports several vehicles please choose (1-3)
                 input = Console.ReadLine();
             }
             
-
             return selection;
         }
             
