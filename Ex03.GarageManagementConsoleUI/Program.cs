@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Ex03.GarageManagementConsoleUI;
+using System.Text.RegularExpressions;
 
 namespace Ex03.GarageManagementConsoleUI
 {
@@ -65,9 +66,21 @@ namespace Ex03.GarageManagementConsoleUI
             }
         }
 
+        private static string getInputFromUser(string i_PromptMsg, string i_ErrorMsg)
+        {
+            string input;
+            do
+            {
+                input = Console.ReadLine();
+            } while (true);
+ 
+        }
+
         private static void changeVehicleState()
         {
-            
+            Console.Clear();
+            Console.WriteLine();
+            //GarageLogic.Garage.
         }
 
         private static void displayVeihcleInfo()
@@ -83,13 +96,13 @@ namespace Ex03.GarageManagementConsoleUI
                 try
                 {
                     Console.WriteLine(GarageLogic.Garage.DisplayFullSpecOfVehicle(licenseNumber));
-                }
+        }
                 catch (ArgumentException)
                 {
                     Console.WriteLine("The vehicle you wish to view is not in the garage");
                 }
             }
-            
+
         }
 
         private static void recharge()
@@ -137,11 +150,9 @@ namespace Ex03.GarageManagementConsoleUI
             
         }
 
-        private static
-
-        private static bool isValidLicenseNumber(string i_LicenseNumToCheck) 
+        private static bool isValidLicenseNumber(string i_PossibleLicense) 
         {
-            return false;
+            return Regex.IsMatch(i_PossibleLicense, @"^[0-9a-zA-Z]+$");
         }
 
         public enum eGarageAction
