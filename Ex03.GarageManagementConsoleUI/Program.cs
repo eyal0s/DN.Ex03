@@ -139,7 +139,6 @@ namespace Ex03.GarageManagementConsoleUI
             inputAnythingToReturnToMain();
         }
 
-
         private static void recharge()
         {
             Console.Clear();
@@ -193,7 +192,6 @@ namespace Ex03.GarageManagementConsoleUI
                 return;
             }
 
-            Console.WriteLine("How much gas you wish to refuel?");
             string amount = Console.ReadLine();
             float parsedAmount;
             try
@@ -214,8 +212,7 @@ Select a type of fuel to refuel with:
 (3) Octan 95
 (4) Soler");
 
-
-            int input = getNumericValueFromUser(3);
+            int input = getNumericValueFromUser(4);
             GarageLogic.Vehicle.eFuelType fuelTypeSelection = (GarageLogic.Vehicle.eFuelType) input;
       
             try
@@ -227,6 +224,7 @@ Select a type of fuel to refuel with:
             catch (Exception)
             {
                 Console.WriteLine("Invalid amount\fuel type was entered");
+                System.Threading.Thread.Sleep(2000);
                 return;
             }
         }
@@ -415,8 +413,6 @@ Our garage supports several vehicles please choose:
             return amountOfDoorsInCar;
 
         }
-
-
 
         private static string getColorOfCarFromUser()
         {
