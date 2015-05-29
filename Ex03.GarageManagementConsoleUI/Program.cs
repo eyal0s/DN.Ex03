@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using Ex03.GarageManagementConsoleUI;
 
-
 namespace Ex03.GarageManagementConsoleUI
 {
     class Program
@@ -68,6 +67,7 @@ namespace Ex03.GarageManagementConsoleUI
         private static void displayVeihcleInfo()
         {
             // itex
+            
             throw new NotImplementedException();
         }
 
@@ -99,6 +99,12 @@ namespace Ex03.GarageManagementConsoleUI
         {
             //itex
             throw new NotImplementedException();
+            
+        }
+
+        private static bool isValidLicenseNumber() 
+        {
+            return false;
         }
 
         public enum eGarageAction
