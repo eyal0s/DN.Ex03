@@ -66,6 +66,16 @@ namespace Ex03.GarageManagementConsoleUI
             }
         }
 
+        private static string getInputFromUser(string i_PromptMsg, string i_ErrorMsg)
+        {
+            string input;
+            do
+            {
+                input = Console.ReadLine();
+            } while (true);
+ 
+        }
+
         private static void changeVehicleState()
         {
             
