@@ -21,5 +21,15 @@ namespace Ex03.GarageLogic
         
         }
 
+         public override string ToString()
+         {
+             string dangerInCargo = m_isCarryingHazardousMaterial ? "The Truck's cargo is hazardous" : "The truck's cargo is safe";
+             return string.Format(
+@"{0}
+{1}
+The truck cargo weight is: {2}",
+    base.ToString(), dangerInCargo, m_CurrentCarryingWeight);
+         }
+
     }
 }

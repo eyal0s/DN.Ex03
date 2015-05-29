@@ -30,7 +30,7 @@ namespace Ex03.GarageManagementConsoleUI
   7. Display vehicle info
   8. --QUIT--");
 
-                int userSelection = getAndAssertInputRangeFromUser('1', '8');
+                int userSelection = getAndAssertInputRangeFromUser(1, 8);
                 eGarageAction selection = (eGarageAction) userSelection;
 
                 switch (selection)
@@ -91,7 +91,7 @@ namespace Ex03.GarageManagementConsoleUI
   2. Done
   3. Paid"));
             
-            int selection = getAndAssertInputRangeFromUser('1','3');
+            int selection = getAndAssertInputRangeFromUser(1, 3);
              GarageLogic.Garage.ChangeStatusOfVehicle(licenseNumber, (GarageLogic.Garage.eVehicleStatus) selection);
 
              Console.WriteLine(string.Format("Vehicle with license"));
@@ -106,7 +106,9 @@ namespace Ex03.GarageManagementConsoleUI
                 try
                 {
                     Console.WriteLine(GarageLogic.Garage.DisplayFullSpecOfVehicle(licenseNumber));
-        }
+                    Console.WriteLine("Press any key to return to main window");
+                    Console.ReadLine();
+                }
                 catch (ArgumentException)
                 {
                     Console.WriteLine("The vehicle you wish to view is not in the garage");
@@ -154,23 +156,23 @@ namespace Ex03.GarageManagementConsoleUI
             
 
             Console.Clear();
-            Console.WriteLine("New Vehicle Window");
-            licenseNumber = getLicenceNumberFromUser();
             Console.WriteLine(
-@"Our garage supports several vehicles
+        @"New Vehicle Window          
+
+Our garage supports several vehicles please choose (1-3)
     1. MotorCycle
     2. Car
     3. Truck");
 
-            selectionOfUser = getAndAssertInputRangeFromUser('1', '3');
+            selectionOfUser = getAndAssertInputRangeFromUser(1, 3);
             if (selectionOfUser == 1 || selectionOfUser == 2)             
             {
                 Console.WriteLine(
-@"What is the vehicle fuel type?
+@"What is the vehicle fuel type?(1-2)
     1. Petrol
     2. Electric");
 
-                isElectric = (getAndAssertInputRangeFromUser('1', '2') == 2) ? true : false;
+                isElectric = (getAndAssertInputRangeFromUser(1, 2) == 2) ? true : false;
             }
 
             initVehicleVarible(out ownerName, out ownerCell, out manufacturer, out licenseNumber, out wheelManufacturer, out currentAvailableEnergyInVehicle, isElectric);
@@ -212,12 +214,6 @@ namespace Ex03.GarageManagementConsoleUI
                 Console.WriteLine(string.Format("Sorry, a vehicle with {0} license number already exist in the garage", licenseNumber));
             }
             
-	
-            
-            
-            //itex
-            throw new NotImplementedException();
-            
         }
 
         private static bool isTruckCargoDangerous()
@@ -227,7 +223,7 @@ namespace Ex03.GarageManagementConsoleUI
     1. Yes
     2. No");
 
-            int userChoice = getAndAssertInputRangeFromUser('1', '2');
+            int userChoice = getAndAssertInputRangeFromUser(1, 2);
 
             return (userChoice == 1) ? true : false;
 
@@ -240,7 +236,7 @@ namespace Ex03.GarageManagementConsoleUI
             Console.WriteLine("How much does the cargo weight?");
             inputFromUser = Console.ReadLine();
 
-            while (inputFromUser.Length == 0 || float.TryParse(inputFromUser, out currentCargoWeight))
+            while (inputFromUser.Length == 0 || !float.TryParse(inputFromUser, out currentCargoWeight))
             {
                 Console.WriteLine("Please enter a valid weight in KG(digits only)");
                 inputFromUser = Console.ReadLine();
@@ -257,7 +253,7 @@ namespace Ex03.GarageManagementConsoleUI
             Console.WriteLine("Please enter the amount of doors in the car:");
             inputFromUser = Console.ReadLine();
 
-            while (inputFromUser.Length == 0 || int.TryParse(inputFromUser, out amountOfDoorsInCar) || amountOfDoorsInCar > 5 || amountOfDoorsInCar < 2)
+            while (inputFromUser.Length == 0 || !int.TryParse(inputFromUser, out amountOfDoorsInCar) || amountOfDoorsInCar > 5 || amountOfDoorsInCar < 2)
             {
                 Console.WriteLine("The range for doors in car is 2-5 (inclusive), please try again");
                 inputFromUser = Console.ReadLine();
@@ -271,7 +267,7 @@ namespace Ex03.GarageManagementConsoleUI
 
         private static string getColorOfCarFromUser()
         {   
-            string[] colors = new string[4]{"White", "Black", "Green", "Read"};
+            string[] colors = new string[4]{"White", "Black", "Green", "Red"};
             Console.WriteLine(string.Format(
 @"Please enter one of the following colors
     1. {0}
@@ -279,7 +275,7 @@ namespace Ex03.GarageManagementConsoleUI
     3. {2}
     4. {3}", colors[0], colors[1], colors[2], colors[3]));
 
-            int UserChoiceOfColor = getAndAssertInputRangeFromUser('1', '4');
+            int UserChoiceOfColor = getAndAssertInputRangeFromUser(1, 4);
             
             return colors[UserChoiceOfColor - 1];
         }
@@ -325,7 +321,8 @@ namespace Ex03.GarageManagementConsoleUI
             int ownerCellNumber;
             Console.WriteLine("Please enter cell number of the owner:");
             inputCellNumberFromUser = Console.ReadLine();
-            while (inputCellNumberFromUser.Length != 10 || int.TryParse(inputCellNumberFromUser, out ownerCellNumber))
+
+            while (inputCellNumberFromUser.Length != 10 || !int.TryParse(inputCellNumberFromUser, out ownerCellNumber))
             {
                 Console.WriteLine("The number should be 10 digits (ONLY digits 0-9)");
                 inputCellNumberFromUser = Console.ReadLine();
@@ -339,7 +336,7 @@ namespace Ex03.GarageManagementConsoleUI
             string ownerName;
             Console.WriteLine("Please enter name of owner");
             ownerName = Console.ReadLine();
-            while (isValidName(ownerName)) ;
+            while (!isValidName(ownerName)) 
             {
                 if (ownerName.Length == 0)
                 {
@@ -349,6 +346,8 @@ namespace Ex03.GarageManagementConsoleUI
                 {
                     Console.WriteLine("Please enter your name using english letters only");
                 }
+
+                ownerName = Console.ReadLine();
             }
 
             return ownerName;
@@ -384,15 +383,15 @@ namespace Ex03.GarageManagementConsoleUI
             string inputFromUser;
             if (i_IsElectricVehicle)
             {
-                Console.WriteLine("How many liters are currently in the vehicle?");    
+                Console.WriteLine("What is the battery percantage currently?");
             }
             else
             {
-                Console.WriteLine("How many percantage does the battery currently have?");
+                Console.WriteLine("How many liters are currently in the vehicle?");    
             }
 
             inputFromUser = Console.ReadLine();
-            while (float.TryParse(inputFromUser, out amountOfEnergyLeft))
+            while (!float.TryParse(inputFromUser, out amountOfEnergyLeft))
             {
                 Console.WriteLine("Please enter a numeric value");
                 inputFromUser = Console.ReadLine();
@@ -409,7 +408,8 @@ namespace Ex03.GarageManagementConsoleUI
 
             Console.WriteLine("What is the engine's volume?");
             inputFromUser = Console.ReadLine();
-            while (int.TryParse(inputFromUser, out engineVolume))
+
+            while (!int.TryParse(inputFromUser, out engineVolume))
             {
                 Console.WriteLine("please insert a number");
                 inputFromUser = Console.ReadLine();
@@ -427,26 +427,25 @@ namespace Ex03.GarageManagementConsoleUI
     2. A2
     3. AB
     4. B1");
-            int userChoiceOfLicense = getAndAssertInputRangeFromUser('1', '4');
+            int userChoiceOfLicense = getAndAssertInputRangeFromUser(1, 4);
 
             return userChoiceOfLicense;
         }
 
-        private static int getAndAssertInputRangeFromUser(char i_MinVal, char i_MaxVal)
+        private static int getAndAssertInputRangeFromUser(int i_MinVal, int i_MaxVal)
         {
             int selection;
-            char input;
-            while (true)
+            string input;
+            input = Console.ReadLine();
+
+            while (!int.TryParse(input, out selection) || selection > i_MaxVal || selection < i_MinVal )
             {
-                input = Console.ReadKey().KeyChar;
-                if (input > i_MaxVal || input < i_MinVal)
-                {
-                    Console.WriteLine(string.Format("Invalid option was entered. Please input a number in the range of {0}-{2}.", i_MinVal, i_MaxVal);
-                    continue;
-                }
-                selection = Convert.ToInt32(input);
-                break;
+
+                Console.WriteLine(string.Format("Invalid option was entered. Please input a number in the range of {0}-{1}.", i_MinVal, i_MaxVal));
+                input = Console.ReadLine();
             }
+
+         
             return selection;
         }
 

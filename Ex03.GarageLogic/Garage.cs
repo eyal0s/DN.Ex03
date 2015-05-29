@@ -8,9 +8,11 @@ namespace Ex03.GarageLogic
 {
 	public class Garage
 	{
-		private static Dictionary<string, VehicleTicket> s_ListOfVehicleInGarage = new Dictionary<string,VehicleTicket>();
 
-
+        static Vehicle temp = new Motorcycle("pointiac", "123", "yoko", 55F, new Vehicle.FuelSource(Vehicle.eFuelType.Electricity, 55F, 100F), Motorcycle.eLicenseType.A, 40);
+        private static Dictionary<string, VehicleTicket> s_ListOfVehicleInGarage = new Dictionary<string, VehicleTicket>() {{"123", new VehicleTicket("Itay", "0542566789", temp)}};
+        
+        
         private static bool tryToInsertVehicle(string i_Owner, string i_OwnerCellNumber, Vehicle i_VehicleToInsert)
         {
             bool vehicleWasInsertedToGarage = false;
@@ -138,7 +140,7 @@ namespace Ex03.GarageLogic
 			return s_ListOfVehicleInGarage[i_LicenseNumber].ToString();
 		}
 
-		protected class VehicleTicket
+		public class VehicleTicket
 		{
 			private string m_NameOfOwner;
 			private string m_CellOfOwner;
@@ -190,7 +192,11 @@ namespace Ex03.GarageLogic
 
             public override string ToString()
             {
-                return string.Format("Owner of vehicle: {0}, Owner's number: {1}, Status of vehicle: {3}\n{4}" ,
+                return string.Format(
+@"Owner of vehicle: {0}
+Owner's number: {1}
+Status of vehicle: {2}
+{3}" ,
                     m_NameOfOwner, m_CellOfOwner, m_CurrentStatusOfVehicle, m_VehicleInGarage.ToString());
             }
 

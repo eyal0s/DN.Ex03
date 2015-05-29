@@ -25,7 +25,11 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return string.Format("{0}, Number of doors: {1}, Color of car: {2}", base.ToString(), m_AmountOfDoors, m_ColorOfCar);
+            return string.Format(
+@"{0}
+Number of doors: {1}
+Color of car: {2}",
+            base.ToString(), m_AmountOfDoors, m_ColorOfCar);
         }
 
         public enum eColor
