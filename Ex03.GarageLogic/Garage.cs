@@ -170,9 +170,9 @@ namespace Ex03.GarageLogic
 
 		public enum eVehicleStatus
 		{
-			InRepair,
-			Done,
-			Paid
+			InRepair = 1,
+			Done = 2,
+			Paid = 3
 		}
 	}
 }

@@ -17,8 +17,7 @@ namespace Ex03.GarageManagementConsoleUI
             {
                 Console.Clear();
                 Console.WriteLine("Hello and welcome to our garage. Please select the number of the action you wish to perform:");
-
-                Console.WriteLine(string.Format(
+                Console.WriteLine(
 @"1. Put a new Vehicle in the garage
   2. Display a license plate list of vehicles that are in the garage
   3. Change a vehicle state
@@ -26,7 +25,7 @@ namespace Ex03.GarageManagementConsoleUI
   5. Refuel a gas vehicle
   6. Recharge an electric vehicle
   7. Display vehicle info
-  8. --QUIT--"));
+  8. --QUIT--");
 
                 char input = Console.ReadKey().KeyChar;
                 eGarageAction selection = (eGarageAction) Convert.ToInt32(input);
@@ -80,7 +79,19 @@ namespace Ex03.GarageManagementConsoleUI
         {
             Console.Clear();
             string licenseNumber = getLicenceNumberFromUser();
+            
+            // Display the possible states to switch the vehicle to 
+            Console.Clear();
+            Console.WriteLine(string.Format("Please select a new state for vehicle number {0}",licenseNumber));
+            Console.WriteLine(string.Format(
+@"1. In Repair
+  2. Done
+  3. Paid"));
+            
+            int selection = getAndAssertInputRangeFromUser('1','3');
+             GarageLogic.Garage.ChangeStatusOfVehicle(licenseNumber, (GarageLogic.Garage.eVehicleStatus) selection);
 
+             Console.WriteLine(string.Format("Vehicle with license"));
         }
 
         private static void displayVeihcleInfo()
@@ -121,6 +132,24 @@ namespace Ex03.GarageManagementConsoleUI
             
         }
 
+        private static int getAndAssertInputRangeFromUser(char i_MinVal, char i_MaxVal)
+        {
+            int selection;
+            char input;
+            while (true)
+            {
+                input = Console.ReadKey().KeyChar;
+                if (input > i_MaxVal || input < i_MinVal)
+                {
+                    Console.WriteLine("Invalid option was entered. Please input a number in the range of 1-3.");
+                    continue;
+                }
+                selection = Convert.ToInt32(input);
+                break;
+            }
+            return selection;
+        }
+
         private static string getLicenceNumberFromUser()
         {
             string input;
@@ -140,6 +169,7 @@ namespace Ex03.GarageManagementConsoleUI
             
             return input;
         }
+
 
         public enum eGarageAction
         {
