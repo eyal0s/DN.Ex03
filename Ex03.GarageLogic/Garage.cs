@@ -10,7 +10,6 @@ namespace Ex03.GarageLogic
 	{
 		private static Dictionary<string, VehicleTicket> s_ListOfVehicleInGarage = new Dictionary<string,VehicleTicket>();
 
-
 		public static bool InsertNewVehicleToGarage(string i_Owner, Vehicle i_VehicleToInsertGarage)
 		{
 			bool vehicleWasInsertedToGarage = false;
@@ -59,11 +58,8 @@ namespace Ex03.GarageLogic
 
 		public static void ChangeStatusOfVehicle(string i_LicenseNumber, eVehicleStatus i_NewStatus) 
 		{
-
 			CheckExistenceOfVehicle(i_LicenseNumber);
 			s_ListOfVehicleInGarage[i_LicenseNumber].Status = i_NewStatus;
-			
-			
 		}
 
 		public static void WheelPump(string i_LicenseNumber)

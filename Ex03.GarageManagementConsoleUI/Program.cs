@@ -10,36 +10,47 @@ namespace Ex03.GarageManagementConsoleUI
 
         public static void Main(string[] args)
         {
-            Console.Clear();
-            Console.WriteLine("Option 1");
-            Console.WriteLine("Option 2");
-            Console.WriteLine("Option 3");
-            Console.WriteLine();
-            Console.Write("input: ");
 
-            var originalpos = Console.CursorTop;
-
-            var k = Console.ReadKey();
-            var i = 2;
-
-            while (k.KeyChar != 'q')
+            while (true)
             {
 
-                if (k.Key == ConsoleKey.UpArrow)
+                Console.Clear();
+                Console.WriteLine("Hello and welcome to our garage. Please pick an action from the list: ");
+                Console.WriteLine("Display all the possibilities here...");
+                Console.WriteLine("You can always hit 'q' if you want to exit.");
+
+                char input = Console.ReadKey().KeyChar;
+                if (input == 'q')
                 {
-
-                    Console.SetCursorPosition(0, Console.CursorTop - i);
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.BackgroundColor = ConsoleColor.White;
-                    Console.WriteLine("Option " + (Console.CursorTop + 1));
-                    Console.ResetColor();
-                    i++;
-
+                    exitGarage();
+                    break;
                 }
 
-                Console.SetCursorPosition(8, originalpos);
-                k = Console.ReadKey();
+                int selection = Convert.ToInt32(input);
+                if (selection < 1 || selection > 7)
+                {
+                    Console.WriteLine(input + " is an invalid option. Options are between 1-7");
+                    continue;
+                }
+
+                switch (selection)
+                {
+                    case 1:
+                        
+                        break;
+                    default:
+                        
+                        break;
+                } 
             }
+
+
+
+        }
+
+        private static void exitGarage()
+        {
+            throw new NotImplementedException();
         }
     }
 }
