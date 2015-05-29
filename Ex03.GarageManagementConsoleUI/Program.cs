@@ -16,9 +16,10 @@ namespace Ex03.GarageManagementConsoleUI
             while (isRunning)
             {
                 Console.Clear();
-                Console.WriteLine("Hello and welcome to our garage. Please pick an action from the list: ");
+                Console.WriteLine("Hello and welcome to our garage. Please pick an option from the list: ");
 
-                Console.WriteLine("Display all the possibilities here...");
+                Console.WriteLine(string.Format(
+@"1. "));
 
                 char input = Console.ReadKey().KeyChar;
                 eGarageAction selection = (eGarageAction) Convert.ToInt32(input);
