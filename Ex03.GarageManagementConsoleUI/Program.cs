@@ -8,6 +8,8 @@ namespace Ex03.GarageManagementConsoleUI
 {
     class Program
     {
+        private const bool v_CheckIfExists = true;
+        private const string k_GoingBackToMainMenu = "Going back to main menu...";
 
         public static void Main(string[] args)
         {
@@ -35,7 +37,6 @@ namespace Ex03.GarageManagementConsoleUI
                         insertVehicle();
                         break;
                     case eGarageAction.DisplayLicenseList:
-                        // create filter here
                         displayLicenseList();
                         break;
                     case eGarageAction.ChangeVehicleState:
@@ -64,21 +65,20 @@ namespace Ex03.GarageManagementConsoleUI
             }
         }
 
-        private static string getInputFromUser(string i_PromptMsg, string i_ErrorMsg)
-        {
-            string input;
-            do
-            {
-                input = Console.ReadLine();
-            } while (true);
- 
-        }
 
         private static void changeVehicleState()
         {
+
+
             Console.Clear();
             string licenseNumber = getLicenceNumberFromUser();
-            
+
+            if (!licenseExist(licenseNumber))
+            {
+                printGoingBackToMainMenuMsg();
+                return;
+            }
+
             // Display the possible states to switch the vehicle to 
             Console.Clear();
             Console.WriteLine(string.Format("Please select a new state for vehicle number {0}",licenseNumber));
@@ -88,15 +88,31 @@ namespace Ex03.GarageManagementConsoleUI
 (3) Paid"));
             
             int selection = getNumericValueFromUser(3);
-             GarageLogic.Garage.ChangeStatusOfVehicle(licenseNumber, (GarageLogic.Garage.eVehicleStatus) selection);
-
-             printSuccessMsg();
+            GarageLogic.Garage.ChangeStatusOfVehicle(licenseNumber, (GarageLogic.Garage.eVehicleStatus) selection);
+            printOperationSuccessMsg();
         }
 
-        private static void printSuccessMsg()
+        private static bool licenseExist(string i_LicenseNumber)
+        {
+            bool licenseExist = true;
+            try
+            {
+                Ex03.GarageLogic.Garage.CheckExistenceOfVehicle(i_LicenseNumber);
+            }
+            catch (ArgumentException)
+            {
+                Console.WriteLine(string.Format("Seems like vehicle with number {0} doens't exist in the garage", i_LicenseNumber));
+                licenseExist = false;
+            }
+
+            return licenseExist; 
+        }
+
+        private static void printOperationSuccessMsg()
         {
             Console.Clear();
             Console.WriteLine("Operation Terminated successfuly!");
+            System.Threading.Thread.Sleep(3000);
         }
 
         private static void displayVeihcleInfo()
@@ -105,23 +121,57 @@ namespace Ex03.GarageManagementConsoleUI
             
             Console.Clear();
             Console.WriteLine("Display Vehicle");
-            Console.WriteLine("Please enter the vehicle's license number:");
+
             string licenseNumber = getLicenceNumberFromUser();
-                try
-                {
-                    Console.WriteLine(GarageLogic.Garage.DisplayFullSpecOfVehicle(licenseNumber)); 
-                }
-                catch (ArgumentException)
-                {
-                    Console.WriteLine("The vehicle you wish to view is not in the garage");
-                }
+            if (!licenseExist(licenseNumber))
+            {
+                printGoingBackToMainMenuMsg();
+                return;
+            }
+
+            string vehicleInfo = GarageLogic.Garage.DisplayFullSpecOfVehicle(licenseNumber);
+            Console.WriteLine(vehicleInfo);
+            initQuitPrompt();
         }
+
 
         private static void recharge()
         {
-            // eyal
-            throw new NotImplementedException();
-        }
+            Console.Clear();
+            Console.WriteLine("Recharge:");
+
+            string licenseNumber = getLicenceNumberFromUser();
+            if (!licenseExist(licenseNumber))
+            {
+                printGoingBackToMainMenuMsg();
+                return;
+            }
+            
+            Console.WriteLine("How mant minutes you wish to recharge?");
+            string amount = Console.ReadLine();
+            float parsedAmount;
+            try
+            {
+                parsedAmount = float.Parse(amount);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("invalid amount of hours was entered");
+                printGoingBackToMainMenuMsg();
+                return;
+            }
+
+            try
+            {
+
+            }
+            catch (Ex03.GarageLog)
+            {
+                
+                throw;
+            }
+            Ex03.GarageLogic.Garage.RefuelBattery(licenseNumber, parsedAmount);
+          }
 
         private static void refuel()
         {
@@ -131,14 +181,68 @@ namespace Ex03.GarageManagementConsoleUI
 
         private static void inflateWheels()
         {
-            //eyal
-            throw new NotImplementedException();
+            string licensenNumber = getLicenceNumberFromUser();
+            if (!licenseExist(licensenNumber))
+            {
+                printGoingBackToMainMenuMsg();
+                return;
+            }
+
+            Ex03.GarageLogic.Garage.WheelPump(licensenNumber);
+            printOperationSuccessMsg();
         }
 
         private static void displayLicenseList()
         {
-            // filter by enum of state - eyal
-            throw new NotImplementedException();
+            Console.Clear();
+            Console.WriteLine("Do you wish to filter the results?");
+            Console.WriteLine(string.Format(@"
+(1) Yes, Show just In Repair vehicles
+(2) Yes, Show just Done vehicles
+(3) Yes, Show just Paid vehicles
+(4) No, Show me everything"));
+            int selection = getNumericValueFromUser(4);
+            string licenseNumberList = string.Empty;
+            if (selection == 4)
+            {
+                licenseNumberList = Ex03.GarageLogic.Garage.DisplayAllLicenseNumber();
+            }
+            else
+            {
+                licenseNumberList = Ex03.GarageLogic.Garage.DisplayAllLicenseNumber((GarageLogic.Garage.eVehicleStatus) selection);
+            }
+
+            Console.Clear();
+
+            if (licenseNumberList.Length == 0)
+            {
+                Console.WriteLine("We haven't found results for this filter :(");
+                printGoingBackToMainMenuMsg();
+                return;
+            }
+
+            Console.WriteLine(licenseNumberList);
+            initQuitPrompt();
+        }
+
+        private static void initQuitPrompt()
+        {
+            Console.WriteLine("--hit q to exit--");
+            char inputKey;
+            while (true)
+            {
+                inputKey = Console.ReadKey().KeyChar;
+                if (inputKey == 'q')
+                {
+                    break;
+                }
+            } 
+        }
+
+        private static void printGoingBackToMainMenuMsg()
+        {
+            Console.WriteLine(k_GoingBackToMainMenu);
+            System.Threading.Thread.Sleep(4000);
         }
 
         //string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, string i_WheelManufacturer, FuelSource i_FuelOfVehicle
@@ -180,6 +284,8 @@ namespace Ex03.GarageManagementConsoleUI
             
         }
 
+
+
         private static string getLicenceNumberFromUser()
         {
             string input;
@@ -212,5 +318,37 @@ namespace Ex03.GarageManagementConsoleUI
             DisplayVehicleInfo = 7,
             Quit = 8
         }
+
+        public class ConsoleSpinner
+        {
+            private int counter;
+
+            public ConsoleSpinner()
+            {
+                counter = 0;
+            }
+
+            public void Spin()
+            {
+                counter++;
+                switch (counter % 4)
+                {
+                    case 0: 
+                        Console.Write("/"); 
+                        break;
+                    case 1: 
+                        Console.Write("-"); 
+                        break;
+                    case 2: 
+                        Console.Write("\\"); 
+                        break;
+                    case 3: 
+                        Console.Write("-"); 
+                        break;
+                }
+
+                Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+            }
+        } 
     }
 }

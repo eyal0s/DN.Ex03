@@ -130,7 +130,7 @@ Number of wheels: {2}
 			{
 				if ((i_Volume + m_CurrentAirPressure) > m_MaxAirPressure)
 				{
-					throw new Exception();
+					throw new ArgumentException();
 				}
 				else
 				{
