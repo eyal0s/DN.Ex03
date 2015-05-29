@@ -6,7 +6,7 @@ using System.Text;
 // BLA
 namespace Ex03.GarageLogic
 {
-	class Garage
+	public class Garage
 	{
 		private static Dictionary<string, VehicleTicket> s_ListOfVehicleInGarage = new Dictionary<string,VehicleTicket>();
 
