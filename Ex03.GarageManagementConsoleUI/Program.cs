@@ -79,8 +79,8 @@ namespace Ex03.GarageManagementConsoleUI
         private static void changeVehicleState()
         {
             Console.Clear();
-            Console.WriteLine();
-            //GarageLogic.Garage.
+            string licenseNumber = getLicenceNumberFromUser();
+
         }
 
         private static void displayVeihcleInfo()
@@ -121,9 +121,24 @@ namespace Ex03.GarageManagementConsoleUI
             
         }
 
-        private static bool isValidLicenseNumber(string i_PossibleLicense) 
+        private static string getLicenceNumberFromUser()
         {
-            return Regex.IsMatch(i_PossibleLicense, @"^[0-9a-zA-Z]+$");
+            string input;
+            Console.WriteLine("Please enter a veihcle license plate number:");
+            while (true)
+            {
+                input = Console.ReadLine();
+                if (Regex.IsMatch(input, @"^[0-9a-zA-Z]+$"))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid license number was entered. Please try again.");
+                }
+            }
+            
+            return input;
         }
 
         public enum eGarageAction
