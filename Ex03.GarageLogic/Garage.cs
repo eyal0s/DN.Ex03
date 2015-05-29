@@ -167,6 +167,15 @@ namespace Ex03.GarageLogic
 
 		}
 
+        public static string getCurrentlySupportedVehicle()
+        {
+            foreach (var item in collection)
+            {
+                    
+            }
+            
+            
+        }
 
 		public enum eVehicleStatus
 		{
