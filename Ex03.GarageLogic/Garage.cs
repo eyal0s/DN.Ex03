@@ -192,12 +192,13 @@ namespace Ex03.GarageLogic
 
             public override string ToString()
             {
+                string statusOfVehicle = m_CurrentStatusOfVehicle == eVehicleStatus.InRepair ? "In Repair" : m_CurrentStatusOfVehicle.ToString();
                 return string.Format(
 @"Owner of vehicle: {0}
 Owner's number: {1}
 Status of vehicle: {2}
 {3}" ,
-                    m_NameOfOwner, m_CellOfOwner, m_CurrentStatusOfVehicle, m_VehicleInGarage.ToString());
+     m_NameOfOwner, m_CellOfOwner, statusOfVehicle, m_VehicleInGarage.ToString());
             }
 
 		}

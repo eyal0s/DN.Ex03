@@ -106,12 +106,12 @@ namespace Ex03.GarageManagementConsoleUI
                 try
                 {
                     Console.WriteLine(GarageLogic.Garage.DisplayFullSpecOfVehicle(licenseNumber));
-                    Console.WriteLine("Press any key to return to main window");
-                    Console.ReadLine();
+                    inputAnyKeytoReturnToMain();
                 }
                 catch (ArgumentException)
                 {
-                    Console.WriteLine("The vehicle you wish to view is not in the garage");
+                    Console.WriteLine(string.Format("a vehicle with license number {0} is not in the garage", licenseNumber));
+                    inputAnyKeytoReturnToMain();
                 }
 
 
@@ -212,6 +212,7 @@ Our garage supports several vehicles please choose (1-3)
             if (!isVehicleAdded)
             {
                 Console.WriteLine(string.Format("Sorry, a vehicle with {0} license number already exist in the garage", licenseNumber));
+                inputAnyKeytoReturnToMain();
             }
             
         }
@@ -469,6 +470,11 @@ Our garage supports several vehicles please choose (1-3)
             return input;
         }
 
+        private static void inputAnyKeytoReturnToMain()
+        {
+            Console.WriteLine("Press any key to return to main window");
+            Console.ReadLine();
+        }
 
         public enum eGarageAction
         {
