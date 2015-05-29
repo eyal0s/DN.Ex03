@@ -18,6 +18,7 @@ namespace Ex03.GarageLogic
 			r_Manufacturer = i_Manufacturer;
 			r_LicenseNumber = i_LicenseNumber;
             m_FuelSrc = i_FuelOfVehicle;
+            m_Wheels = new List<Wheel>();
 
 			for (int i = 0; i < i_NumberOfWeels; i++)
 			{
@@ -50,8 +51,11 @@ namespace Ex03.GarageLogic
             }
         }
 
-        
 
+        public override int GetHashCode()
+        {
+            return r_LicenseNumber.GetHashCode();
+        }
         public override bool Equals(object i_obj)
         {
             bool isEqual = false;
@@ -65,10 +69,22 @@ namespace Ex03.GarageLogic
         }
 
         public override string ToString()
-        {            
+        {
+            StringBuilder wheelsOfVehicle = new StringBuilder();
+
+            for (int i = 0; i < m_Wheels.Count - 1; i++)
+            {
+                wheelsOfVehicle.AppendLine(m_Wheels[i].ToString());
+            }
+            wheelsOfVehicle.Append(m_Wheels[m_Wheels.Count - 1]);
+
             return string.Format(
-@"Manufacturer: {0} License number: {1}, Number of wheels: {2}, Current Wheels air pressure: {3}, Wheels Manufacturer: {4}, {5}",
-            r_Manufacturer, r_LicenseNumber, m_PercentageOfEnergyLeft, m_Wheels , m_FuelSrc.ToString()); 
+@"Manufacturer: {0}
+License number: {1}
+Number of wheels: {2}
+{3}
+{4}",
+            r_Manufacturer, r_LicenseNumber, m_Wheels.Count, wheelsOfVehicle.ToString() , m_FuelSrc.ToString()); 
         }
 
 		public class Wheel
@@ -121,6 +137,11 @@ namespace Ex03.GarageLogic
 					m_CurrentAirPressure += i_Volume;
 				}
 			}
+
+            public override string ToString()
+            {
+                return string.Format("Wheel manufacturer: {0}, Maximal Pressure: {1}, current pressure: {2}", m_Manufacturer, m_MaxAirPressure, m_CurrentAirPressure);
+            }
 
 		}
 
@@ -184,7 +205,27 @@ namespace Ex03.GarageLogic
 
             public override string ToString()
             {
-                return string.Format("The Vehicle is running on {0}, Maximum Battery Time: {1}, Current battery status: {2}", r_TypeOfFuel, m_MaxCapacity, m_EnergyLeft);
+                string stringRepresenationOfFuelSource;
+
+                if (r_TypeOfFuel.Equals(eFuelType.Electricity))
+                {
+                    stringRepresenationOfFuelSource = string.Format(
+@"The Vehicle is running on {0}
+Maximum Battery Time: {1}
+Current battery status: {2}"
+                        , r_TypeOfFuel, m_MaxCapacity, m_EnergyLeft);   
+                }
+                else
+	            {
+                    stringRepresenationOfFuelSource = string.Format(
+@"The Vehicle is running on {0}
+Maximum tank capacity: {1}
+Current amount of liters: {2}"
+                        , r_TypeOfFuel, m_MaxCapacity, m_EnergyLeft);
+	            }
+
+
+                return stringRepresenationOfFuelSource;
 
             }
         }
