@@ -15,10 +15,17 @@ namespace Ex03.GarageManagementConsoleUI
             while (isRunning)
             {
                 Console.Clear();
-                Console.WriteLine("Hello and welcome to our garage. Please pick an option from the list: ");
+                Console.WriteLine("Hello and welcome to our garage. Please select the number of the action you wish to perform:");
 
                 Console.WriteLine(string.Format(
-@"1. "));
+@"1. Put a new Vehicle in the garage
+  2. Display a license plate list of vehicles that are in the garage
+  3. Change a vehicle state
+  4. Inflate tires
+  5. Refuel a gas vehicle
+  6. Recharge an electric vehicle
+  7. Display vehicle info
+  8. --QUIT--"));
 
                 char input = Console.ReadKey().KeyChar;
                 eGarageAction selection = (eGarageAction) Convert.ToInt32(input);
@@ -60,8 +67,7 @@ namespace Ex03.GarageManagementConsoleUI
 
         private static void changeVehicleState()
         {
-            //eyal
-            throw new NotImplementedException();
+            
         }
 
         private static void displayVeihcleInfo()
