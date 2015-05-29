@@ -123,7 +123,7 @@ namespace Ex03.GarageLogic
 			ElectricCycle,
 			PetrolCar,
 			ElectricCar,
-			Truck
+			Truck,           
 		}
 	}
 }

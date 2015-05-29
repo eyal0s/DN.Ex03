@@ -74,7 +74,22 @@ namespace Ex03.GarageManagementConsoleUI
         {
             // itex
             
-            throw new NotImplementedException();
+            Console.Clear();
+            Console.WriteLine("Display Vehicle");
+            Console.WriteLine("Please enter the vehicle's license number:");
+            string licenseNumber = Console.ReadLine();
+            if (isValidLicenseNumber(licenseNumber))
+            {
+                try
+                {
+                    Console.WriteLine(GarageLogic.Garage.DisplayFullSpecOfVehicle(licenseNumber));
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine("The vehicle you wish to view is not in the garage");
+                }
+            }
+            
         }
 
         private static void recharge()
@@ -101,14 +116,30 @@ namespace Ex03.GarageManagementConsoleUI
             throw new NotImplementedException();
         }
 
+        //string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, string i_WheelManufacturer, FuelSource i_FuelOfVehicle
         private static void insertVeihcle()
         {
+            string manufacturer;
+            string licenseNumber;
+            string wheelManufacturer;
+
+            Console.Clear();
+            Console.WriteLine("New Vehicle Window");
+            Console.WriteLine("Our garage supports several vehicles");
+            foreach (GarageLogic.Garage. item in collection)
+	{
+		 
+	}
+            
+            
             //itex
             throw new NotImplementedException();
             
         }
 
-        private static bool isValidLicenseNumber() 
+        private static
+
+        private static bool isValidLicenseNumber(string i_LicenseNumToCheck) 
         {
             return false;
         }
