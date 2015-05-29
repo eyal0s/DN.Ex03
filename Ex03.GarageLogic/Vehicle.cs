@@ -26,6 +26,22 @@ namespace Ex03.GarageLogic
 
 		}
 
+        public string LicenseNumer
+        {
+            get
+            {
+                return r_LicenseNumber;
+            }
+        }
+
+        public FuelSource FuelSrc
+        {
+            get
+            {
+                return m_FuelSrc;
+            }
+        }
+
         public List<Wheel> Wheels 
         {
             get
@@ -113,9 +129,9 @@ namespace Ex03.GarageLogic
 		public class FuelSource
 		{
 
-			protected float m_EnergyLeft;
-			protected float m_MaxCapacity;
-            protected readonly eFuelType r_TypeOfFuel;
+			private float m_EnergyLeft;
+			private float m_MaxCapacity;
+            private readonly eFuelType r_TypeOfFuel;
 		   
 			public FuelSource(eFuelType i_TypeOfFuel, float i_EnergyLeft, float i_MaxCapacity)
 			{             
@@ -132,7 +148,7 @@ namespace Ex03.GarageLogic
 		    }
 		    
 
-			public virtual void Refuel(eFuelType i_TypeOfFuel  ,float i_AmountToAdd)
+			public void Refuel(eFuelType i_TypeOfFuel  ,float i_AmountToAdd)
 			{
                 if (!i_TypeOfFuel.Equals(r_TypeOfFuel))
                 {
