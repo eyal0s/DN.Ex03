@@ -39,7 +39,7 @@ namespace Ex03.GarageLogic
 
 		public static Vehicle.FuelSource InitFuelSource(eSupportedVehicleType i_VehicleType, float i_CurrentEnergyLevel) 
 		{
-            Vehicle.FuelSource fuelSourceToCreate;
+			Vehicle.FuelSource fuelSourceToCreate;
 
 			switch (i_VehicleType)
 			{
@@ -63,7 +63,7 @@ namespace Ex03.GarageLogic
 					break;
 			}
 
-            return fuelSourceToCreate;
+			return fuelSourceToCreate;
 		}
 
 		public static Motorcycle CreateMoto(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, eSupportedVehicleType i_TypeOfVehicle, Motorcycle.eLicenseType i_LicenseType, int i_EngineVolume) 
@@ -75,47 +75,47 @@ namespace Ex03.GarageLogic
 			return motoCreatedForGarage;
 		}
 
-		public static Car CreateCar(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, eSupportedVehicleType i_TypeOfVehicle,  Car.eColor i_CarColor, int i_NumOfDoors, bool i_IsElectric){
+		public static Car CreateCar(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, eSupportedVehicleType i_TypeOfVehicle,  Car.eColor i_CarColor, int i_NumOfDoors){
 			Car carCreatedForGarage;
-            Vehicle.FuelSource fuelSourceOfCar = InitFuelSource(i_TypeOfVehicle, i_CurrentAvailableHours);
+			Vehicle.FuelSource fuelSourceOfCar = InitFuelSource(i_TypeOfVehicle, i_CurrentAvailableHours);
 			carCreatedForGarage = new Car(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAvailableHours, k_CarNumberOfWheels, k_CarMaxAirPressureCar, i_CarColor, i_NumOfDoors, fuelSourceOfCar);
 			return carCreatedForGarage;
 		}
 
 		public static Truck CreateTruck(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, eSupportedVehicleType i_TypeOfVehicle, bool i_IsCarryingDangerousMaterial, float i_CurrentCarryingWeight) 
 		{
-            Vehicle.FuelSource truckFuelSourc = InitFuelSource(i_TypeOfVehicle, i_CurrentAvailableHours);
+			Vehicle.FuelSource truckFuelSourc = InitFuelSource(i_TypeOfVehicle, i_CurrentAvailableHours);
 			return new Truck(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAvailableHours, k_TruckNumberOfWheels, k_TruckMaxAirPressureCar, InitFuelSource(eSupportedVehicleType.Truck, i_CurrentAvailableHours), i_IsCarryingDangerousMaterial, i_CurrentCarryingWeight);		
 		}
 
-        //public Vehicle createVehicle(eSupportedVehicleType i_TypeOfVehicle, string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, params object[] i_SpecificationForVehciel)
-        //{
-        //    Vehicle vehicleToBeCreated;
-        //    Vehicle.FuelSource fuelSourceForNewVehicle = InitFuelSource(i_TypeOfVehicle, i_CurrentAvailableHours);
-            
-        //    switch (i_TypeOfVehicle)
-        //    {
-        //        case eSupportedVehicleType.MotorCycle:
-        //            vehicleToBeCreated = new Motorcycle(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAvailableHours, fuelSourceForNewVehicle, (Motorcycle.eFuelType)i_SpecificationForVehciel[0], (int)i_SpecificationForVehciel[1]);
-        //            break;
-        //        case eSupportedVehicleType.ElectricCycle:
-        //            break;
-        //        case eSupportedVehicleType.PetrolCar:
-        //            break;
-        //        case eSupportedVehicleType.ElectricCar:
-        //            break;
-        //        case eSupportedVehicleType.Truck:
-        //            new Truck(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAvailableHours, i_IsCarryingDangerousMaterial, i_CurrentCarryingWeight);
-        //            break;
+		//public Vehicle createVehicle(eSupportedVehicleType i_TypeOfVehicle, string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, params object[] i_SpecificationForVehciel)
+		//{
+		//    Vehicle vehicleToBeCreated;
+		//    Vehicle.FuelSource fuelSourceForNewVehicle = InitFuelSource(i_TypeOfVehicle, i_CurrentAvailableHours);
+			
+		//    switch (i_TypeOfVehicle)
+		//    {
+		//        case eSupportedVehicleType.MotorCycle:
+		//            vehicleToBeCreated = new Motorcycle(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAvailableHours, fuelSourceForNewVehicle, (Motorcycle.eFuelType)i_SpecificationForVehciel[0], (int)i_SpecificationForVehciel[1]);
+		//            break;
+		//        case eSupportedVehicleType.ElectricCycle:
+		//            break;
+		//        case eSupportedVehicleType.PetrolCar:
+		//            break;
+		//        case eSupportedVehicleType.ElectricCar:
+		//            break;
+		//        case eSupportedVehicleType.Truck:
+		//            new Truck(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAvailableHours, i_IsCarryingDangerousMaterial, i_CurrentCarryingWeight);
+		//            break;
 
-        //        default:
-        //            vehicleToBeCreated = new Vehicle(i_Manufacturer, i_LicenseNumber, 0, 0, i_WheelManufacturer, null);
-        //            break;
-        //    }
+		//        default:
+		//            vehicleToBeCreated = new Vehicle(i_Manufacturer, i_LicenseNumber, 0, 0, i_WheelManufacturer, null);
+		//            break;
+		//    }
 
-        //    return vehicleToBeCreated;
+		//    return vehicleToBeCreated;
 
-        //}
+		//}
 
 		public enum eSupportedVehicleType 
 		{

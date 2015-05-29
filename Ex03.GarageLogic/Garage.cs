@@ -177,6 +177,11 @@ namespace Ex03.GarageLogic
             
         }
 
+        public static getVehicleSupported()
+        {
+            Type sourceToAllVehicle = typeof(Vehicle);
+            Type[] allSupportedVehicle = sourceToAllVehicle.Assembly.GetTypes();
+        }
 		public enum eVehicleStatus
 		{
 			InRepair,
