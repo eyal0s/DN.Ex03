@@ -262,7 +262,7 @@ Select a type of fuel:
             string licenseNumberList = string.Empty;
             if (selection == 4)
             {
-                licenseNumberList = Ex03.GarageLogic.Garage.DisplayAllLicenseNumber();
+                licenseNumberList = Ex03.GarageLogic.Garage.DisplayAllLicenseNumber(Garage.eVehicleStatus.Done, Garage.eVehicleStatus.InRepair, Garage.eVehicleStatus.Paid);
             }
             else
             {
