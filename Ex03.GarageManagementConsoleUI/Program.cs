@@ -21,7 +21,7 @@ namespace Ex03.GarageManagementConsoleUI
                 Console.WriteLine("Hello and welcome to our garage! \nPlease select an option to proceed:");
                 Console.WriteLine(@"
 (1) Put a new Vehicle in the garage
-(2) Display a license plate list of vehicles that are in the garage
+(2) See which vehicles are currently in
 (3) Change a vehicle state
 (4) Inflate tires
 (5) Refuel a gas vehicle
@@ -43,7 +43,7 @@ namespace Ex03.GarageManagementConsoleUI
                         changeVehicleState();
                         break;
                     case eGarageAction.InflateWheels:
-                        inflateWheels();
+                        InflateTires();
                         break;
                     case eGarageAction.Refuel:
                         refuel();
@@ -55,7 +55,8 @@ namespace Ex03.GarageManagementConsoleUI
                         displayVeihcleInfo();
                         break;
                     case eGarageAction.Quit:
-                        Console.WriteLine("Bye bye!");
+                        Console.WriteLine("Thanks for coming to our garage. Bye bye!");
+                        System.Threading.Thread.Sleep(3000);
                         isRunning = false;
                         break;
                     default:
@@ -65,12 +66,13 @@ namespace Ex03.GarageManagementConsoleUI
             }
         }
 
-
         private static void changeVehicleState()
         {
 
 
             Console.Clear();
+            Console.WriteLine("Change vehicle state:");
+            Console.WriteLine("---------------------");
             string licenseNumber = getLicenceNumberFromUser();
 
             if (!licenseExist(licenseNumber))
@@ -81,6 +83,8 @@ namespace Ex03.GarageManagementConsoleUI
 
             // Display the possible states to switch the vehicle to 
             Console.Clear();
+            Console.WriteLine("Change vehicle state:");
+            Console.WriteLine("---------------------");
             Console.WriteLine(string.Format("Please select a new state for vehicle number {0}",licenseNumber));
             Console.WriteLine(string.Format(@"
 (1) In Repair
@@ -120,7 +124,8 @@ namespace Ex03.GarageManagementConsoleUI
             // itex
             
             Console.Clear();
-            Console.WriteLine("Display Vehicle");
+            Console.WriteLine("Display Vehicle Info:");
+            Console.WriteLine("---------------------");
 
             string licenseNumber = getLicenceNumberFromUser();
             if (!licenseExist(licenseNumber))
@@ -139,6 +144,7 @@ namespace Ex03.GarageManagementConsoleUI
         {
             Console.Clear();
             Console.WriteLine("Recharge:");
+            Console.WriteLine("---------------------");
 
             string licenseNumber = getLicenceNumberFromUser();
             if (!licenseExist(licenseNumber))
@@ -178,6 +184,7 @@ namespace Ex03.GarageManagementConsoleUI
         {
             Console.Clear();
             Console.WriteLine("Refuel:");
+            Console.WriteLine("---------------------");
 
             string licenseNumber = getLicenceNumberFromUser();
             if (!licenseExist(licenseNumber))
@@ -209,20 +216,25 @@ Select a type of fuel:
 
             int input = getNumericValueFromUser(3);
             GarageLogic.Vehicle.eFuelType fuelTypeSelection = (GarageLogic.Vehicle.eFuelType) input;
+      
             try
             {
                 Ex03.GarageLogic.Garage.RefuelPetrol(licenseNumber, (GarageLogic.Vehicle.eFuelType) fuelTypeSelection, parsedAmount);
                 printOperationSuccessMsg();
             }
+             
             catch (Exception)
             {
-                Console.WriteLine("Invalid amount was entered");
+                Console.WriteLine("Invalid amount\fuel type was entered");
                 return;
             }
         }
 
-        private static void inflateWheels()
+        private static void InflateTires()
         {
+            Console.Clear();
+            Console.WriteLine("Inflate Tires:");
+            Console.WriteLine("---------------------");
             string licensenNumber = getLicenceNumberFromUser();
             if (!licenseExist(licensenNumber))
             {
@@ -237,6 +249,9 @@ Select a type of fuel:
         private static void displayLicenseList()
         {
             Console.Clear();
+            Console.WriteLine("Display Garage Licenses List:");
+            Console.WriteLine("---------------------");
+
             Console.WriteLine("Do you wish to filter the results?");
             Console.WriteLine(string.Format(@"
 (1) Yes, Show just In Repair vehicles
@@ -299,8 +314,7 @@ Select a type of fuel:
             Console.WriteLine("Our garage supports several vehicles");
             
 	
-            
-            
+                
             //itex
             throw new NotImplementedException();
             
