@@ -147,14 +147,12 @@ namespace Ex03.GarageManagementConsoleUI
             string manufacturer;
             string licenseNumber;
             string wheelManufacturer;
-
+            
             Console.Clear();
             Console.WriteLine("New Vehicle Window");
             Console.WriteLine("Our garage supports several vehicles");
-            foreach (GarageLogic.Garage. item in collection)
-	{
-		 
-	}
+            
+	
             
             
             //itex
