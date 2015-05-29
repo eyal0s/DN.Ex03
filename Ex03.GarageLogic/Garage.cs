@@ -99,7 +99,7 @@ namespace Ex03.GarageLogic
 		public static string DisplayFullSpecOfVehicle(string i_LicenseNumber)
 		{
 			CheckExistenceOfVehicle(i_LicenseNumber);
-			return s_ListOfVehicleInGarage[i_LicenseNumber].Vehicle.ToString();
+			return s_ListOfVehicleInGarage[i_LicenseNumber].ToString();
 		}
 
 		protected class VehicleTicket
@@ -151,6 +151,12 @@ namespace Ex03.GarageLogic
 					return m_VehicleInGarage;
 				}
 			}
+
+            public override string ToString()
+            {
+                return string.Format("Owner of vehicle: {0}, Owner's number: {1}, Status of vehicle: {3}\n{4}" ,
+                    m_NameOfOwner, m_CellOfOwner, m_CurrentStatusOfVehicle, m_VehicleInGarage.ToString());
+            }
 
 		}
 
