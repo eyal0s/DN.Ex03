@@ -13,44 +13,92 @@ namespace Ex03.GarageManagementConsoleUI
 
             while (true)
             {
-
                 Console.Clear();
                 Console.WriteLine("Hello and welcome to our garage. Please pick an action from the list: ");
                 Console.WriteLine("Display all the possibilities here...");
-                Console.WriteLine("You can always hit 'q' if you want to exit.");
 
                 char input = Console.ReadKey().KeyChar;
-                if (input == 'q')
-                {
-                    exitGarage();
-                    break;
-                }
-
-                int selection = Convert.ToInt32(input);
-                if (selection < 1 || selection > 7)
-                {
-                    Console.WriteLine(input + " is an invalid option. Options are between 1-7");
-                    continue;
-                }
+                eGarageAction selection = (eGarageAction) Convert.ToInt32(input);
 
                 switch (selection)
                 {
-                    case 1:
-                        
+                    case eGarageAction.Quit:
+                        exitGarage();
+                        break;
+                    case eGarageAction.InsertVeihcle:
+                        insertVeihcle();
+                        break;
+                    case eGarageAction.DisplayLicenseList:
+                        // create filter here
+                        displayLicenseList();
+                        break;
+                    case eGarageAction.ChangeVehicleState:
+                        insertVeihcle();
+                        break;
+                    case eGarageAction.InflateWheels:
+                        inflateWheels();
+                        break;
+                    case eGarageAction.Refuel:
+                        refuel();
+                        break;
+                    case eGarageAction.Recharge:
+                        recharge();
+                        break;
+                    case eGarageAction.DisplayVehicleInfo:
+                        displayVeihcleInfo();
                         break;
                     default:
-                        
+                        Console.WriteLine(input + " is an invalid option. Options are between 1-7");
                         break;
                 } 
             }
+        }
 
+        private static void displayVeihcleInfo()
+        {
+            throw new NotImplementedException();
+        }
 
+        private static void recharge()
+        {
+            throw new NotImplementedException();
+        }
 
+        private static void refuel()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void inflateWheels()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void displayLicenseList()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void insertVeihcle()
+        {
+            throw new NotImplementedException();
         }
 
         private static void exitGarage()
         {
             throw new NotImplementedException();
+        }
+
+        public enum eGarageAction
+        {
+            Quit,
+            InsertVeihcle,
+            DisplayLicenseList,
+            ChangeVehicleState,
+            InflateWheels,
+            Refuel,
+            Recharge,
+            DisplayVehicleInfo
         }
     }
 }
