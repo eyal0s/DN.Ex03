@@ -9,7 +9,7 @@ namespace Ex03.GarageManagementConsoleUI
 {
     class Program
     {
-        
+
         
 
         public static void Main(string[] args)
@@ -103,15 +103,15 @@ namespace Ex03.GarageManagementConsoleUI
             Console.WriteLine("Display Vehicle");
             string licenseNumber = getLicenceNumberFromUser();
 
-            try
-            {
-                Console.WriteLine(GarageLogic.Garage.DisplayFullSpecOfVehicle(licenseNumber));
-            }
-            catch (ArgumentException)
-            {
-                Console.WriteLine("The vehicle you wish to view is not in the garage");
-            }
-            
+                try
+                {
+                    Console.WriteLine(GarageLogic.Garage.DisplayFullSpecOfVehicle(licenseNumber));
+        }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine("The vehicle you wish to view is not in the garage");
+                }
+
 
         }
 
@@ -150,7 +150,7 @@ namespace Ex03.GarageManagementConsoleUI
             float currentAvailableEnergyInVehicle;
             bool isElectric = false;
             int selectionOfUser;
-
+            
             
 
             Console.Clear();
