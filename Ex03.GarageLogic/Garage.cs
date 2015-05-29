@@ -10,9 +10,11 @@ namespace Ex03.GarageLogic
 	{
 		private static Dictionary<string, VehicleTicket> s_ListOfVehicleInGarage = new Dictionary<string,VehicleTicket>();
 
-		public static bool InsertNewVehicleToGarage(string i_Owner, Vehicle i_VehicleToInsertGarage)
+
+		public static bool InsertNewVehicleToGarage(string i_Owner, string i_OwnerCellNumber, Vehicle i_VehicleToInsertGarage)
 		{
 			bool vehicleWasInsertedToGarage = false;
+
 			if (s_ListOfVehicleInGarage.ContainsKey(i_VehicleToInsertGarage.LicenseNumer))
 			{
 				s_ListOfVehicleInGarage[i_VehicleToInsertGarage.LicenseNumer].Status = eVehicleStatus.InRepair;
@@ -20,7 +22,7 @@ namespace Ex03.GarageLogic
 			}
 			else
 			{
-				VehicleTicket newTicket = new VehicleTicket(i_Owner, i_VehicleToInsertGarage);
+				VehicleTicket newTicket = new VehicleTicket(i_Owner, i_OwnerCellNumber, i_VehicleToInsertGarage);
 				s_ListOfVehicleInGarage.Add(i_VehicleToInsertGarage.LicenseNumer, newTicket);
 				vehicleWasInsertedToGarage = true;
 			}
@@ -58,8 +60,11 @@ namespace Ex03.GarageLogic
 
 		public static void ChangeStatusOfVehicle(string i_LicenseNumber, eVehicleStatus i_NewStatus) 
 		{
+
 			CheckExistenceOfVehicle(i_LicenseNumber);
 			s_ListOfVehicleInGarage[i_LicenseNumber].Status = i_NewStatus;
+			
+			
 		}
 
 		public static void WheelPump(string i_LicenseNumber)
@@ -100,12 +105,14 @@ namespace Ex03.GarageLogic
 		protected class VehicleTicket
 		{
 			private string m_NameOfOwner;
+			private string m_CellOfOwner;
 			private Vehicle m_VehicleInGarage;
 			private eVehicleStatus m_CurrentStatusOfVehicle;
 
-			public VehicleTicket(string i_NameOfOwner, Vehicle i_NewVehicleInGarage)
+			public VehicleTicket(string i_NameOfOwner, string i_CellOfOwner, Vehicle i_NewVehicleInGarage)
 			{
 				m_NameOfOwner = i_NameOfOwner;
+				m_CellOfOwner = i_CellOfOwner;
 				m_CurrentStatusOfVehicle = eVehicleStatus.InRepair;
 				m_VehicleInGarage = i_NewVehicleInGarage;                
 			}
