@@ -9,7 +9,7 @@ namespace Ex03.GarageManagementConsoleUI
 {
     class Program
     {
-        private const bool v_CheckIfExists = true;
+        
 
         private const string k_MainMenuMessage = @"Hello and welcome to our garage!
 
