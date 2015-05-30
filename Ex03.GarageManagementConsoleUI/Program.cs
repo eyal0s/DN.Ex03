@@ -315,12 +315,6 @@ Our garage supports several vehicles please choose:
 (2) Car
 (3) Truck");
 
-            selectionOfUser = getAndAssertInputRangeFromUser(1, 3);
-Our garage supports several vehicles please choose (1-3)
-    (1) MotorCycle
-    (2) Car
-    (3) Truck");
-
             selectionOfUser = getNumericValueFromUser(3);
             if (selectionOfUser == 1 || selectionOfUser == 2)
             {
