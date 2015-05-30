@@ -314,19 +314,19 @@ Select a type of fuel:
         @"New Vehicle Window          
 
 Our garage supports several vehicles please choose (1-3)
-    1. MotorCycle
-    2. Car
-    3. Truck");
+    (1) MotorCycle
+    (2) Car
+    (3) Truck");
 
-            selectionOfUser = getAndAssertInputRangeFromUser(1, 3);
+            selectionOfUser = getNumericValueFromUser(3);
             if (selectionOfUser == 1 || selectionOfUser == 2)
             {
                 Console.WriteLine(
 @"What is the vehicle fuel type?(1-2)
-    1. Petrol
-    2. Electric");
+    (1) Petrol
+    (2) Electric");
 
-                isElectric = (getAndAssertInputRangeFromUser(1, 2) == 2) ? true : false;
+                isElectric = (getNumericValueFromUser(2) == 2) ? true : false;
             }
 
             initVehicleVarible(out ownerName, out ownerCell, out manufacturer, out licenseNumber, out wheelManufacturer, out currentAvailableEnergyInVehicle, isElectric);
@@ -375,10 +375,10 @@ Our garage supports several vehicles please choose (1-3)
         {
             Console.WriteLine(
 @"Is the truck carrying dangerous materials?
-    1. Yes
-    2. No");
+    (1) Yes
+    (2) No");
 
-            int userChoice = getAndAssertInputRangeFromUser(1, 2);
+            int userChoice = getNumericValueFromUser(2);
 
             return (userChoice == 1) ? true : false;
 
@@ -425,12 +425,12 @@ Our garage supports several vehicles please choose (1-3)
             string[] colors = new string[4] { "White", "Black", "Green", "Red" };
             Console.WriteLine(string.Format(
 @"Please enter one of the following colors
-    1. {0}
-    2. {1}
-    3. {2}
-    4. {3}", colors[0], colors[1], colors[2], colors[3]));
+    (1) {0}
+    (2) {1}
+    (3) {2}
+    (4) {3}", colors[0], colors[1], colors[2], colors[3]));
 
-            int UserChoiceOfColor = getAndAssertInputRangeFromUser(1, 4);
+            int UserChoiceOfColor = getNumericValueFromUser(4);
 
             return colors[UserChoiceOfColor - 1];
         }
@@ -576,31 +576,14 @@ Our garage supports several vehicles please choose (1-3)
         {
             Console.WriteLine(
 @"What is the license type: 
-    1. A
-    2. A2
-    3. AB
-    4. B1");
-            int userChoiceOfLicense = getAndAssertInputRangeFromUser(1, 4);
+    (1) A
+    (2) A2
+    (3) AB
+    (4) B1");
+            int userChoiceOfLicense = getNumericValueFromUser(4);
 
             return userChoiceOfLicense;
-        }
-
-        private static int getAndAssertInputRangeFromUser(int i_MinVal, int i_MaxVal)
-        {
-            int selection;
-            string input;
-            input = Console.ReadLine();
-            
-            while (!int.TryParse(input, out selection) || selection > i_MaxVal || selection < i_MinVal)
-            {
-	
-                Console.WriteLine(string.Format("Invalid option was entered. Please input a number in the range of {0}-{1}.", i_MinVal, i_MaxVal));
-                input = Console.ReadLine();
-            }
-            
-
-            return selection;
-        }
+        }        
             
         private static void inputAnyKeytoReturnToMain()
         {
@@ -615,14 +598,15 @@ Our garage supports several vehicles please choose (1-3)
             while (true)
             {
                 input = Console.ReadKey().KeyChar;
-                Console.WriteLine(input);
+
                 if (input > '1' + i_options || input < '1')
                 {
                     Console.WriteLine(string.Format("Invalid option was entered. Please input a number in the range of 1-{0}", i_options));
                     continue;
                 }
-                selection = input - 48;
-                Console.WriteLine(selection);
+
+                selection = input - '0';
+ 
                 return selection;
             }
             
