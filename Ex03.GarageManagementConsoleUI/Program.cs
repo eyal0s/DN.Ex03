@@ -131,7 +131,7 @@ namespace Ex03.GarageManagementConsoleUI
 
             string vehicleInfo = GarageLogic.Garage.DisplayFullSpecOfVehicle(licenseNumber);
             Console.WriteLine(vehicleInfo);
-            initQuitPrompt();
+            inputAnythingToReturnToMain();
         }
 
 
@@ -222,21 +222,13 @@ namespace Ex03.GarageManagementConsoleUI
             }
 
             Console.WriteLine(licenseNumberList);
-            initQuitPrompt();
+            inputAnythingToReturnToMain();
         }
 
-        private static void initQuitPrompt()
+        private static void inputAnythingToReturnToMain()
         {
-            Console.WriteLine("--hit q to exit--");
-            char inputKey;
-            while (true)
-            {
-                inputKey = Console.ReadKey().KeyChar;
-                if (inputKey == 'q')
-                {
-                    break;
-                }
-            } 
+            Console.WriteLine("Enter any key to return to main menu");
+            Console.ReadLine();
         }
 
         private static void printGoingBackToMainMenuMsg()
