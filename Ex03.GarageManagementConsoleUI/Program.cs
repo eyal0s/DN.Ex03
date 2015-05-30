@@ -168,7 +168,7 @@ Our garage supports several vehicles please choose:
 
             string vehicleInfo = GarageLogic.Garage.DisplayFullSpecOfVehicle(licenseNumber);
             Console.WriteLine(vehicleInfo);
-            inputAnythingToReturnToMain();
+            inputAnyKeytoReturnToMain();
         }
 
 
@@ -299,19 +299,15 @@ Select a type of fuel to refuel with:
 
             if (licenseNumberList.Length == 0)
             {
-                Console.WriteLine("We haven't found results for this filter :(");
-                printGoingBackToMainMenuMsg();
-                return;
+                Console.WriteLine("We haven't found results for this filter :(");              
+            }
+            else
+            {
+                Console.WriteLine(licenseNumberList);                
             }
 
-            Console.WriteLine(licenseNumberList);
-            inputAnythingToReturnToMain();
-        }
-
-        private static void inputAnythingToReturnToMain()
-        {
-            Console.WriteLine("Enter any key to return to main menu");
-            Console.ReadKey();
+            inputAnyKeytoReturnToMain();
+           
         }
 
         private static void printGoingBackToMainMenuMsg()
@@ -319,7 +315,6 @@ Select a type of fuel to refuel with:
             Console.WriteLine(k_GoingBackToMainMenu);
             System.Threading.Thread.Sleep(4000);
         }
-
         
         private static void insertVehicle()
         {
@@ -437,8 +432,6 @@ Select a type of fuel to refuel with:
 
         }
 
-
-
         private static string getColorOfCarFromUser()
         {
             Console.Clear();
@@ -531,19 +524,19 @@ Select a type of fuel to refuel with:
             return ownerName;
         }
 
-        private static bool isValidName(string i_inputName)
+        private static bool isValidName(string i_InputName)
         {
             bool isValid = true;
 
-            if (i_inputName.Length == 0)
+            if (i_InputName.Length == 0)
             {
                 isValid = false;
             }
             else
             {
-                for (int i = 0; i < i_inputName.Length; i++)
+                for (int i = 0; i < i_InputName.Length; i++)
                 {
-                    if (!('A' <= i_inputName[i] && i_inputName[i] <= 'Z') && !('a' <= i_inputName[i] && i_inputName[i] <= 'z'))
+                    if (!('A' <= i_InputName[i] && i_InputName[i] <= 'Z') && !('a' <= i_InputName[i] && i_InputName[i] <= 'z'))
                     {
                         isValid = false;
                         break;
@@ -613,7 +606,7 @@ Select a type of fuel to refuel with:
             Console.ReadLine();
         }
 
-        private static int getNumericValueFromUser(int i_options)
+        private static int getNumericValueFromUser(int i_Options)
         {
             int selection;
             char input;
@@ -621,9 +614,9 @@ Select a type of fuel to refuel with:
             {
                 input = Console.ReadKey().KeyChar;
 
-                if (input > '0' + i_options || input < '1')
+                if (input > '0' + i_Options || input < '1')
                 {
-                    Console.WriteLine(string.Format("Invalid option was entered. Please input a number in the range of 1-{0}", i_options));
+                    Console.WriteLine(string.Format("Invalid option was entered. Please input a number in the range of 1-{0}", i_Options));
                     continue;
                 }
                 else
