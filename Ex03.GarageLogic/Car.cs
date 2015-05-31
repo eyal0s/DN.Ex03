@@ -9,8 +9,8 @@ namespace Ex03.GarageLogic
         private eColor m_ColorOfCar;
         private int m_AmountOfDoors;
 
-        public Car(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, int i_NumberOfWheels, float i_MaxAirPressure, eColor i_ColorOfCar, int i_NumOfDoors, FuelSource i_FuelSource) :
-            base(i_Manufacturer, i_LicenseNumber, i_NumberOfWheels, i_MaxAirPressure, i_WheelManufacturer, i_FuelSource)
+        public Car(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours, int i_NumberOfWheels, float i_MaxAirPressure, float i_CurrentAirPressure, eColor i_ColorOfCar, int i_NumOfDoors, FuelSource i_FuelSource) :
+            base(i_Manufacturer, i_LicenseNumber, i_NumberOfWheels, i_MaxAirPressure, i_CurrentAirPressure, i_WheelManufacturer, i_FuelSource)
         {
           
             if (i_NumOfDoors > 5 || i_NumOfDoors < 2)
@@ -22,6 +22,7 @@ namespace Ex03.GarageLogic
             m_AmountOfDoors = i_NumOfDoors;
         }
 
+      
 
         public override string ToString()
         {

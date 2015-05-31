@@ -13,7 +13,7 @@ namespace Ex03.GarageLogic
 		protected List<Wheel> m_Wheels;
         protected FuelSource m_FuelSrc;
 
-		public Vehicle (string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, string i_WheelManufacturer, FuelSource i_FuelOfVehicle)
+		public Vehicle (string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, float i_CurrentAirPressure, string i_WheelManufacturer, FuelSource i_FuelOfVehicle)
 		{
 			r_Manufacturer = i_Manufacturer;
 			r_LicenseNumber = i_LicenseNumber;
@@ -22,7 +22,7 @@ namespace Ex03.GarageLogic
 
 			for (int i = 0; i < i_NumberOfWeels; i++)
 			{
-				m_Wheels.Add(new Wheel(i_WheelManufacturer, i_MaxAirPressure));
+				m_Wheels.Add(new Wheel(i_WheelManufacturer, i_MaxAirPressure, i_CurrentAirPressure));
 			}
 
 		}
@@ -51,11 +51,12 @@ namespace Ex03.GarageLogic
             }
         }
 
-
+       
         public override int GetHashCode()
         {
             return r_LicenseNumber.GetHashCode();
         }
+
         public override bool Equals(object i_obj)
         {
             bool isEqual = false;
@@ -94,11 +95,11 @@ Number of wheels: {2}
 			private float m_MaxAirPressure;
 			private float m_CurrentAirPressure;
 
-			public Wheel(string i_Manufacturer, float i_MaxAirPressure)
+			public Wheel(string i_Manufacturer, float i_MaxAirPressure, float i_CurrentAirPressure)
 			{
 				m_MaxAirPressure = i_MaxAirPressure;
 				m_Manufacturer = i_Manufacturer;
-				m_CurrentAirPressure = i_MaxAirPressure;
+				m_CurrentAirPressure = i_CurrentAirPressure;
 			}
 
 			public float MaxAirPressure

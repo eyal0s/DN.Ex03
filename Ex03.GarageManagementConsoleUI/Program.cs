@@ -8,8 +8,7 @@ using Ex03.GarageLogic;
 namespace Ex03.GarageManagementConsoleUI
 {
     class Program
-    {
-        private const bool v_CheckIfExists = true;
+    {      
 
         private const string k_MainMenuMessage = @"Hello and welcome to our garage!
 
@@ -22,6 +21,12 @@ Please select an option to proceed:
 (6) Recharge an electric vehicle
 (7) Display vehicle info
 (8) QUIT";
+
+        private const string k_RefuelTitle = @"Refuel:
+---------------------";
+
+        private const string k_ChangeVehicleMessage = @"Change vehicle state:
+---------------------";
         
         private const string k_DisplayLicenseMessage = @"Display Garage Licenses List:
 ---------------------
@@ -37,6 +42,8 @@ Do you wish to filter the results?
 (1) MotorCycle
 (2) Car
 (3) Truck";
+
+        
 
         private const string k_InsertVehicleHeaderMessage = @"Enter a new vehicle:
 ---------------------";
@@ -104,8 +111,7 @@ Do you wish to filter the results?
         {
 
             Console.Clear();
-            Console.WriteLine("Change vehicle state:");
-            Console.WriteLine("---------------------");
+            Console.WriteLine(k_ChangeVehicleMessage);
             string licenseNumber = getLicenceNumberFromUser();
 
             if (!licenseExist(licenseNumber))
@@ -114,19 +120,31 @@ Do you wish to filter the results?
                 return;
             }
 
-            // Display the possible states to switch the vehicle to 
-            Console.Clear();
-            Console.WriteLine("Change vehicle state:");
-            Console.WriteLine("---------------------");
-            Console.WriteLine(string.Format("Please select a new state for vehicle number {0}",licenseNumber));
-            Console.WriteLine(string.Format(@"
-(1) In Repair
-(2) Done
-(3) Paid"));
+            // Display the possible states to switch the vehicle to        
+            Console.Clear();         
+            Console.WriteLine(string.Format(@"{0}
+Please select a new state for vehicle number {1}
+{2}",
+    k_ChangeVehicleMessage,
+    licenseNumber,
+    createQuestionaire(Garage.GetVehicleStatusOptions())));
             
-            int selection = getNumericValueFromUser(3);
+            int selection = getNumericValueFromUser(Garage.GetVehicleStatusOptions().Count);
             GarageLogic.Garage.ChangeStatusOfVehicle(licenseNumber, (GarageLogic.Garage.eVehicleStatus) selection);
             printOperationSuccessMsg();
+        }
+
+        private static string createQuestionaire(List<string> i_Options) 
+        {
+            StringBuilder questionaireForUser = new StringBuilder();
+            int index = 1;
+
+            foreach (string currentOption in i_Options)
+            {
+                questionaireForUser.AppendLine(string.Format("({0}) {1}", index++, currentOption));
+            }
+
+            return questionaireForUser.ToString();
         }
 
         private static bool licenseExist(string i_LicenseNumber)
@@ -154,6 +172,82 @@ Do you wish to filter the results?
             promptAbort();
         }
 
+        private static void insertVehicle()
+        {
+            // variables all vehicle must have
+            string ownerName;
+            string ownerCell;
+            string manufacturer;
+            string licenseNumber;
+            string wheelManufacturer;
+            float currentAvailableEnergyInVehicle;
+            float currentAirPressure;
+            bool isElectric = false;
+            int selectionOfUserForVehicleType;
+
+            showInsertHeader();
+            Console.WriteLine(string.Format(@"{0}
+Please choose one of our supported vehicle:
+{1}", 
+    k_InsertVehicleHeaderMessage,
+    createQuestionaire(Garage.GetSupportedVehicles())));
+
+            selectionOfUserForVehicleType = getNumericValueFromUser(Garage.GetSupportedVehicles().Count);
+
+            if (selectionOfUserForVehicleType == 1 || selectionOfUserForVehicleType == 2)
+            {
+                showInsertHeader();
+                Console.WriteLine(k_InsertVehicleFuelMessage);
+                isElectric = (getNumericValueFromUser(2) == 2) ? true : false;
+            }
+
+            initVehicleVarible(out ownerName, out ownerCell, out manufacturer, out licenseNumber, out wheelManufacturer, out currentAirPressure, out currentAvailableEnergyInVehicle, isElectric);
+
+            bool isVehicleAdded = false;
+            
+            switch (selectionOfUserForVehicleType)
+            {
+                // cycle
+                case 1:
+
+                    int licenseType = getMotorCycleLicenseType();
+                    int enginVolume = getVolumeOfEngine();
+
+                    isVehicleAdded = Garage.InsertNewVehicleToGarage(ownerName, ownerCell, manufacturer, licenseNumber, wheelManufacturer, currentAirPressure, currentAvailableEnergyInVehicle, isElectric, licenseType, enginVolume);
+
+                    break;
+                // car
+                case 2:
+
+                    string colorOfCar = getColorOfCarFromUser();
+                    int amountOfDoors = getAmountOfDoorsFromUser();
+
+                    isVehicleAdded = Garage.InsertNewVehicleToGarage(ownerName, ownerCell, manufacturer, licenseNumber, wheelManufacturer, currentAirPressure, currentAvailableEnergyInVehicle, isElectric, colorOfCar, amountOfDoors);
+
+                    break;
+                // truck
+                case 3:
+
+                    bool isCarryingDangerousMaterial = isTruckCargoDangerous();
+                    float currentCarryingWeight = getCurrentCargoWeight();
+                    isVehicleAdded = Garage.InsertNewVehicleToGarage(ownerName, ownerCell, manufacturer, licenseNumber, wheelManufacturer, currentAirPressure, currentAvailableEnergyInVehicle, isCarryingDangerousMaterial, currentCarryingWeight);
+                    break;
+                default:
+                    break;
+            }
+
+            if (!isVehicleAdded)
+            {
+                Console.WriteLine(string.Format("Sorry, a vehicle with {0} license number already exist in the garage", licenseNumber));
+                promptAbort();
+            }
+            else
+            {
+                printOperationSuccessMsg();
+            }
+
+        }
+
         private static void displayVeihcleInfo()
         {            
             Console.Clear();
@@ -178,8 +272,8 @@ Do you wish to filter the results?
         private static void recharge()
         {
             Console.Clear();
-            Console.WriteLine("Recharge:");
-            Console.WriteLine("---------------------");
+            Console.WriteLine(@"Recharge:
+---------------------");
 
             string licenseNumber = getLicenceNumberFromUser();
             if (!licenseExist(licenseNumber))
@@ -219,11 +313,12 @@ Do you wish to filter the results?
 
         private static void refuel()
         {
+            
             Console.Clear();
-            Console.WriteLine("Refuel:");
-            Console.WriteLine("---------------------");
+            Console.WriteLine(k_RefuelTitle);
 
             string licenseNumber = getLicenceNumberFromUser();
+
             if (!licenseExist(licenseNumber))
             {
                 printGoingBackToMainMenuMsg();
@@ -231,9 +326,10 @@ Do you wish to filter the results?
             }
 
             Console.Clear();
-            Console.WriteLine("Refuel:");
-            Console.WriteLine("---------------------");
+            Console.WriteLine(k_RefuelTitle);
+
             float parsedAmount;
+
             while (true)
             {
                 Console.WriteLine("Enter the number or liters to refuel:");
@@ -251,17 +347,15 @@ Do you wish to filter the results?
             }
 
             Console.Clear();
-            Console.WriteLine("Refuel:");
-            Console.WriteLine("---------------------");
-            Console.WriteLine(@"
+
+            Console.WriteLine(string.Format(@"{0}
 Select a type of fuel to refuel with:
-(1) Octan 98
-(2) Octan 96
-(3) Octan 95
-(4) Soler");
+{1}",
+    k_RefuelTitle, 
+    createQuestionaire(Garage.GetFuelOptions())));
 
             int input = getNumericValueFromUser(4);
-            GarageLogic.Vehicle.eFuelType fuelTypeSelection = (GarageLogic.Vehicle.eFuelType) input;
+            GarageLogic.Vehicle.eFuelType fuelTypeSelection = (GarageLogic.Vehicle.eFuelType) (input - 1);
       
             try
             {
@@ -271,7 +365,7 @@ Select a type of fuel to refuel with:
              
             catch (Exception)
             {
-                Console.WriteLine("Invalid amount\fuel type was entered");
+                Console.WriteLine("Invalid amount fuel type was entered");
                 promptAbort();
                 return;
             }
@@ -336,76 +430,7 @@ Select a type of fuel to refuel with:
         {
             Console.WriteLine(k_GoingBackToMainMenu);
             System.Threading.Thread.Sleep(4000);
-        }
-       
-        private static void insertVehicle()
-        {
-            string ownerName;
-            string ownerCell;
-            string manufacturer;
-            string licenseNumber;
-            string wheelManufacturer;
-            float currentAvailableEnergyInVehicle;
-            bool isElectric = false;
-            int selectionOfUserForVehicleType;
-
-            showInsertHeader();
-            Console.WriteLine(k_InsertVehicleOpenningMessage);
-
-            selectionOfUserForVehicleType = getNumericValueFromUser(3);
-            if (selectionOfUserForVehicleType == 1 || selectionOfUserForVehicleType == 2)
-            {
-                showInsertHeader();
-                Console.WriteLine(k_InsertVehicleFuelMessage);
-                isElectric = (getNumericValueFromUser(2) == 2) ? true : false;
-            }
-
-            initVehicleVarible(out ownerName, out ownerCell, out manufacturer, out licenseNumber, out wheelManufacturer, out currentAvailableEnergyInVehicle, isElectric);
-
-            bool isVehicleAdded = false;
-
-            switch (selectionOfUserForVehicleType)
-            {
-                // cycle
-                case 1:
-
-                    int licenseType = getMotorCycleLicenseType();
-                    int enginVolume = getVolumeOfEngine();
-
-                    isVehicleAdded = Garage.InsertNewVehicleToGarage(ownerName, ownerCell, manufacturer, licenseNumber, wheelManufacturer, currentAvailableEnergyInVehicle, isElectric, licenseType, enginVolume);
-
-                    break;
-                // car
-                case 2:
-
-                    string colorOfCar = getColorOfCarFromUser();
-                    int amountOfDoors = getAmountOfDoorsFromUser();
-
-                    isVehicleAdded = Garage.InsertNewVehicleToGarage(ownerName, ownerCell, manufacturer, licenseNumber, wheelManufacturer, currentAvailableEnergyInVehicle, isElectric, colorOfCar, amountOfDoors);
-
-                    break;
-                // truck
-                case 3:
-
-                    bool isCarryingDangerousMaterial = isTruckCargoDangerous();
-                    float currentCarryingWeight = getCurrentCargoWeight();
-                    isVehicleAdded = Garage.InsertNewVehicleToGarage(ownerName, ownerCell, manufacturer, licenseNumber, wheelManufacturer, currentAvailableEnergyInVehicle, isCarryingDangerousMaterial, currentCarryingWeight);
-                    break;
-                default:
-                    break;
-            }
-
-            if (!isVehicleAdded)
-            {
-                Console.WriteLine(string.Format("Sorry, a vehicle with {0} license number already exist in the garage", licenseNumber));
-                promptAbort();
-            }
-            else
-            {
-                printOperationSuccessMsg();
-            }
-
-        }
+        }    
 
         private static bool isTruckCargoDangerous()
         {
@@ -478,18 +503,35 @@ Select a type of fuel to refuel with:
             Console.Clear();
             Console.WriteLine(k_InsertVehicleHeaderMessage);
         }
+ 
 
-       
-
-        private static void initVehicleVarible(out string io_OwnerName, out string io_OwnerCell, out string io_Manufacturer, out string io_LicenseNumber, out string io_WheelManufacturer, out float io_CurrentAvailableEnergyInVehicle, bool isElectric)
+        private static void initVehicleVarible(out string io_OwnerName, out string io_OwnerCell, out string io_Manufacturer, out string io_LicenseNumber, out string io_WheelManufacturer, out float io_CurrentAirPressure, out float io_CurrentAvailableEnergyInVehicle, bool isElectric)
         {
             io_OwnerName = getOwnerNameFromUser();
             io_OwnerCell = getCellNumberFromUser();
             io_LicenseNumber = getLicenceNumberFromUser();
+            io_CurrentAirPressure = getCurrentAirPressure();
             io_Manufacturer = getManufacturers(out io_WheelManufacturer);
             io_CurrentAvailableEnergyInVehicle = getAmountOfEnergyLeftFromUser(isElectric);
 
 
+        }
+
+        private static float getCurrentAirPressure()
+        {
+            float currentAirPressure;
+            string inputFromUser;
+            Console.Clear();
+            Console.WriteLine("Please enter the current air pressure for the wheels");
+            inputFromUser = Console.ReadLine();
+
+            while (!float.TryParse(inputFromUser, out currentAirPressure) || currentAirPressure < 0 )
+            {
+                Console.WriteLine("invalid input");
+                inputFromUser = Console.ReadLine();
+            }
+
+            return currentAirPressure;
         }
 
         private static string getManufacturers(out string io_wheelManufacturer)
@@ -641,6 +683,7 @@ Select a type of fuel to refuel with:
 
                 if (input > '0' + i_options || input < '1')
                 {
+                    Console.WriteLine();
                     Console.WriteLine(string.Format("Invalid option was entered. Please input a number in the range of 1-{0}", i_options));
                     continue;
                 }
@@ -651,14 +694,14 @@ Select a type of fuel to refuel with:
                 }
 
             }
-
-                return selection;
+            Console.WriteLine();
+            return selection;
             
         }
 
         private static string getLicenceNumberFromUser()
         {
-            showInsertHeader();
+            //showInsertHeader();
             string input;
             Console.WriteLine("Please enter a veihcle license plate number:");
             while (true)
