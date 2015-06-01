@@ -165,17 +165,14 @@ Please select a new state for vehicle number {1}
             string licenseNumber = string.Empty;
             string wheelManufacturer;
             float currentAvailableEnergyInVehicle;
-            float currentAirPressure;
-            
+            float currentAirPressure;        
             int selectionOfUserForVehicleType;
 
             showInsertHeader();
             Console.WriteLine(string.Format(
-@"{0}
+@"
 Please choose one of our supported vehicle:
-{1}", 
-    k_InsertVehicleHeaderMessage,
-    createQuestionaire(Garage.GetSupportedVehicles())));
+{0}", createQuestionaire(Garage.GetSupportedVehicles())));
 
             selectionOfUserForVehicleType = getNumericValueFromUser(Garage.GetSupportedVehicles().Count);
             bool answersAreValid = false;
@@ -206,7 +203,6 @@ Please choose one of our supported vehicle:
                         // if we're here meaning that there's a vehicle with this 
                         Dictionary<string, int> questionSpecification = Garage.getQuestionForVehicle(licenseNumber);
                         List<string> answersFromUser = getAnswerForVehicleSpece(questionSpecification);
-                        /// TODO: put it in a while loop that catches an exception
                         Garage.UpdateSpecs(licenseNumber, answersFromUser);
                         answersAreValid = true;
                     }
