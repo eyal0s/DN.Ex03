@@ -35,7 +35,7 @@ namespace Ex03.GarageLogic
             // is cargo dangerous
             int isCargoDangerousAnswer;
 
-            if (int.TryParse(i_Params[index++], out isCargoDangerousAnswer))
+            if (!int.TryParse(i_Params[index++], out isCargoDangerousAnswer))
             {
                 throw new FormatException("answer must be a numeric value");
             }
@@ -47,7 +47,7 @@ namespace Ex03.GarageLogic
 
             // weight of cargo
             int weightOfCargo;
-            if (int.TryParse(i_Params[index++], out weightOfCargo))
+            if (!int.TryParse(i_Params[index++], out weightOfCargo))
             {
                 throw new FormatException("cargo weight must be a numeric value");   
             }

@@ -197,7 +197,7 @@ Number of wheels: {2}
 
                 if (m_EnergyLeft + amountToAdd > m_MaxCapacity)
                 {
-                    throw new ValueOutOfRangeException(0, m_MaxCapacity); /// exception for too much fuel
+                    throw new ValueOutOfRangeException(0, MaxCapacity - m_EnergyLeft); /// exception for too much fuel
                 }
                 else
 				{

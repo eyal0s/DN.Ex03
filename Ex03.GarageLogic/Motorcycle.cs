@@ -77,7 +77,7 @@ Engine Volume: {2}",
                 throw new FormatException("engine volume must be a numeric value");
             }
 
-            if (enginVolume > k_maxEngineVolume)
+            if (enginVolume > k_maxEngineVolume || enginVolume < 1)
             {
                 throw new ValueOutOfRangeException(1, k_maxEngineVolume);
             }

@@ -22,7 +22,7 @@ namespace Ex03.GarageLogic
 
             foreach (eColor currentColorOfCar in Enum.GetValues(typeof(eColor)))
             {
-                carColorSelecition.AppendLine(string.Format("{0} {1}", index++, currentColorOfCar));
+                carColorSelecition.AppendLine(string.Format("({0}) {1}", index++, currentColorOfCar));
             }
 
             carQuestions.Add(string.Format("Please enter the car's color:\n{0}", carColorSelecition.ToString()), Enum.GetValues(typeof(eColor)).Length);

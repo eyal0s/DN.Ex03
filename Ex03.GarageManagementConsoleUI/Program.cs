@@ -180,24 +180,56 @@ Please choose one of our supported vehicle:
             selectionOfUserForVehicleType = getNumericValueFromUser(Garage.GetSupportedVehicles().Count);      
 
             initVehicleVarible(out ownerName, out ownerCell, out licenseNumber, out manufacturer, out wheelManufacturer, out currentAirPressure, out currentAvailableEnergyInVehicle);
+            bool wasCarInserted = false;
+            try
+            {
+                wasCarInserted = Garage.InsertNewVehicleToGarage(selectionOfUserForVehicleType, ownerName, ownerCell, manufacturer, licenseNumber, wheelManufacturer, currentAirPressure, currentAvailableEnergyInVehicle);
+                if (wasCarInserted)
+                {
+                    Dictionary<string, int> questionSpecification = Garage.getQuestionForVehicle(licenseNumber);
+                    List<string> answersFromUser = getAnswerForVehicleSpece(questionSpecification);
 
-            bool wasCarInserted = Garage.InsertNewVehicleToGarage(selectionOfUserForVehicleType, ownerName, ownerCell, manufacturer, licenseNumber, wheelManufacturer, currentAirPressure, currentAvailableEnergyInVehicle);
-            if (wasCarInserted)
+                    bool completedSpecs = false;
+
+                    while (!completedSpecs)
+	                {
+                        completedSpecs = Garage.UpdateSpecs(licenseNumber, answersFromUser);
+	                }
+
+                    printOperationSuccessMsg();    
+                }
+                else
+                {
+                    Console.WriteLine(string.Format("Sorry, a vehicle with {0} license number already exist in the garage", licenseNumber));
+
+                }
+            }
+            catch (ArgumentException)
             {
-                Dictionary<string, int> questionSpecification = Garage.getQuestionForVehicle(licenseNumber);
-                List<string> answersFromUser = getAnswerForVehicleSpece(questionSpecification);
-                Garage.UpdateSpecs(licenseNumber, answersFromUser);
-                printOperationSuccessMsg();  
-            }            
-            else
+                
+
+            }
+            catch (FormatException )
             {
-                Console.WriteLine(string.Format("Sorry, a vehicle with {0} license number already exist in the garage", licenseNumber));
-                promptAbort();                
-            }    
+                
+            }
+            catch (ValueOutOfRangeException)
+            { 
+                
+            }
+            finally
+            {
+                if (!wasCarInserted)
+                {
+                    Console.WriteLine("Could not insert new vehicle");
+                    promptAbort();
+                }
+            }
         }
 
         private static List<string> getAnswerForVehicleSpece(Dictionary<string, int> questionSpecification)
         {
+            Console.Clear();
             List<string> answerFromUser = new List<string>();
             string currentAnswerFromUser;
 
@@ -301,7 +333,7 @@ Select a type of fuel to refuel with:
             }
             catch (ValueOutOfRangeException outOfRangeException)
             {
-                Console.WriteLine(string.Format("error, cant choose values who are not in range {0}-{1}", outOfRangeException.m_MinValue, outOfRangeException.m_MaxValue);
+                Console.WriteLine(string.Format("error, cant choose values who are not in range {0}-{1}", outOfRangeException.m_MinValue, outOfRangeException.m_MaxValue));
             }
             catch (ArgumentException)
             {

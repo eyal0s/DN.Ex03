@@ -14,9 +14,24 @@ namespace Ex03.GarageLogic
             return s_ListOfVehicleInGarage[i_LicenseNumber].Vehicle.getQuestionair();
         }
 
-        public static void UpdateSpecs(string i_LicenseNumber, List<string> i_AnswersFromUser) 
+        public static bool UpdateSpecs(string i_LicenseNumber, List<string> i_AnswersFromUser) 
         {
-            s_ListOfVehicleInGarage[i_LicenseNumber].Vehicle.InitVehicle(i_AnswersFromUser);
+            bool isUpdated = true;
+            try
+            {
+                s_ListOfVehicleInGarage[i_LicenseNumber].Vehicle.InitVehicle(i_AnswersFromUser);
+            }
+            catch (ValueOutOfRangeException e)
+            {
+                Console.WriteLine(string.Format("please choose in range {0} - {1}", e.m_MinValue, e.m_MaxValue));
+                isUpdated = false;
+            }
+            catch (Exception)
+            {
+                isUpdated = false;
+            }
+
+            return false;
         }
 
         private static bool tryToInsertVehicle(string i_Owner, string i_OwnerCellNumber, Vehicle i_VehicleToInsert)
