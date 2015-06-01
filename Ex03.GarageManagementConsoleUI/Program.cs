@@ -181,40 +181,18 @@ Please choose one of our supported vehicle:
 
             initVehicleVarible(out ownerName, out ownerCell, out licenseNumber, out manufacturer, out wheelManufacturer, out currentAirPressure, out currentAvailableEnergyInVehicle);
             bool wasCarInserted = false;
-            try
+            wasCarInserted = Garage.InsertNewVehicleToGarage(selectionOfUserForVehicleType, ownerName, ownerCell, manufacturer, licenseNumber, wheelManufacturer, currentAirPressure, currentAvailableEnergyInVehicle);
+           
+            if (wasCarInserted)
             {
-                wasCarInserted = Garage.InsertNewVehicleToGarage(selectionOfUserForVehicleType, ownerName, ownerCell, manufacturer, licenseNumber, wheelManufacturer, currentAirPressure, currentAvailableEnergyInVehicle);
-                if (wasCarInserted)
-                {
-                    Dictionary<string, int> questionSpecification = Garage.getQuestionForVehicle(licenseNumber);
-                    List<string> answersFromUser = getAnswerForVehicleSpece(questionSpecification);
-                    Garage.UpdateSpecs(licenseNumber, answersFromUser);
-                    printOperationSuccessMsg();    
-                }
-                else
-                {
-                    Console.WriteLine(string.Format("Sorry, a vehicle with {0} license number already exist in the garage", licenseNumber));
-                }
+                Dictionary<string, int> questionSpecification = Garage.getQuestionForVehicle(licenseNumber);
+                List<string> answersFromUser = getAnswerForVehicleSpece(questionSpecification);
+                Garage.UpdateSpecs(licenseNumber, answersFromUser);
+                printOperationSuccessMsg();    
             }
-            catch (ArgumentException)
+            else
             {
-
-            }
-            catch (FormatException )
-            {
-                
-            }
-            catch (ValueOutOfRangeException)
-            { 
-                
-            }
-            finally
-            {
-                if (!wasCarInserted)
-                {
-                    Console.WriteLine("Could not insert new vehicle");
-                    promptAbort();
-                }
+                Console.WriteLine(string.Format("Sorry, a vehicle with {0} license number already exist in the garage", licenseNumber));
             }
         }
 
