@@ -13,17 +13,17 @@ namespace Ex03.GarageLogic
         static Vehicle temp = new Motorcycle("pointiac", "123", 2, 31, 20, "yoko", new Vehicle.FuelSource(Vehicle.eFuelType.Electricity, 55F, 100F), Motorcycle.eLicenseType.A, 40);
         private static Dictionary<string, VehicleTicket> s_ListOfVehicleInGarage = new Dictionary<string, VehicleTicket>() {{"123", new VehicleTicket("Itay", "0542566789", temp)}};
 
-        public static List<string> getQuestionForVehicle(int i_UserSelectionOfVehicle)
+        public static Dictionary<string, int> getQuestionForVehicle(string i_LicenseNumber)
         {
+            return s_ListOfVehicleInGarage[i_LicenseNumber].Vehicle.getQuestionair();
+        }
 
-            Factory.eSupportedVehicleType typeOfVehicle = (Factory.eSupportedVehicleType)i_UserSelectionOfVehicle;
-            List<string> questionOfVehicle;
-
-            questionOfVehicle = Factory.GetQuestions(typeOfVehicle);
-
-            return questionOfVehicle;
+        public static void UpdateSpecs(string i_LicenseNumber, List<string> i_AnswersFromUser) 
+        {
+            s_ListOfVehicleInGarage[i_LicenseNumber].Vehicle.InitVehicle(i_AnswersFromUser);
         
         }
+
         private static bool tryToInsertVehicle(string i_Owner, string i_OwnerCellNumber, Vehicle i_VehicleToInsert)
         {
             
@@ -45,39 +45,26 @@ namespace Ex03.GarageLogic
 
         }
 
-        // cycle
-		public static bool InsertNewVehicleToGarage(string i_Owner, string i_OwnerCellNumber, string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAirPressure, float i_CurrentAvailableHours, bool i_isElectric, int i_licenseType, int i_EngineVolume)
-		{      
-            Factory.eSupportedVehicleType TypeOfVehicle = i_isElectric ? Factory.eSupportedVehicleType.ElectricCycle : Factory.eSupportedVehicleType.Motorcycle;
-            Motorcycle.eLicenseType CycleLicenstType = (Motorcycle.eLicenseType) i_licenseType;
-            Vehicle newVehicleForGarage = Factory.CreateMoto(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAirPressure, i_CurrentAvailableHours, TypeOfVehicle, CycleLicenstType, i_EngineVolume);
-			
-            return tryToInsertVehicle(i_Owner, i_OwnerCellNumber, newVehicleForGarage);
-		}
-        
-        // car
-        public static bool InsertNewVehicleToGarage(string i_Owner, string i_OwnerCellNumber, string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAirPressure, float i_CurrentAvailableHours, bool i_isElectric, string i_ColorOfCar, int i_AmountOfDoors)
-        {
-            Factory.eSupportedVehicleType TypeOfVehicle = i_isElectric ? Factory.eSupportedVehicleType.ElectricCar : Factory.eSupportedVehicleType.PetrolCar;        
-            Car.eColor carColor = (Car.eColor) Enum.Parse(typeof(Car.eColor), i_ColorOfCar);
-            Vehicle newVehicleForGarage = Factory.CreateCar(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAvailableHours, i_CurrentAirPressure, TypeOfVehicle, carColor, i_AmountOfDoors);
-			
-            return tryToInsertVehicle(i_Owner, i_OwnerCellNumber, newVehicleForGarage);
-        }
-        
-        // truck
-        public static bool InsertNewVehicleToGarage(string i_Owner, string i_OwnerCellNumber, string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAirPressure, float i_CurrentAvailableHours, bool i_IsCarryingDangerousMaterials, float i_CurrentCarryingWeight)
-        {
-            Factory.eSupportedVehicleType typeOfVehicle = Factory.eSupportedVehicleType.Truck;
-            Vehicle newVehicleForGarage = Factory.CreateTruck(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAvailableHours, i_CurrentAirPressure, typeOfVehicle, i_IsCarryingDangerousMaterials, i_CurrentCarryingWeight);
-			
-            return tryToInsertVehicle(i_Owner, i_OwnerCellNumber, newVehicleForGarage);
-        }
-
         // general vehicle
-        public static bool InsertNewVehicleToGarage(string i_Owner, string i_OwnerCellNumber, string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailableHours)
+        public static bool InsertNewVehicleToGarage(int i_TypeOfVehciel, string i_Owner, string i_OwnerCellNumber, string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAirPressureInWheel, float i_CurrentAvailableHours)
         {
-            throw new NotImplementedException();
+            bool vehicleWasInsertedToGarage = false;
+            Factory.eSupportedVehicleType typeOfVehicle = (Factory.eSupportedVehicleType) i_TypeOfVehciel;
+            if (s_ListOfVehicleInGarage.ContainsKey(i_LicenseNumber))
+            {               
+                s_ListOfVehicleInGarage[i_LicenseNumber].Status = eVehicleStatus.InRepair;
+            }
+            else
+            {
+                Vehicle newlyVehicleToInsert = Factory.createVehicle(typeOfVehicle, i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAirPressureInWheel, i_CurrentAvailableHours);
+                VehicleTicket newTicket = new VehicleTicket(i_Owner, i_OwnerCellNumber, newlyVehicleToInsert);
+                s_ListOfVehicleInGarage.Add(newlyVehicleToInsert.LicenseNumer, newTicket);
+                vehicleWasInsertedToGarage = true;
+                
+            }
+
+            return vehicleWasInsertedToGarage;
+            
         }
 
 		public static string DisplayAllLicenseNumber(params eVehicleStatus[] i_Filter) 
@@ -131,20 +118,27 @@ namespace Ex03.GarageLogic
 		  
 		}
 
-		public static void RefuelPetrol(string i_LicenseNumber, Vehicle.eFuelType i_FuelType, float i_AmountToAdd)
+		public static void Refuel(string i_LicenseNumber, int i_UserChoiceOfFuelType, string i_AmountToAdd)
 		{
 			CheckExistenceOfVehicle(i_LicenseNumber);
+
+            Vehicle.eFuelType fuelTypeSelection;
+
+            if (i_UserChoiceOfFuelType > 0 )
+            {
+                fuelTypeSelection = (Vehicle.eFuelType)i_UserChoiceOfFuelType;             
+            }
+            else
+            {
+                fuelTypeSelection = Vehicle.eFuelType.Electricity;
+            }
+
 			Vehicle.FuelSource fuelSourceToRefuel = s_ListOfVehicleInGarage[i_LicenseNumber].Vehicle.FuelSrc;
-			fuelSourceToRefuel.Refuel(i_FuelType, i_AmountToAdd);
+            
+            fuelSourceToRefuel.Refuel(fuelTypeSelection, i_AmountToAdd);
 			
 		}
 
-		public static void RefuelBattery(string i_LicenseNumber, float i_AmountToAdd) 
-		{
-			CheckExistenceOfVehicle(i_LicenseNumber);
-			Vehicle.FuelSource fuelSourceToRefuel = s_ListOfVehicleInGarage[i_LicenseNumber].Vehicle.FuelSrc;
-			fuelSourceToRefuel.Refuel(Vehicle.eFuelType.Electricity, i_AmountToAdd);
-		}
 
 		public static string DisplayFullSpecOfVehicle(string i_LicenseNumber)
 		{

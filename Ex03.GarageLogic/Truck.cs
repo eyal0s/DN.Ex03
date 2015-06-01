@@ -6,39 +6,74 @@ namespace Ex03.GarageLogic
 {
     class Truck : Vehicle
     {
-        private const float k_MaxAirPressureTruck = 25;
-        private const int k_NumberOfWheels = 16;
-        private bool m_isCarryingHazardousMaterial;
-        private float m_CurrentCarryingWeight;
-        private const float k_MaxLiterOfTank = 170;
-        private const Vehicle.eFuelType k_FuelType = Vehicle.eFuelType.Soler;
+        private const int k_MaxCargoWeight = 25000;
+        private int m_cargoWeight;
+        private bool m_isDangerousCargo;
 
-        public Truck(string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAvailabeHours, int i_NumberOfWheels, float i_MaxAirPressure, float i_CurrentAirPressure, FuelSource i_FuelOfVehicle, bool i_isDangerous, float i_CurrentCarryingWeight) :
-            base(i_Manufacturer, i_LicenseNumber, i_NumberOfWheels, i_MaxAirPressure, i_CurrentAirPressure, i_WheelManufacturer, i_FuelOfVehicle)
+        public Truck(string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWheels, float i_MaxAirPressure, float i_CurrentAirPressure, string i_WheelManufacturer, FuelSource i_FuelSource) :
+            base(i_Manufacturer, i_LicenseNumber, i_NumberOfWheels, i_MaxAirPressure, i_CurrentAirPressure, i_WheelManufacturer, i_FuelSource)
         {
-            m_CurrentCarryingWeight = i_CurrentCarryingWeight;
-            m_isCarryingHazardousMaterial = i_isDangerous;
         
         }
 
-        public override List<string> getQuestionair()
+        public override Dictionary<string, int> getQuestionair()
         {
-            List<string> truckQuestions = base.getVehicleQuestionarir();
-            truckQuestions.Add("Is the truck carrying dangerous materials?");
-            truckQuestions.Add("How much does the cargo weight?");
+
+            Dictionary<string, int> truckQuestions = new Dictionary<string, int>();
+
+            string dangerMaterialQuestion = @"Is the truck carrying dangerous materials?
+{1} No
+{2} Yes";
+            truckQuestions.Add(dangerMaterialQuestion , 2);
+            truckQuestions.Add("How much does the cargo weight?", 0);
 
             return truckQuestions;
 
         }
 
+        public override void InitVehicle(List<string> i_Params)
+        {
+            int index = 0;
+            // is cargo dangerous
+            int isCargoDangerousAnswer;
+
+            if (int.TryParse(i_Params[index++], out isCargoDangerousAnswer))
+            {
+                throw new FormatException("answer must be a numeric value");
+            }
+
+            if (isCargoDangerousAnswer > 2 || isCargoDangerousAnswer < 0 )
+            {
+                throw new ValueOutOfRangeException(0, 2);
+            }
+
+            //weight of cargo
+
+            int weightOfCargo;
+
+            if (int.TryParse(i_Params[index++], out weightOfCargo))
+            {
+                throw new FormatException("cargo weight must be a numeric value");   
+            }
+
+            if (weightOfCargo < 0)
+            {
+                throw new ValueOutOfRangeException(1, k_MaxCargoWeight);
+            }
+
+            m_cargoWeight = weightOfCargo;
+            m_isDangerousCargo = (isCargoDangerousAnswer == 1) ? true : false;
+
+        }
+
          public override string ToString()
          {
-             string dangerInCargo = m_isCarryingHazardousMaterial ? "The Truck's cargo is hazardous" : "The truck's cargo is safe";
+             string dangerInCargo = m_isDangerousCargo ? "The Truck's cargo is hazardous" : "The truck's cargo is safe";
              return string.Format(
 @"{0}
 {1}
 The truck cargo weight is: {2}",
-    base.ToString(), dangerInCargo, m_CurrentCarryingWeight);
+    base.ToString(), dangerInCargo, m_cargoWeight);
          }
 
     }

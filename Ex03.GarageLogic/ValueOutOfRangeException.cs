@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class ValueOutOfRangeException : Exception
+    public class ValueOutOfRangeException : Exception
     {
         public float m_MaxValue;
         public float m_MinValue;
@@ -36,6 +36,8 @@ namespace Ex03.GarageLogic
         : base(i_message, i_inner)
     {
     }
+
+
 
     }
 }
