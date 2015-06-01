@@ -194,12 +194,10 @@ Please choose one of our supported vehicle:
                 else
                 {
                     Console.WriteLine(string.Format("Sorry, a vehicle with {0} license number already exist in the garage", licenseNumber));
-
                 }
             }
             catch (ArgumentException)
             {
-                
 
             }
             catch (FormatException )
