@@ -6,8 +6,8 @@ namespace Ex03.GarageLogic
 { 
 	public class Garage
 	{    
-        public static Vehicle Temp = new Motorcycle("pointiac", "123", 2, 31, 20, "yoko", new Vehicle.FuelSource(Vehicle.eFuelType.Electricity, 55F, 100F), Motorcycle.eLicenseType.A, 40);
-        private static Dictionary<string, VehicleTicket> s_ListOfVehicleInGarage = new Dictionary<string, VehicleTicket>() {{"123", new VehicleTicket("Itay", "0542566789", Temp)}};
+        // public static Vehicle Temp = new Motorcycle("pointiac", "123", 2, 31, 20, "yoko", new Vehicle.FuelSource(Vehicle.eFuelType.Electricity, 55F, 100F), Motorcycle.eLicenseType.A, 40);
+        private static Dictionary<string, VehicleTicket> s_ListOfVehicleInGarage = new Dictionary<string, VehicleTicket>();
 
         public static Dictionary<string, int> getQuestionForVehicle(string i_LicenseNumber)
         {
@@ -17,24 +17,6 @@ namespace Ex03.GarageLogic
         public static void UpdateSpecs(string i_LicenseNumber, List<string> i_AnswersFromUser) 
         {
              s_ListOfVehicleInGarage[i_LicenseNumber].Vehicle.InitVehicle(i_AnswersFromUser);
-        }
-
-        private static bool tryToInsertVehicle(string i_Owner, string i_OwnerCellNumber, Vehicle i_VehicleToInsert)
-        {   
-            bool vehicleWasInsertedToGarage = false;
-
-			if (s_ListOfVehicleInGarage.ContainsKey(i_VehicleToInsert.LicenseNumer))
-			{
-				s_ListOfVehicleInGarage[i_VehicleToInsert.LicenseNumer].Status = eVehicleStatus.InRepair;
-			}
-			else
-			{
-				VehicleTicket newTicket = new VehicleTicket(i_Owner, i_OwnerCellNumber, i_VehicleToInsert);
-				s_ListOfVehicleInGarage.Add(i_VehicleToInsert.LicenseNumer, newTicket);
-				vehicleWasInsertedToGarage = true;
-			}
-
-			return vehicleWasInsertedToGarage;
         }
 
         // general vehicle
@@ -168,6 +150,32 @@ namespace Ex03.GarageLogic
             return possibleFuelList;
         }
 
+		public static void CheckExistenceOfVehicle(string i_LicenseNumber)
+		{
+            if (!s_ListOfVehicleInGarage.ContainsKey(i_LicenseNumber))
+            { 
+				throw new ArgumentException();
+            }
+		}
+     
+        private static bool tryToInsertVehicle(string i_Owner, string i_OwnerCellNumber, Vehicle i_VehicleToInsert)
+        {   
+            bool vehicleWasInsertedToGarage = false;
+
+			if (s_ListOfVehicleInGarage.ContainsKey(i_VehicleToInsert.LicenseNumer))
+			{
+				s_ListOfVehicleInGarage[i_VehicleToInsert.LicenseNumer].Status = eVehicleStatus.InRepair;
+			}
+			else
+			{
+				VehicleTicket newTicket = new VehicleTicket(i_Owner, i_OwnerCellNumber, i_VehicleToInsert);
+				s_ListOfVehicleInGarage.Add(i_VehicleToInsert.LicenseNumer, newTicket);
+				vehicleWasInsertedToGarage = true;
+			}
+
+			return vehicleWasInsertedToGarage;
+        }
+
 		public class VehicleTicket
 		{
 			private string m_NameOfOwner;
@@ -233,14 +241,6 @@ Status of vehicle: {2}
             }
 		}
 
-		public static void CheckExistenceOfVehicle(string i_LicenseNumber)
-		{
-            if (!s_ListOfVehicleInGarage.ContainsKey(i_LicenseNumber))
-            { 
-				throw new ArgumentException();
-            }
-		}
-     
 		public enum eVehicleStatus
 		{
 			InRepair = 1,

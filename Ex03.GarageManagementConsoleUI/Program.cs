@@ -162,7 +162,7 @@ Please select a new state for vehicle number {1}
             string ownerName;
             string ownerCell;
             string manufacturer;
-            string licenseNumber;
+            string licenseNumber = string.Empty;
             string wheelManufacturer;
             float currentAvailableEnergyInVehicle;
             float currentAirPressure;
@@ -177,17 +177,44 @@ Please choose one of our supported vehicle:
     k_InsertVehicleHeaderMessage,
     createQuestionaire(Garage.GetSupportedVehicles())));
 
-            selectionOfUserForVehicleType = getNumericValueFromUser(Garage.GetSupportedVehicles().Count);      
-
-            initVehicleVarible(out ownerName, out ownerCell, out licenseNumber, out manufacturer, out wheelManufacturer, out currentAirPressure, out currentAvailableEnergyInVehicle);
+            selectionOfUserForVehicleType = getNumericValueFromUser(Garage.GetSupportedVehicles().Count);
+            bool answersAreValid = false;
             bool wasCarInserted = false;
-            wasCarInserted = Garage.InsertNewVehicleToGarage(selectionOfUserForVehicleType, ownerName, ownerCell, manufacturer, licenseNumber, wheelManufacturer, currentAirPressure, currentAvailableEnergyInVehicle);
-           
+            do
+            {
+                try
+                {
+                    initVehicleVarible(out ownerName, out ownerCell, out licenseNumber, out manufacturer, out wheelManufacturer, out currentAirPressure, out currentAvailableEnergyInVehicle);
+                    wasCarInserted = Garage.InsertNewVehicleToGarage(selectionOfUserForVehicleType, ownerName, ownerCell, manufacturer, licenseNumber, wheelManufacturer, currentAirPressure, currentAvailableEnergyInVehicle);
+                    answersAreValid = true;
+                }
+                catch (Exception e)
+                {
+                    Console.Clear();
+                    Console.WriteLine(e.Message);
+                    System.Threading.Thread.Sleep(3000);
+                    continue;
+                }
+            } while (!answersAreValid); 
             if (wasCarInserted)
             {
-                Dictionary<string, int> questionSpecification = Garage.getQuestionForVehicle(licenseNumber);
-                List<string> answersFromUser = getAnswerForVehicleSpece(questionSpecification);
-                Garage.UpdateSpecs(licenseNumber, answersFromUser);
+                answersAreValid = false;
+                do
+                {
+                    try
+                    {
+                        // if we're here meaning that there's a vehicle with this 
+                        Dictionary<string, int> questionSpecification = Garage.getQuestionForVehicle(licenseNumber);
+                        List<string> answersFromUser = getAnswerForVehicleSpece(questionSpecification);
+                        /// TODO: put it in a while loop that catches an exception
+                        Garage.UpdateSpecs(licenseNumber, answersFromUser);
+                        answersAreValid = true;
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                } while (!answersAreValid);
                 printOperationSuccessMsg();    
             }
             else

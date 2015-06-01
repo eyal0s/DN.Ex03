@@ -68,47 +68,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override int GetHashCode()
-        {
-            return r_LicenseNumber.GetHashCode();
-        }
-
-        public override bool Equals(object i_obj)
-        {
-            bool isEqual = false;
-            Vehicle toCompare = i_obj as Vehicle;
-            if (toCompare != null)
-            {
-				isEqual = toCompare.r_LicenseNumber.Equals(this.r_LicenseNumber);
-            }
-
-			return isEqual;
-        }
-
-        public override string ToString()
-        {
-            StringBuilder wheelsOfVehicle = new StringBuilder();
-
-            for (int i = 0; i < m_Wheels.Count - 1; i++)
-            {
-                wheelsOfVehicle.AppendLine(m_Wheels[i].ToString());
-            }
-
-            wheelsOfVehicle.Append(m_Wheels[m_Wheels.Count - 1]);
-
-            return string.Format(
-@"Manufacturer: {0}
-License number: {1}
-Number of wheels: {2}
-{3}
-{4}",
-            r_Manufacturer,
-            r_LicenseNumber,
-            m_Wheels.Count,
-            wheelsOfVehicle.ToString(),
-            m_FuelSrc.ToString()); 
-        }
-
 		public class Wheel
 		{
 			private string m_Manufacturer;
@@ -258,5 +217,46 @@ Current amount of liters: {2}",
                 Soler,
                 Electricity 
             }
+
+        public override bool Equals(object i_obj)
+        {
+            bool isEqual = false;
+            Vehicle toCompare = i_obj as Vehicle;
+            if (toCompare != null)
+            {
+				isEqual = toCompare.r_LicenseNumber.Equals(this.r_LicenseNumber);
+            }
+
+			return isEqual;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder wheelsOfVehicle = new StringBuilder();
+
+            for (int i = 0; i < m_Wheels.Count - 1; i++)
+            {
+                wheelsOfVehicle.AppendLine(m_Wheels[i].ToString());
+            }
+
+            wheelsOfVehicle.Append(m_Wheels[m_Wheels.Count - 1]);
+
+            return string.Format(
+@"Manufacturer: {0}
+License number: {1}
+Number of wheels: {2}
+{3}
+{4}",
+            r_Manufacturer,
+            r_LicenseNumber,
+            m_Wheels.Count,
+            wheelsOfVehicle.ToString(),
+            m_FuelSrc.ToString()); 
+        }
+
+        public override int GetHashCode()
+        {
+            return r_LicenseNumber.GetHashCode();
+        }
 	}
 }
