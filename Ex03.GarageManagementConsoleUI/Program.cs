@@ -188,14 +188,7 @@ Please choose one of our supported vehicle:
                 {
                     Dictionary<string, int> questionSpecification = Garage.getQuestionForVehicle(licenseNumber);
                     List<string> answersFromUser = getAnswerForVehicleSpece(questionSpecification);
-
-                    bool completedSpecs = false;
-
-                    while (!completedSpecs)
-	                {
-                        completedSpecs = Garage.UpdateSpecs(licenseNumber, answersFromUser);
-	                }
-
+                    Garage.UpdateSpecs(licenseNumber, answersFromUser);
                     printOperationSuccessMsg();    
                 }
                 else
