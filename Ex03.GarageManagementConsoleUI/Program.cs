@@ -1,15 +1,14 @@
-﻿using System;
+﻿using System.Text.RegularExpressions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Ex03.GarageManagementConsoleUI;
-using System.Text.RegularExpressions;
 using Ex03.GarageLogic;
 
 namespace Ex03.GarageManagementConsoleUI
 {
-    class Program
+    public class Program
     {      
-
         private const string k_MainMenuMessage = @"Hello and welcome to our garage!
 
 Please select an option to proceed:
@@ -24,7 +23,6 @@ Please select an option to proceed:
 
         private const string k_RefuelTitle = @"Refuel:
 ---------------------";
-
 
         private const string k_ChangeVehicleMessage = @"Change vehicle state:
 ---------------------";
@@ -42,7 +40,6 @@ Do you wish to filter the results?
         private const string k_PromptBackMessage = @"------------------------------------------
 Hit the return key to go back to main menu
 ------------------------------------------";
-
 
         private const string k_InsertVehicleHeaderMessage = @"Enter a new vehicle:
 ---------------------";
@@ -96,7 +93,6 @@ Hit the return key to go back to main menu
 
         private static void changeVehicleState()
         {
-
             Console.Clear();
             Console.WriteLine(k_ChangeVehicleMessage);
             string licenseNumber = getLicenceNumberFromUser();
@@ -109,7 +105,8 @@ Hit the return key to go back to main menu
 
             // Display the possible states to switch the vehicle to        
             Console.Clear();         
-            Console.WriteLine(string.Format(@"{0}
+            Console.WriteLine(string.Format(
+@"{0}
 Please select a new state for vehicle number {1}
 {2}",
     k_ChangeVehicleMessage,
@@ -173,7 +170,8 @@ Please select a new state for vehicle number {1}
             int selectionOfUserForVehicleType;
 
             showInsertHeader();
-            Console.WriteLine(string.Format(@"{0}
+            Console.WriteLine(string.Format(
+@"{0}
 Please choose one of our supported vehicle:
 {1}", 
     k_InsertVehicleHeaderMessage,
@@ -196,17 +194,17 @@ Please choose one of our supported vehicle:
                 Console.WriteLine(string.Format("Sorry, a vehicle with {0} license number already exist in the garage", licenseNumber));
                 promptAbort();                
             }    
-
         }
 
         private static List<string> getAnswerForVehicleSpece(Dictionary<string, int> questionSpecification)
         {
-
             List<string> answerFromUser = new List<string>();
             string currentAnswerFromUser;
+
             foreach (string currentQuestion in questionSpecification.Keys)
             {
                 Console.WriteLine(string.Format("{0}\n{1}", k_InsertVehicleHeaderMessage, currentQuestion));
+
                 if (questionSpecification[currentQuestion] > 0)
                 {
                     answerFromUser.Add(getNumericValueFromUser(questionSpecification[currentQuestion]).ToString());
@@ -218,7 +216,6 @@ Please choose one of our supported vehicle:
                 }
 
                 Console.Clear();
-
             }
 
             return answerFromUser;
@@ -260,34 +257,29 @@ Please choose one of our supported vehicle:
                 Console.WriteLine("How many hours you wish to recharge?");
                 string amountToAdd = Console.ReadLine();
                 refueilingAction(0, licenseNumber, amountToAdd);         
-            }
-            
-            
+            }  
           }
 
         private static void refuel()
         {
-            
             Console.Clear();
             Console.WriteLine(k_RefuelTitle);
-
             string licenseNumber = getLicenceNumberFromUser();
 
             if (!licenseExist(licenseNumber))
             {
                 printGoingBackToMainMenuMsg();
             }
-
             else
             {
                 Console.Clear();
                 Console.WriteLine(k_RefuelTitle);
-
                 Console.WriteLine("Enter the number or liters to refuel:");
                 string amountToAdd = Console.ReadLine();
 
                 Console.Clear();
-                Console.WriteLine(string.Format(@"{0}
+                Console.WriteLine(string.Format(
+@"{0}
 Select a type of fuel to refuel with:
 {1}",
         k_RefuelTitle,
@@ -295,42 +287,34 @@ Select a type of fuel to refuel with:
 
                 int choiceOfFuelType = getNumericValueFromUser(4);
                 refueilingAction(choiceOfFuelType, licenseNumber, amountToAdd);
-                
-
-            }
-            
+            }         
         }
 
         private static void refueilingAction(int i_ChoiceOfFuelType, string i_LicenseNumber, string i_AmountToAdd)
         {
-
             bool refuelSucceeded = false;
 
             try
             {
-
                 Ex03.GarageLogic.Garage.Refuel(i_LicenseNumber, i_ChoiceOfFuelType, i_AmountToAdd);
                 refuelSucceeded = true;
-
             }
-            catch (ValueOutOfRangeException e)
+            catch (ValueOutOfRangeException outOfRangeException)
             {
-                Console.WriteLine(e.ToString());
-
+                Console.WriteLine(string.Format("error, cant choose values who are not in range {0}-{1}", outOfRangeException.m_MinValue, outOfRangeException.m_MaxValue);
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine("Incompatible fuel type!");
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
-                Console.WriteLine(e.ToString());                
+                Console.WriteLine("value has to be numeric");                
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("There has been an error, please try again");                
+                Console.WriteLine("There has been an error, please enter data carefuly");                
             }
-
             finally
             {
                 if (refuelSucceeded)
@@ -353,11 +337,12 @@ Select a type of fuel to refuel with:
             if (!licenseExist(licensenNumber))
             {
                 printGoingBackToMainMenuMsg();
-                return;
             }
-
-            Ex03.GarageLogic.Garage.WheelPump(licensenNumber);
-            printOperationSuccessMsg();
+            else
+            {
+                Ex03.GarageLogic.Garage.WheelPump(licensenNumber);
+                printOperationSuccessMsg();
+            }   
         }
 
         private static void displayLicenseList()
@@ -421,8 +406,6 @@ Select a type of fuel to refuel with:
             io_CurrentAirPressure = getCurrentAirPressure();
             io_Manufacturer = getManufacturers(out io_WheelManufacturer);
             io_CurrentAvailableEnergyInVehicle = getAmountOfEnergyLeftFromUser();
-
-
         }
 
         private static float getCurrentAirPressure()
@@ -433,7 +416,7 @@ Select a type of fuel to refuel with:
             Console.WriteLine(string.Format("{0}\nPlease enter the current air pressure for the wheels", k_InsertVehicleHeaderMessage));
             inputFromUser = Console.ReadLine();
 
-            while (!float.TryParse(inputFromUser, out currentAirPressure) || currentAirPressure < 0 )
+            while (!float.TryParse(inputFromUser, out currentAirPressure) || currentAirPressure < 0)
             {
                 Console.WriteLine("invalid input");
                 inputFromUser = Console.ReadLine();
@@ -537,7 +520,6 @@ Select a type of fuel to refuel with:
             
             Console.WriteLine("What is the current energy level?");
 
-
             inputFromUser = Console.ReadLine();
             while (!float.TryParse(inputFromUser, out amountOfEnergyLeft))
             {
@@ -567,16 +549,15 @@ Select a type of fuel to refuel with:
                     selection = input - '0';
                     break;
                 }
-
             }
+
             Console.WriteLine();
-            return selection;
-            
+
+            return selection;   
         }
 
         private static string getLicenceNumberFromUser()
-        {
-            //showInsertHeader();
+        {            
             string input;
             Console.WriteLine("Please enter a vehicle license plate number:");
             while (true)
@@ -595,7 +576,6 @@ Select a type of fuel to refuel with:
             return input;
         } 
 
-
         public enum eGarageAction
         {
             InsertVehicle = 1,
@@ -607,6 +587,5 @@ Select a type of fuel to refuel with:
             DisplayVehicleInfo = 7,
             Quit = 8
         }
-
     }
 }

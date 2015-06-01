@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-// This will be our API global interface
-
 namespace Ex03.GarageLogic
-{
-    
+{ 
 	public class Garage
-	{
-        
-        static Vehicle temp = new Motorcycle("pointiac", "123", 2, 31, 20, "yoko", new Vehicle.FuelSource(Vehicle.eFuelType.Electricity, 55F, 100F), Motorcycle.eLicenseType.A, 40);
-        private static Dictionary<string, VehicleTicket> s_ListOfVehicleInGarage = new Dictionary<string, VehicleTicket>() {{"123", new VehicleTicket("Itay", "0542566789", temp)}};
+	{    
+        public static Vehicle Temp = new Motorcycle("pointiac", "123", 2, 31, 20, "yoko", new Vehicle.FuelSource(Vehicle.eFuelType.Electricity, 55F, 100F), Motorcycle.eLicenseType.A, 40);
+        private static Dictionary<string, VehicleTicket> s_ListOfVehicleInGarage = new Dictionary<string, VehicleTicket>() {{"123", new VehicleTicket("Itay", "0542566789", Temp)}};
 
         public static Dictionary<string, int> getQuestionForVehicle(string i_LicenseNumber)
         {
@@ -21,18 +17,15 @@ namespace Ex03.GarageLogic
         public static void UpdateSpecs(string i_LicenseNumber, List<string> i_AnswersFromUser) 
         {
             s_ListOfVehicleInGarage[i_LicenseNumber].Vehicle.InitVehicle(i_AnswersFromUser);
-        
         }
 
         private static bool tryToInsertVehicle(string i_Owner, string i_OwnerCellNumber, Vehicle i_VehicleToInsert)
-        {
-            
+        {   
             bool vehicleWasInsertedToGarage = false;
 
 			if (s_ListOfVehicleInGarage.ContainsKey(i_VehicleToInsert.LicenseNumer))
 			{
 				s_ListOfVehicleInGarage[i_VehicleToInsert.LicenseNumer].Status = eVehicleStatus.InRepair;
-
 			}
 			else
 			{
@@ -42,7 +35,6 @@ namespace Ex03.GarageLogic
 			}
 
 			return vehicleWasInsertedToGarage;
-
         }
 
         // general vehicle
@@ -50,6 +42,7 @@ namespace Ex03.GarageLogic
         {
             bool vehicleWasInsertedToGarage = false;
             Factory.eSupportedVehicleType typeOfVehicle = (Factory.eSupportedVehicleType) i_TypeOfVehciel;
+
             if (s_ListOfVehicleInGarage.ContainsKey(i_LicenseNumber))
             {               
                 s_ListOfVehicleInGarage[i_LicenseNumber].Status = eVehicleStatus.InRepair;
@@ -59,12 +52,10 @@ namespace Ex03.GarageLogic
                 Vehicle newlyVehicleToInsert = Factory.createVehicle(typeOfVehicle, i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAirPressureInWheel, i_CurrentAvailableHours);
                 VehicleTicket newTicket = new VehicleTicket(i_Owner, i_OwnerCellNumber, newlyVehicleToInsert);
                 s_ListOfVehicleInGarage.Add(newlyVehicleToInsert.LicenseNumer, newTicket);
-                vehicleWasInsertedToGarage = true;
-                
+                vehicleWasInsertedToGarage = true;           
             }
 
-            return vehicleWasInsertedToGarage;
-            
+            return vehicleWasInsertedToGarage;       
         }
 
 		public static string DisplayAllLicenseNumber(params eVehicleStatus[] i_Filter) 
@@ -92,16 +83,12 @@ namespace Ex03.GarageLogic
 			}
 
 			return listOfLicenses.ToString();
-
 		}
 
 		public static void ChangeStatusOfVehicle(string i_LicenseNumber, eVehicleStatus i_NewStatus) 
 		{
-
 			CheckExistenceOfVehicle(i_LicenseNumber);
 			s_ListOfVehicleInGarage[i_LicenseNumber].Status = i_NewStatus;
-			
-			
 		}
 
 		public static void WheelPump(string i_LicenseNumber)
@@ -114,31 +101,25 @@ namespace Ex03.GarageLogic
 				float amountOfAirNeeded = wheelToPump.MaxAirPressure - wheelToPump.CurrentAirPressure;
 				wheelToPump.InflateTire(amountOfAirNeeded);
 			}                
-			
-		  
 		}
 
 		public static void Refuel(string i_LicenseNumber, int i_UserChoiceOfFuelType, string i_AmountToAdd)
 		{
 			CheckExistenceOfVehicle(i_LicenseNumber);
-
             Vehicle.eFuelType fuelTypeSelection;
 
             if (i_UserChoiceOfFuelType > 0 )
             {
-                fuelTypeSelection = (Vehicle.eFuelType)i_UserChoiceOfFuelType;             
+                fuelTypeSelection = (Vehicle.eFuelType)i_UserChoiceOfFuelType;
             }
             else
             {
                 fuelTypeSelection = Vehicle.eFuelType.Electricity;
             }
 
-			Vehicle.FuelSource fuelSourceToRefuel = s_ListOfVehicleInGarage[i_LicenseNumber].Vehicle.FuelSrc;
-            
+			Vehicle.FuelSource fuelSourceToRefuel = s_ListOfVehicleInGarage[i_LicenseNumber].Vehicle.FuelSrc;            
             fuelSourceToRefuel.Refuel(fuelTypeSelection, i_AmountToAdd);
-			
 		}
-
 
 		public static string DisplayFullSpecOfVehicle(string i_LicenseNumber)
 		{
@@ -156,7 +137,6 @@ namespace Ex03.GarageLogic
             }
 
             return possibleStatusList;
-        
         }
 
         public static List<string> GetFuelOptions()
@@ -169,11 +149,11 @@ namespace Ex03.GarageLogic
                 {
                     continue; 
                 }
+
                 possibleFuelList.Add(currentFuelType.ToString());
             }
 
             return possibleFuelList;
-
         }
 
         public static List<string> GetSupportedVehicles() 
@@ -214,12 +194,11 @@ namespace Ex03.GarageLogic
 				{
 					m_NameOfOwner = value;
 				}
-			
 			}
 
 			public eVehicleStatus Status 
 			{
-				get 
+				get
 				{
 					return m_CurrentStatusOfVehicle;
 				}
@@ -241,23 +220,26 @@ namespace Ex03.GarageLogic
             public override string ToString()
             {
                 string statusOfVehicle = m_CurrentStatusOfVehicle == eVehicleStatus.InRepair ? "In Repair" : m_CurrentStatusOfVehicle.ToString();
+
                 return string.Format(
 @"Owner of vehicle: {0}
 Owner's number: {1}
 Status of vehicle: {2}
-{3}" ,
-     m_NameOfOwner, m_CellOfOwner, statusOfVehicle, m_VehicleInGarage.ToString());
+{3}",
+     m_NameOfOwner,
+     m_CellOfOwner,
+     statusOfVehicle,
+     m_VehicleInGarage.ToString());
             }
-
 		}
 
 		public static void CheckExistenceOfVehicle(string i_LicenseNumber)
 		{
-			if (!s_ListOfVehicleInGarage.ContainsKey(i_LicenseNumber))
+            if (!s_ListOfVehicleInGarage.ContainsKey(i_LicenseNumber))
+            { 
 				throw new ArgumentException();
-
+            }
 		}
-
      
 		public enum eVehicleStatus
 		{

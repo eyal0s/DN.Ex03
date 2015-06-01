@@ -1,4 +1,5 @@
-﻿using System;using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Ex03.GarageLogic
@@ -13,9 +14,9 @@ namespace Ex03.GarageLogic
 
         public Vehicle()
         {
-
         }
-		public Vehicle (string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressureWheel, float i_CurrentAirPressureWheel, string i_WheelManufacturer, FuelSource i_FuelOfVehicle)
+
+		public Vehicle(string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressureWheel, float i_CurrentAirPressureWheel, string i_WheelManufacturer, FuelSource i_FuelOfVehicle)
 		{
 			r_Manufacturer = i_Manufacturer;
 			r_LicenseNumber = i_LicenseNumber;
@@ -26,20 +27,21 @@ namespace Ex03.GarageLogic
 			{
 				m_Wheels.Add(new Wheel(i_WheelManufacturer, i_MaxAirPressureWheel, i_CurrentAirPressureWheel));
 			}
-
 		}
 
         public abstract void InitVehicle(List<string> i_Params);
-
-        
+     
         public abstract Dictionary<string, int> getQuestionair();
 
         protected List<string> getVehicleQuestionarir() 
         {
-            return new List<string>() { "Please enter manufacturer:", 
-                                        "Please enter the vehicle's license number:",
-                                        "Please enter the current air pressure",
-                                        "Please enter the wheel manufacturer"};
+            return new List<string>() 
+            { 
+                "Please enter manufacturer:", 
+                "Please enter the vehicle's license number:",
+                "Please enter the current air pressure",
+                "Please enter the wheel manufacturer"
+            };
         }
 
         public string LicenseNumer
@@ -66,7 +68,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-       
         public override int GetHashCode()
         {
             return r_LicenseNumber.GetHashCode();
@@ -78,7 +79,7 @@ namespace Ex03.GarageLogic
             Vehicle toCompare = i_obj as Vehicle;
             if (toCompare != null)
             {
-				isEqual = (toCompare.r_LicenseNumber.Equals(this.r_LicenseNumber));
+				isEqual = toCompare.r_LicenseNumber.Equals(this.r_LicenseNumber);
             }
 
 			return isEqual;
@@ -92,6 +93,7 @@ namespace Ex03.GarageLogic
             {
                 wheelsOfVehicle.AppendLine(m_Wheels[i].ToString());
             }
+
             wheelsOfVehicle.Append(m_Wheels[m_Wheels.Count - 1]);
 
             return string.Format(
@@ -100,12 +102,15 @@ License number: {1}
 Number of wheels: {2}
 {3}
 {4}",
-            r_Manufacturer, r_LicenseNumber, m_Wheels.Count, wheelsOfVehicle.ToString() , m_FuelSrc.ToString()); 
+            r_Manufacturer,
+            r_LicenseNumber,
+            m_Wheels.Count,
+            wheelsOfVehicle.ToString(),
+            m_FuelSrc.ToString()); 
         }
 
 		public class Wheel
 		{
-
 			private string m_Manufacturer;
 			private float m_MaxAirPressure;
 			private float m_CurrentAirPressure;
@@ -123,7 +128,6 @@ Number of wheels: {2}
 				{
 					return m_MaxAirPressure;
 				}
-
 			}
 
 			public float CurrentAirPressure
@@ -146,7 +150,7 @@ Number of wheels: {2}
 			{
 				if ((i_Volume + m_CurrentAirPressure) > m_MaxAirPressure)
 				{
-					throw new ArgumentException();
+					throw new ArgumentException("cannot exceed the maximum air pressure for the wheel");
 				}
 				else
 				{
@@ -158,17 +162,13 @@ Number of wheels: {2}
             {
                 return string.Format("Wheel manufacturer: {0}, Maximal Pressure: {1}, current pressure: {2}", m_Manufacturer, m_MaxAirPressure, m_CurrentAirPressure);
             }
-
-		}
-
-		/*Fuel source logic. Has a class Fuel and battery and petrol as its subclasses*/
+		}	
 
 		public class FuelSource
 		{
-
+            private readonly eFuelType r_TypeOfFuel;
 			private float m_EnergyLeft;
 			private float m_MaxCapacity;
-            private readonly eFuelType r_TypeOfFuel;
 		   
 			public FuelSource(eFuelType i_TypeOfFuel, float i_EnergyLeft, float i_MaxCapacity)
 			{
@@ -181,9 +181,7 @@ Number of wheels: {2}
 				m_MaxCapacity = i_MaxCapacity;
                 r_TypeOfFuel = i_TypeOfFuel;
 		    }
-			            
-		    
-
+			         
 			public void Refuel(eFuelType i_TypeOfFuel, string i_AmountToAdd)
 			{
                 float amountToAdd;
@@ -213,7 +211,6 @@ Number of wheels: {2}
 				{
 					return m_EnergyLeft;
 				}
-
             }
 
             public float MaxCapacity
@@ -233,24 +230,25 @@ Number of wheels: {2}
                     stringRepresenationOfFuelSource = string.Format(
 @"The Vehicle is running on {0}
 Maximum Battery Time: {1}
-Current battery status: {2}"
-                        , r_TypeOfFuel, m_MaxCapacity, m_EnergyLeft);   
+Current battery status: {2}",
+                            r_TypeOfFuel,
+                            m_MaxCapacity,
+                            m_EnergyLeft);   
                 }
                 else
 	            {
                     stringRepresenationOfFuelSource = string.Format(
 @"The Vehicle is running on {0}
 Maximum tank capacity: {1}
-Current amount of liters: {2}"
-                        , r_TypeOfFuel, m_MaxCapacity, m_EnergyLeft);
+Current amount of liters: {2}",
+                              r_TypeOfFuel,
+                            m_MaxCapacity,
+                            m_EnergyLeft);
 	            }
 
-
                 return stringRepresenationOfFuelSource;
-
             }
         }
-    
 
         public enum eFuelType
             {
@@ -260,8 +258,5 @@ Current amount of liters: {2}"
                 Soler,
                 Electricity 
             }
-
-       
 	}
 }
-

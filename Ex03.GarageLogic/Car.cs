@@ -4,21 +4,19 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class Car : Vehicle
+    public class Car : Vehicle
     {
         private eColor m_ColorOfCar;
         private int m_AmountOfDoors;
 
-
         public Car(string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWheels, float i_MaxAirPressure, float i_CurrentAirPressure, string i_WheelManufacturer, FuelSource i_FuelSource) :
             base(i_Manufacturer, i_LicenseNumber, i_NumberOfWheels, i_MaxAirPressure, i_CurrentAirPressure, i_WheelManufacturer, i_FuelSource)
-        {
-          
+        {       
         }
 
         public override Dictionary<string, int> getQuestionair()
         {
-            Dictionary<string, int> carQuestions = new Dictionary<string,int>();
+            Dictionary<string, int> carQuestions = new Dictionary<string, int>();
             StringBuilder carColorSelecition = new StringBuilder();
             int index = 1;
 
@@ -33,25 +31,22 @@ namespace Ex03.GarageLogic
             return carQuestions;
         }
 
-        
         public override void InitVehicle(List<string> i_Params)
         {
-            //color
+            // color
             int colorChoiceFromUser;
             if (!int.TryParse(i_Params[0], out colorChoiceFromUser))
 	        {
 		        throw new FormatException("color choice must be a numeric value");
 	        }
             
-
-            //amount of doors
+            // amount of doors
             int amountOfDoorsInCar;
 
             if (!int.TryParse(i_Params[1], out amountOfDoorsInCar))
 	        {
 		        throw new FormatException("amount of doors must be numeric value");
 	        }
-
             
             if (amountOfDoorsInCar > 5 || amountOfDoorsInCar < 2)
             {
@@ -59,10 +54,8 @@ namespace Ex03.GarageLogic
             }
 
             m_ColorOfCar = (eColor) colorChoiceFromUser;
-            m_AmountOfDoors = amountOfDoorsInCar;
-            
-        }
-        
+            m_AmountOfDoors = amountOfDoorsInCar;     
+        }    
 
         public override string ToString()
         {
@@ -70,7 +63,9 @@ namespace Ex03.GarageLogic
 @"{0}
 Number of doors: {1}
 Color of car: {2}",
-            base.ToString(), m_AmountOfDoors, m_ColorOfCar);
+            base.ToString(),
+            m_AmountOfDoors,
+            m_ColorOfCar);
         }
 
         public enum eColor

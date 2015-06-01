@@ -20,7 +20,6 @@ namespace Ex03.GarageLogic
         public ValueOutOfRangeException(float i_MinValue, float i_MaxValue)
             : base(string.Format("Illeagal value was entered. Min value is {0}. Max value is {1}. Please stay within bounds.", i_MinValue, i_MaxValue))
     {
-        ;
         m_MaxValue = i_MaxValue;
         m_MinValue = i_MinValue;
     }
@@ -36,8 +35,5 @@ namespace Ex03.GarageLogic
         : base(i_message, i_inner)
     {
     }
-
-
-
     }
 }
