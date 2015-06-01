@@ -6,13 +6,24 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
+    
 	public class Garage
 	{
-
+        
         static Vehicle temp = new Motorcycle("pointiac", "123", 2, 31, 20, "yoko", new Vehicle.FuelSource(Vehicle.eFuelType.Electricity, 55F, 100F), Motorcycle.eLicenseType.A, 40);
         private static Dictionary<string, VehicleTicket> s_ListOfVehicleInGarage = new Dictionary<string, VehicleTicket>() {{"123", new VehicleTicket("Itay", "0542566789", temp)}};
+
+        public static List<string> getQuestionForVehicle(int i_UserSelectionOfVehicle)
+        {
+
+            Factory.eSupportedVehicleType typeOfVehicle = (Factory.eSupportedVehicleType)i_UserSelectionOfVehicle;
+            List<string> questionOfVehicle;
+
+            questionOfVehicle = Factory.GetQuestions(typeOfVehicle);
+
+            return questionOfVehicle;
         
-        
+        }
         private static bool tryToInsertVehicle(string i_Owner, string i_OwnerCellNumber, Vehicle i_VehicleToInsert)
         {
             
@@ -37,7 +48,7 @@ namespace Ex03.GarageLogic
         // cycle
 		public static bool InsertNewVehicleToGarage(string i_Owner, string i_OwnerCellNumber, string i_Manufacturer, string i_LicenseNumber, string i_WheelManufacturer, float i_CurrentAirPressure, float i_CurrentAvailableHours, bool i_isElectric, int i_licenseType, int i_EngineVolume)
 		{      
-            Factory.eSupportedVehicleType TypeOfVehicle = i_isElectric ? Factory.eSupportedVehicleType.ElectricCycle : Factory.eSupportedVehicleType.MotorCycle;
+            Factory.eSupportedVehicleType TypeOfVehicle = i_isElectric ? Factory.eSupportedVehicleType.ElectricCycle : Factory.eSupportedVehicleType.Motorcycle;
             Motorcycle.eLicenseType CycleLicenstType = (Motorcycle.eLicenseType) i_licenseType;
             Vehicle newVehicleForGarage = Factory.CreateMoto(i_Manufacturer, i_LicenseNumber, i_WheelManufacturer, i_CurrentAirPressure, i_CurrentAvailableHours, TypeOfVehicle, CycleLicenstType, i_EngineVolume);
 			
@@ -257,8 +268,8 @@ Status of vehicle: {2}
 		public enum eVehicleStatus
 		{
 			InRepair = 1,
-			Done = 2,
-			Paid = 3
+			Done,
+			Paid 
 		}
 	}
 }

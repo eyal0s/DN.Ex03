@@ -35,7 +35,31 @@ namespace Ex03.GarageLogic
 		private const int k_TruckNumberOfWheels = 16;
 		private const Vehicle.eFuelType k_TruckFuelType = Vehicle.eFuelType.Soler;
 
+        public static List<string> GetQuestions(eSupportedVehicleType i_TypeOfVehicle)
+        {
+            List<string> vehicleQuestion = new List<string>() ;
 
+            switch (i_TypeOfVehicle)
+            {
+                case eSupportedVehicleType.ElectricCycle:
+                case eSupportedVehicleType.Motorcycle:
+                    vehicleQuestion = new Motorcycle().getQuestionair();
+                    break;
+                case eSupportedVehicleType.ElectricCar:
+                case eSupportedVehicleType.PetrolCar:
+                    vehicleQuestion = new Car().getQuestionair();
+
+                    break;
+                case eSupportedVehicleType.Truck:
+                    //vehicleQuestion = new Truck().getQuestionair();
+                    vehicleQuestion = new List<string>();
+                    break;
+             
+            }
+
+            return vehicleQuestion;
+            
+        }
 
 		public static Vehicle.FuelSource InitFuelSource(eSupportedVehicleType i_VehicleType, float i_CurrentEnergyLevel) 
 		{
@@ -43,24 +67,32 @@ namespace Ex03.GarageLogic
 
 			switch (i_VehicleType)
 			{
-				case eSupportedVehicleType.MotorCycle:
-					fuelSourceToCreate = new Vehicle.FuelSource(k_MotoFuelType, i_CurrentEnergyLevel, k_MotoMaxTankLiter);
-					break;
-				case eSupportedVehicleType.ElectricCycle:
-					fuelSourceToCreate = new Vehicle.FuelSource(Vehicle.eFuelType.Electricity, i_CurrentEnergyLevel, k_MotoMaxBatteryTime);
-					break;
-				case eSupportedVehicleType.PetrolCar:
-					fuelSourceToCreate = new Vehicle.FuelSource(k_CarFuelType, i_CurrentEnergyLevel, k_CarMaxTankLiter);
+				case eSupportedVehicleType.Motorcycle:
+
+                        fuelSourceToCreate = new Vehicle.FuelSource(k_MotoFuelType, i_CurrentEnergyLevel, k_MotoMaxTankLiter);
+                    break;
+                case eSupportedVehicleType.ElectricCycle:
+                        fuelSourceToCreate = new Vehicle.FuelSource(Vehicle.eFuelType.Electricity, i_CurrentEnergyLevel, k_MotoMaxBatteryTime);
+                    					
 					break;
 				case eSupportedVehicleType.ElectricCar:
-					fuelSourceToCreate = new Vehicle.FuelSource(Vehicle.eFuelType.Electricity, i_CurrentEnergyLevel, k_CarMaxBatteryTime);
+                  
+                        fuelSourceToCreate = new Vehicle.FuelSource(Vehicle.eFuelType.Electricity, i_CurrentEnergyLevel, k_CarMaxBatteryTime);
+                    break;
+                case eSupportedVehicleType.PetrolCar:
+                        fuelSourceToCreate = new Vehicle.FuelSource(k_CarFuelType, i_CurrentEnergyLevel, k_CarMaxTankLiter);
+                    
 					break;
+
 				case eSupportedVehicleType.Truck:
+
 					fuelSourceToCreate = new Vehicle.FuelSource(k_TruckFuelType, i_CurrentEnergyLevel, k_TruckMaxTankLiter);
 					break;
-				default:                   
-					fuelSourceToCreate = new Vehicle.FuelSource(Vehicle.eFuelType.Octan95, 0, 0);
-					break;
+
+                default:
+                    fuelSourceToCreate = null;
+                    break;
+				
 			}
 
 			return fuelSourceToCreate;
@@ -119,10 +151,10 @@ namespace Ex03.GarageLogic
 
 		public enum eSupportedVehicleType 
 		{
-			MotorCycle,
-			ElectricCycle,
+			Motorcycle = 1,
+            ElectricCycle,
 			PetrolCar,
-			ElectricCar,
+            ElectricCar,
 			Truck,           
 		}
 	}

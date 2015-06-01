@@ -21,6 +21,16 @@ namespace Ex03.GarageLogic
         
         }
 
+        public override List<string> getQuestionair()
+        {
+            List<string> truckQuestions = base.getVehicleQuestionarir();
+            truckQuestions.Add("Is the truck carrying dangerous materials?");
+            truckQuestions.Add("How much does the cargo weight?");
+
+            return truckQuestions;
+
+        }
+
          public override string ToString()
          {
              string dangerInCargo = m_isCarryingHazardousMaterial ? "The Truck's cargo is hazardous" : "The truck's cargo is safe";

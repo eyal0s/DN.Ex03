@@ -194,14 +194,28 @@ Please choose one of our supported vehicle:
 
             selectionOfUserForVehicleType = getNumericValueFromUser(Garage.GetSupportedVehicles().Count);
 
-            if (selectionOfUserForVehicleType == 1 || selectionOfUserForVehicleType == 2)
-            {
-                showInsertHeader();
-                Console.WriteLine(k_InsertVehicleFuelMessage);
-                isElectric = (getNumericValueFromUser(2) == 2) ? true : false;
-            }
+            //if (selectionOfUserForVehicleType == 1 || selectionOfUserForVehicleType == 2)
+            //{
+            //    showInsertHeader();
+            //    Console.WriteLine(k_InsertVehicleFuelMessage);
+            //    isElectric = (getNumericValueFromUser(2) == 2) ? true : false;
+            //}
+            List<string> questionForVehicleChosen = Garage.getQuestionForVehicle(selectionOfUserForVehicleType);
 
+
+            List<string> answer = new List<string>();
+            string input;
+            foreach (string question in questionForVehicleChosen)
+            {
+                Console.WriteLine(question);
+                input = Console.ReadLine();
+                answer.Add(input);
+
+
+            }
+            
             initVehicleVarible(out ownerName, out ownerCell, out manufacturer, out licenseNumber, out wheelManufacturer, out currentAirPressure, out currentAvailableEnergyInVehicle, isElectric);
+
 
             bool isVehicleAdded = false;
             
@@ -212,7 +226,8 @@ Please choose one of our supported vehicle:
 
                     int licenseType = getMotorCycleLicenseType();
                     int enginVolume = getVolumeOfEngine();
-
+                  
+                    
                     isVehicleAdded = Garage.InsertNewVehicleToGarage(ownerName, ownerCell, manufacturer, licenseNumber, wheelManufacturer, currentAirPressure, currentAvailableEnergyInVehicle, isElectric, licenseType, enginVolume);
 
                     break;

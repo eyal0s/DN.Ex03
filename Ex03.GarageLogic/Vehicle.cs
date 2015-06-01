@@ -1,22 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System;using System.Collections.Generic;
 using System.Text;
 
 namespace Ex03.GarageLogic
 {
 	// father object for all other types of veihcles
-	public class Vehicle
+	public abstract class Vehicle
 	{
-		protected readonly string r_Manufacturer;
-		protected readonly string r_LicenseNumber;
+		protected string m_Manufacturer;
+		protected string m_LicenseNumber;
 		protected float m_PercentageOfEnergyLeft;
 		protected List<Wheel> m_Wheels;
         protected FuelSource m_FuelSrc;
 
+        public Vehicle()
+        {
+
+        }
 		public Vehicle (string i_Manufacturer, string i_LicenseNumber, int i_NumberOfWeels, float i_MaxAirPressure, float i_CurrentAirPressure, string i_WheelManufacturer, FuelSource i_FuelOfVehicle)
 		{
-			r_Manufacturer = i_Manufacturer;
-			r_LicenseNumber = i_LicenseNumber;
+			m_Manufacturer = i_Manufacturer;
+			m_LicenseNumber = i_LicenseNumber;
             m_FuelSrc = i_FuelOfVehicle;
             m_Wheels = new List<Wheel>();
 
@@ -27,11 +30,50 @@ namespace Ex03.GarageLogic
 
 		}
 
+        public virtual void InitVehicle(Vehicle.FuelSource i_FuelSource, List<string> i_Params)
+        {
+            int index = 0;
+            this.m_Manufacturer = i_Params[index++];
+            this.m_LicenseNumber = i_Params[index++];
+
+
+            float maxPressure;
+            float currentPressure;
+            int numOfWheels;
+            string wheelManufacturer = i_Params[index + 4];
+            if (int.TryParse(i_Params[index], out numOfWheels) || float.TryParse(i_Params[index + 1], out currentPressure) || float.TryParse(i_Params[index + 2], out maxPressure))
+            {
+                throw new FormatException("Error invalid input for wheels, please enter numeric value");
+            }
+            else if(currentPressure < 0 || currentPressure > maxPressure)
+            {
+                throw new ValueOutOfRangeException(0, maxPressure);
+            }
+
+            for (int i = 0; i < numOfWheels; i++)
+            {
+                m_Wheels.Add(new Wheel(wheelManufacturer, maxPressure, currentPressure));
+            }
+
+        
+        }
+
+        
+        public abstract List<string> getQuestionair();
+
+        protected List<string> getVehicleQuestionarir() 
+        {
+            return new List<string>() { "Please enter manufacturer:", 
+                                        "Please enter the vehicle's license number:",
+                                        "Please enter the current air pressure",
+                                        "Please enter the wheel manufacturer"};
+        }
+
         public string LicenseNumer
         {
             get
             {
-                return r_LicenseNumber;
+                return m_LicenseNumber;
             }
         }
 
@@ -54,7 +96,7 @@ namespace Ex03.GarageLogic
        
         public override int GetHashCode()
         {
-            return r_LicenseNumber.GetHashCode();
+            return m_LicenseNumber.GetHashCode();
         }
 
         public override bool Equals(object i_obj)
@@ -63,7 +105,7 @@ namespace Ex03.GarageLogic
             Vehicle toCompare = i_obj as Vehicle;
             if (toCompare != null)
             {
-				isEqual = (toCompare.r_LicenseNumber.Equals(this.r_LicenseNumber));
+				isEqual = (toCompare.m_LicenseNumber.Equals(this.m_LicenseNumber));
             }
 
 			return isEqual;
@@ -85,7 +127,7 @@ License number: {1}
 Number of wheels: {2}
 {3}
 {4}",
-            r_Manufacturer, r_LicenseNumber, m_Wheels.Count, wheelsOfVehicle.ToString() , m_FuelSrc.ToString()); 
+            m_Manufacturer, m_LicenseNumber, m_Wheels.Count, wheelsOfVehicle.ToString() , m_FuelSrc.ToString()); 
         }
 
 		public class Wheel
@@ -156,7 +198,12 @@ Number of wheels: {2}
             private readonly eFuelType r_TypeOfFuel;
 		   
 			public FuelSource(eFuelType i_TypeOfFuel, float i_EnergyLeft, float i_MaxCapacity)
-			{             
+			{
+                if (i_EnergyLeft > i_MaxCapacity || i_EnergyLeft < 0)
+                {
+                    throw new ValueOutOfRangeException(0, i_MaxCapacity);
+                }
+
 				m_EnergyLeft = i_EnergyLeft;
 				m_MaxCapacity = i_MaxCapacity;
                 r_TypeOfFuel = i_TypeOfFuel;
